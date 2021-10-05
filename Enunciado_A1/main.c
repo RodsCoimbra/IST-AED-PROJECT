@@ -92,7 +92,7 @@ d = FA2(maze, l-1, c-1, lin-1, col-1);
 fprintf(fsol,"%d\n\n", d);
 }
 }
-
+teste github edit
 
 
 
