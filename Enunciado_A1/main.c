@@ -46,13 +46,13 @@ for (int i=0; i < lin;i++)
     if(maze[i] == NULL){
         exit(-1);
     }
-}
+} 
 for(int i=0, l1, c1, custo; i < parede; i++)
 {
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-int d = FA1(maze, l-1, c-1, lin-1, col-1);
+int d = FA2(maze, l-1, c-1, lin-1, col-1);
 printf("%2d\n", d);
 
 while (1){  
@@ -73,6 +73,7 @@ for (int i=0; i < lin; i++)
     }
 }
 
+
 for(int i=0; i < lin; i++){
 for(int j=0; j < col; j++){
 maze[i][j] = 0;}}
@@ -81,10 +82,34 @@ for(int i=0, l1, c1, custo; i < parede; i++)
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-d = FA1(maze, l-1, c-1, lin-1, col-1);
+d = FA2(maze, l-1, c-1, lin-1, col-1);
 printf("%2d\n", d);
 }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -114,21 +139,20 @@ int FA1 (int** maze, int l, int c, int lin, int col) {
     return A2;}
 }*/
 
-int FA2 (int** maze, int l, int c, int lin, int col) {
-    int A1 = out(l, c, lin, col);
+int FA2 (int** maze, int l, int c, int lin, int col) { // ver ambiguidade do enunciado se é -2 ou 0 se tiver uma fora e uma dentro
     int A2=0;
-    if (maze[l+1][c]==0){ A2++;
+    if ((out(l, c, lin, col)==-2)) return -2;
+    if (out(l+1, c, lin, col)!=-2 && maze[l+1][c]==0){ A2++;
         return A2;}
-    else if (maze[l][c+1]==0){ A2++;
+    else if (out(l, c+1, lin, col)!=-2 && maze[l][c+1]==0){ A2++;
         return A2;}
-    else if (maze[l-1][c]==0){ A2++;
+    else if (out(l-1, c, lin, col)!=-2 && maze[l-1][c]==0){ A2++;
         return A2;}
-    else if (maze[l+1][c]==0){ A2++;
+    else if (out(l, c-1, lin, col)!=-2 && maze[l][c-1]==0){ A2++;
         return A2;}
 }
-
 int FA3 (int** maze, int l, int c, int lin, int col) {
-    int A1= out(l, c, lin, col);
+    if ((out(l, c, lin, col)==-2) || (out(l-1, c, lin, col) == -2) || (out(l+1, c, lin, col)==-2) || (out(l, c+1, lin, col)==-2) || (out(l, c-1, lin, col)==-2)) return -2;
     int A3=0;
     if (maze[l+1][c]<=1){ A3++;
         return A3;}
@@ -141,22 +165,23 @@ int FA3 (int** maze, int l, int c, int lin, int col) {
 }
 
 int FA4 (int** maze, int l, int c, int lin, int col) {
-    int A1= out(l, c, lin, col);
-    int A4=0;
+    int A4 = 0;
+    if ((out(l, c, lin, col)==-2) || (out(l-1, c, lin, col) == -2) || (out(l+1, c, lin, col)==-2) || (out(l, c+1, lin, col)==-2) || (out(l, c-1, lin, col)==-2)) return -2;    
     if (maze[l+1][c]==-1 && A4==0) A4++;
-        else return A4;
+        return A4;
     if (maze[l][c+1]==-1 && A4==0) A4++;
-        else return A4;
+        return A4;
     if (maze[l-1][c]==-1 && A4==0) A4++;
-        else return A4;
+        return A4;
     if (maze[l+1][c]==-1 && A4==0) A4++;
-        else return A4;
+        return A4;
 }
 
-/*int FA5 (int** maze, int l, int c) {
-     int A1= out(l, c, lin, col);
-     if (maze[l-1][c]==0 || maze[l+1][c]==0) A5++;
-        else return A5;
+int FA5 (int** maze, int l, int c, int lin, int col) {
+    int A5 = 0; 
+    if ((out(l, c, lin, col)==-2) || (out(l-1, c, lin, col) == -2) || (out(l+1, c, lin, col)==-2) || (out(l, c+1, lin, col)==-2) || (out(l, c-1, lin, col)==-2)) return -2;
+    if (maze[l-1][c]==0 || maze[l+1][c]==0 ) A5++;
+        return A5;
     if (maze[l][c-1]==0 || maze[l][c+1]==0) A5++;
-        else return A5;
-}*/
+        return A5;
+}
