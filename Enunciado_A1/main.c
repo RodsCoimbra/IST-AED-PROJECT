@@ -53,9 +53,12 @@ fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
 int d = FA1(maze, l-1, c-1, lin-1, col-1);
-printf("%d\n", d);
+printf("%2d\n", d);
 
-for(int k=0; k<15; k++){
+while (1){  
+fscanf(fmaze, "%d %d %d %d %s %d", &lin, &col, &l, &c, modo, &parede);
+if(feof(fmaze) != 0) break;
+
 maze =(int**) realloc (maze,lin*sizeof(int*));
 if (maze == NULL)
 {
@@ -73,14 +76,14 @@ for (int i=0; i < lin; i++)
 for(int i=0; i < lin; i++){
 for(int j=0; j < col; j++){
 maze[i][j] = 0;}}
-fscanf(fmaze, "%d %d %d %d %s %d", &lin, &col, &l, &c, modo, &parede);
 for(int i=0, l1, c1, custo; i < parede; i++)
 {
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
 d = FA1(maze, l-1, c-1, lin-1, col-1);
-printf("%d\n", d);}
+printf("%2d\n", d);
+}
 }
 
 
