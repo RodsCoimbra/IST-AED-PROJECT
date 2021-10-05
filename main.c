@@ -40,12 +40,14 @@ for (int i=0; i < l;i++)
         exit(-1);
     }
 }
-fscanf(fmaze, "%d %d %s %d", &l, &c, modo, parede);
+fscanf(fmaze, "%d %d %s %d", &l, &c, modo, &parede);
 for(int i=0, l1, c1, custo; i < parede; i++)
 {
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
-maze[l1][c1] = custo;
+maze[l1-1][c1-1] = custo;
 }
+int d = FA1(maze, l, c);
+printf("%d\n", d);
 }
 
 
@@ -108,9 +110,9 @@ int FA4 (int** maze, int l, int c) {
         else return A4;
 }
 
-int FA5 (int** maze, int l, int c) {
+/*int FA5 (int** maze, int l, int c) {
      if (maze[l-1][c]==0 || maze[l+1][c]==0) A5++;
         else return A5;
     if (maze[l][c-1]==0 || maze[l][c+1]==0) A5++;
         else return A5;
-}
+}*/
