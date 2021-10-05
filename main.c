@@ -43,7 +43,7 @@ fscanf(fmaze, "%d %d", &l, &c);
 }
 
 
-int FA1 (maze[l][c]) {
+int FA1 (int** maze, int l, int c) {
     int A1=0;
     switch (maze[l][c]) {
         case 0: 
@@ -59,14 +59,14 @@ int FA1 (maze[l][c]) {
     return A1;
 }
 
-/*int FA2 (maze[l][c]){
+/*int FA2 (int** maze, int l, int c){
     int A2=0;
     if (maze[l+1][c] == 0 || maze[l][c+1]==0 || maze[l-1][c]==0 || maze[l][c-1]==0){
     A2++;
     return A2;}
 }*/
 
-int FA2 (maze[l][c]) {
+int FA2 (int** maze, int l, int c) {
     int A2=0;
     if (maze[l+1][c]==0){ A2++;
         return A2;}
@@ -78,7 +78,7 @@ int FA2 (maze[l][c]) {
         return A2;}
 }
 
-int FA3 (maze[l][c]) {
+int FA3 (int** maze, int l, int c) {
     int A3=0;
     if (maze[l+1][c]<=1){ A3++;
         return A3;}
@@ -90,7 +90,7 @@ int FA3 (maze[l][c]) {
         return A3;}
 }
 
-int FA4 (maze[l][c]) {
+int FA4 (int** maze, int l, int c) {
     int A4=0;
     if (maze[l+1][c]==-1 && A4==0) A4++;
         else return A4;
