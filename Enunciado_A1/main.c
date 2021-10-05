@@ -86,7 +86,7 @@ d = FA2(maze, l-1, c-1, lin-1, col-1);
 printf("%2d\n", d);
 }
 }
-
+teste github edit
 
 
 
