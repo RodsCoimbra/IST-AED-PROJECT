@@ -8,7 +8,8 @@
 int main(int argc, char *argv[]) {
 opterr = 0;
 char file[maxficheiro]={""};
-int s = 0, opt, l = 0, c = 0;
+int s = 0, opt, l = 0, c = 0, parede;
+char modo[3];
  while((opt= getopt(argc, argv,"s"))!= -1){
     switch (opt){
         case 's':
@@ -39,7 +40,12 @@ for (int i=0; i < l;i++)
         exit(-1);
     }
 }
-fscanf(fmaze, "%d %d", &l, &c);
+fscanf(fmaze, "%d %d %s %d", &l, &c, modo, parede);
+for(int i=0, l1, c1, custo; i < parede; i++)
+{
+fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
+maze[l1][c1] = custo;
+}
 }
 
 
@@ -102,4 +108,9 @@ int FA4 (int** maze, int l, int c) {
         else return A4;
 }
 
-int FA4 ()
+int FA5 (int** maze, int l, int c) {
+     if (maze[l-1][c]==0 || maze[l+1][c]==0) A5++;
+        else return A5;
+    if (maze[l][c-1]==0 || maze[l][c+1]==0) A5++;
+        else return A5;
+}
