@@ -30,10 +30,16 @@ while((opt= getopt(argc, argv,"s:"))!= -1){
 }
 }
 FILE *fmaze = NULL;
+FILE *fsol = NULL;
 if((fmaze = fopen(file, "r")) == NULL)
 {
     exit(-1);
 }
+if ((fsol = fopen(file, "w")) == NULL)      // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
+        {
+         fclose(fmaze);
+         exit(-1);
+        }
 fscanf(fmaze, "%d %d %d %d %s %d", &lin, &col, &l, &c, modo, &parede);
 int** maze =(int**) malloc (lin*sizeof(int*));
 if (maze == NULL)
@@ -53,7 +59,7 @@ fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
 int d = FA2(maze, l-1, c-1, lin-1, col-1);
-printf("%2d\n", d);
+fprintf(fsol,"%d\n\n", d);
 
 while (1){  
 fscanf(fmaze, "%d %d %d %d %s %d", &lin, &col, &l, &c, modo, &parede);
@@ -83,7 +89,7 @@ fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
 d = FA2(maze, l-1, c-1, lin-1, col-1);
-printf("%2d\n", d);
+fprintf(fsol,"%d\n\n", d);
 }
 }
 
@@ -119,10 +125,6 @@ printf("%2d\n", d);
 int out (int l, int c, int lin, int col) {
     if (l<0 || l>lin || c<0 || c>col) return -2;
 }
-
-
-
-
 
 
 int FA1 (int** maze, int l, int c, int lin, int col) {
