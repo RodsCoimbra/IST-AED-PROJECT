@@ -169,13 +169,13 @@ int FA3 (int** maze, int l, int c, int lin, int col) {
 int FA4 (int** maze, int l, int c, int lin, int col) {
     int A4 = 0;
     if ((out(l, c, lin, col)==-2) || (out(l-1, c, lin, col) == -2) || (out(l+1, c, lin, col)==-2) || (out(l, c+1, lin, col)==-2) || (out(l, c-1, lin, col)==-2)) return -2;    
-    if (maze[l+1][c]==-1 && A4==0) A4++;
+    if (maze[l+1][c]==-1) A4++;
         return A4;
-    if (maze[l][c+1]==-1 && A4==0) A4++;
+    if (maze[l][c+1]==-1) A4++;
         return A4;
-    if (maze[l-1][c]==-1 && A4==0) A4++;
+    if (maze[l-1][c]==-1) A4++;
         return A4;
-    if (maze[l+1][c]==-1 && A4==0) A4++;
+    if (maze[l+1][c]==-1) A4++;
         return A4;
 }
 
