@@ -13,7 +13,7 @@ int out (int l, int c, int lin, int col);
 
 int main(int argc, char *argv[]) {
 opterr = 0;
-int s = 0, opt, lin = 0, col = 0, parede, l=0, c=0, tamanho = 0;
+int opt, lin = 0, col = 0, parede, l=0, c=0, tamanho = 0;
 tamanho = strlen(argv[2]);
 char* fileread =(char*) calloc(1,tamanho*sizeof(char)), *filewrite = (char*) calloc(1,tamanho*sizeof(char));
 if (fileread == NULL || filewrite == NULL)
@@ -24,7 +24,6 @@ char modo[3];
 while((opt= getopt(argc, argv,"s:"))!= -1){
     switch (opt){
         case 's':
-        s = 1;
         sscanf(optarg," %s", fileread);
         break; 
     default :
@@ -65,7 +64,7 @@ for(int i=0, l1, c1, custo; i < parede; i++)
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-int d = FA2(maze, l-1, c-1, lin-1, col-1);
+int d = FA3(maze, l-1, c-1, lin-1, col-1);
 fprintf(fsol,"%d\n\n", d);
 
 while (1){  
@@ -95,7 +94,7 @@ for(int i=0, l1, c1, custo; i < parede; i++)
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-d = FA2(maze, l-1, c-1, lin-1, col-1);
+d = FA3(maze, l-1, c-1, lin-1, col-1);
 fprintf(fsol,"%d\n\n", d);
 }
 }
@@ -103,6 +102,7 @@ fprintf(fsol,"%d\n\n", d);
 
 int out (int l, int c, int lin, int col) {
     if (l<0 || l>lin || c<0 || c>col) return -2;
+    return 0;
 }
 
 
@@ -131,18 +131,20 @@ int FA2 (int** maze, int l, int c, int lin, int col) { // ver ambiguidade do enu
         return A2;}
     else if (out(l, c-1, lin, col)!=-2 && maze[l][c-1]==0){ A2++;
         return A2;}
+    return 0;
 }
 int FA3 (int** maze, int l, int c, int lin, int col) {
-    if ((out(l, c, lin, col)==-2) || (out(l-1, c, lin, col) == -2) || (out(l+1, c, lin, col)==-2) || (out(l, c+1, lin, col)==-2) || (out(l, c-1, lin, col)==-2)) return -2;
     int A3=0;
-    if (maze[l+1][c]<=1){ A3++;
+    if ((out(l, c, lin, col)==-2)) return -2;
+    if (out(l+1, c, lin, col)!=-2 && maze[l+1][c]>=1){ A3++;
         return A3;}
-    else if (maze[l][c+1]<=1){ A3++;
+    else if (out(l, c+1, lin, col)!=-2 && maze[l][c+1]>=1){ A3++;
         return A3;}
-    else if (maze[l-1][c]<=1){ A3++;
+    else if (out(l-1, c, lin, col)!=-2 && maze[l-1][c]>=1){ A3++;
         return A3;}
-    else if (maze[l+1][c]<=1){ A3++;
+    else if (out(l, c-1, lin, col)!=-2 && maze[l][c-1]>=1){ A3++;
         return A3;}
+    return 0;
 }
 
 int FA4 (int** maze, int l, int c, int lin, int col) {
