@@ -11,17 +11,21 @@ int FA3 (int** maze, int l, int c, int lin, int col);
 int FA4 (int** maze, int l, int c, int lin, int col);
 int out (int l, int c, int lin, int col);
 
-
 int main(int argc, char *argv[]) {
 opterr = 0;
-char file[maxficheiro] = {""};
-int s = 0, opt, lin = 0, col = 0, parede, l=0, c=0;
+int s = 0, opt, lin = 0, col = 0, parede, l=0, c=0, tamanho = 0;
+tamanho = strlen(argv[2]);
+char* fileread =(char*) calloc(1,tamanho*sizeof(char)), *filewrite = (char*) calloc(1,tamanho*sizeof(char));
+if (fileread == NULL || filewrite == NULL)
+{
+    exit(-1);
+}
 char modo[3];
 while((opt= getopt(argc, argv,"s:"))!= -1){
     switch (opt){
         case 's':
         s = 1;
-        sscanf(optarg," %s", file);
+        sscanf(optarg," %s", fileread);
         break; 
     default :
     {
@@ -31,15 +35,18 @@ while((opt= getopt(argc, argv,"s:"))!= -1){
 }
 FILE *fmaze = NULL;
 FILE *fsol = NULL;
-if((fmaze = fopen(file, "r")) == NULL)
+if((fmaze = fopen(fileread, "r")) == NULL)
 {
     exit(-1);
 }
-if ((fsol = fopen(file, "w")) == NULL)      // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
+sscanf(fileread, " %[^'.']", filewrite);
+strcat(filewrite,".sol2");  //apenas para teste, garantir que MUDAMOS PARA SOL1!!!!!!
+if ((fsol = fopen(filewrite, "w")) == NULL)      // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
         {
          fclose(fmaze);
          exit(-1);
         }
+
 fscanf(fmaze, "%d %d %d %d %s %d", &lin, &col, &l, &c, modo, &parede);
 int** maze =(int**) malloc (lin*sizeof(int*));
 if (maze == NULL)
@@ -92,34 +99,6 @@ d = FA2(maze, l-1, c-1, lin-1, col-1);
 fprintf(fsol,"%d\n\n", d);
 }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int out (int l, int c, int lin, int col) {
