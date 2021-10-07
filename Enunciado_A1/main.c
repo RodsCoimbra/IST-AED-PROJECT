@@ -27,7 +27,7 @@ void separar(char* str)
 
 int main(int argc, char *argv[]) {
 opterr = 0;
-int opt, lin = 0, col = 0, parede, l=0, c=0, tamanho = 0;
+int opt, lin = 0, col = 0, parede, l=0, c=0, tamanho = 0, linaux=0, colaux=0;
 tamanho = strlen(argv[2])+1;
 char* fileread =(char*) calloc(1,tamanho*sizeof(char)), *filewrite = (char*) calloc(1,(tamanho+1)*sizeof(char));
 if (fileread == NULL || filewrite == NULL)
@@ -62,6 +62,8 @@ if ((fsol = fopen(filewrite, "w")) == NULL)      // Se der erro ao abrir o fiche
         }
 
 fscanf(fmaze, "%d %d %d %d %s %d", &lin, &col, &l, &c, modo, &parede);
+linaux = lin;
+colaux = col;
 int** maze =(int**) malloc (lin*sizeof(int*));
 if (maze == NULL)
 {
@@ -79,19 +81,21 @@ for(int i=0, l1, c1, custo; i < parede; i++)
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-int d = FA4(maze, l-1, c-1, lin-1, col-1);
+int d = FA1(maze, l-1, c-1, lin-1, col-1);
 fprintf(fsol,"%d\n\n", d);
 
 while (1){  
 fscanf(fmaze, "%d %d %d %d %s %d", &lin, &col, &l, &c, modo, &parede);
 if(feof(fmaze) != 0) break;
-
+if(lin != linaux){
 maze =(int**) realloc (maze,lin*sizeof(int*));
 if (maze == NULL)
 {
     exit(-1);
 }
-
+linaux=lin;
+}
+if(col != linaux){
 for (int i=0; i < lin; i++)
 {
     maze[i]=(int*) realloc (maze[i], col*sizeof(int));
@@ -99,7 +103,8 @@ for (int i=0; i < lin; i++)
         exit(-1);
     }
 }
-
+colaux = col;
+}
 
 for(int i=0; i < lin; i++){
 for(int j=0; j < col; j++){
@@ -109,17 +114,26 @@ for(int i=0, l1, c1, custo; i < parede; i++)
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-d = FA4(maze, l-1, c-1, lin-1, col-1);
+d = FA1(maze, l-1, c-1, lin-1, col-1);
 fprintf(fsol,"%d\n\n", d);
 }
+free(fileread);
+free(filewrite);
+for (int i=0; i < lin;i++){
+    free(maze[i]);
 }
+free(maze);
+fclose(fsol);
+fclose(fmaze);
+}
+
+
 
 
 int out (int l, int c, int lin, int col) {
     if (l<0 || l>lin || c<0 || c>col) return -2;
     return 0;
 }
-
 
 int FA1 (int** maze, int l, int c, int lin, int col) {
     int A1= out(l, c, lin, col);
