@@ -8,8 +8,40 @@ int FA1 (int** maze, int l, int c, int lin, int col);
 int FA2 (int** maze, int l, int c, int lin, int col);
 int FA3 (int** maze, int l, int c, int lin, int col);
 int FA4 (int** maze, int l, int c, int lin, int col);
+int FA5 (int** maze, int l, int c, int lin, int col);
+/*int FA6 (int** maze, int l, int c, int lin, int col);*/
 int out (int l, int c, int lin, int col);
 
+int mod(int** maze, int l, int c, int lin, int col,char* modo){
+    int resp;
+    if((strcmp(modo,"A1"))==0){
+        resp = FA1(maze, l, c, lin, col);
+        return resp;
+    }
+    else if((strcmp(modo,"A2"))==0){
+        resp = FA2(maze, l, c, lin, col);
+        return resp;
+    }
+    else if((strcmp(modo,"A3"))==0){
+        resp = FA3(maze, l, c, lin, col);
+        return resp;
+    }
+    else if((strcmp(modo,"A4"))==0){
+        resp = FA4(maze, l, c, lin, col);
+        return resp;
+    }
+    else if((strcmp(modo,"A5"))==0){
+        resp = FA5(maze, l, c, lin, col);
+        return resp;
+    }
+    /*else if((strcmp(modo,"A6"))==0){
+        resp = FA6(maze, l, c, lin, col);
+        return resp;}*/
+    else
+    {
+    exit(-1);
+    }
+}
 void separar(char* str)
 {
     int i;
@@ -81,8 +113,9 @@ for(int i=0, l1, c1, custo; i < parede; i++)
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-int d = FA1(maze, l-1, c-1, lin-1, col-1);
-fprintf(fsol,"%d\n\n", d);
+int resposta; 
+resposta = mod(maze, l-1, c-1, lin-1, col-1, modo);
+fprintf(fsol,"%d\n\n", resposta);
 
 while (1){  
 fscanf(fmaze, "%d %d %d %d %s %d", &lin, &col, &l, &c, modo, &parede);
@@ -95,7 +128,7 @@ if (maze == NULL)
 }
 linaux=lin;
 }
-if(col != linaux){
+if(col != colaux){
 for (int i=0; i < lin; i++)
 {
     maze[i]=(int*) realloc (maze[i], col*sizeof(int));
@@ -114,8 +147,8 @@ for(int i=0, l1, c1, custo; i < parede; i++)
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-d = FA1(maze, l-1, c-1, lin-1, col-1);
-fprintf(fsol,"%d\n\n", d);
+resposta = mod(maze, l-1, c-1, lin-1, col-1, modo);
+fprintf(fsol,"%d\n\n", resposta);
 }
 free(fileread);
 free(filewrite);
@@ -143,39 +176,37 @@ int FA1 (int** maze, int l, int c, int lin, int col) {
 }
 
 int FA2 (int** maze, int l, int c, int lin, int col) {
-    int A2=0;
     if ((out(l, c, lin, col)==-2)) return -2;
-    if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]==0) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]==0) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]==0) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]==0)){ A2++;
-        return A2;}
+    if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]==0) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]==0) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]==0) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]==0)){ 
+        return 1;}
     return 0;
 }
 
 int FA3 (int** maze, int l, int c, int lin, int col) {
-    int A3=0;
     if ((out(l, c, lin, col)==-2)) return -2;
-    if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]>=1) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]>=1) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]>=1) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]>=1)){ A3++;
-        return A3;}
+    if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]>=1) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]>=1) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]>=1) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]>=1)){
+    return 1;}
     return 0;
 }
 
 int FA4 (int** maze, int l, int c, int lin, int col) {
-    int A4 = 0;
-    if ((out(l, c, lin, col)==-2) || (out(l-1, c, lin, col) == -2) || (out(l+1, c, lin, col)==-2) || (out(l, c+1, lin, col)==-2) || (out(l, c-1, lin, col)==-2)) return -2;    
-    if (maze[l+1][c]==-1) A4++;
-        return A4;
-    if (maze[l][c+1]==-1) A4++;
-        return A4;
-    if (maze[l-1][c]==-1) A4++;
-        return A4;
-    if (maze[l+1][c]==-1) A4++;
-        return A4;
+    if ((out(l, c, lin, col)==-2)) return -2;
+    if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]==-1) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]==-1) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]==-1) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]==-1)){
+    return 1;}
+    return 0;
 }
 
 int FA5 (int** maze, int l, int c, int lin, int col) {
-    int A5 = 0; 
-    if ((out(l, c, lin, col)==-2) || (out(l-1, c, lin, col) == -2) || (out(l+1, c, lin, col)==-2) || (out(l, c+1, lin, col)==-2) || (out(l, c-1, lin, col)==-2)) return -2;
-    if (maze[l-1][c]==0 || maze[l+1][c]==0 ) A5++;
-        return A5;
-    if (maze[l][c-1]==0 || maze[l][c+1]==0) A5++;
-        return A5;
+    if (out(l, c, lin, col)==-2) return -2;
+    else if (maze[l][c]<=0) return -1;
+    else if ((out(l-1, c, lin, col) != -2) && (out(l+1, c, lin, col)!=-2) && maze[l-1][c]==0 && maze[l+1][c]==0){
+        return 1;}
+    else if ((out(l, c+1, lin, col) !=-2) && (out(l, c-1, lin, col) !=-2) && maze[l][c-1]==0 && maze[l][c+1]==0){
+        return 1;}
+    else {
+        return 0;}
 }
+
+ /*int FA6 (int** maze, int l, int c, int lin, int col) {
+
+ }*/
