@@ -19,7 +19,6 @@ void separar(char* str)
         if(str[i] == '.')
         {
             ptroca = &str[i];
-            break;
         }
     }
     *ptroca = ' ';
