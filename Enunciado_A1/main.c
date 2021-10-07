@@ -3,7 +3,6 @@
 #include <string.h>
 #include <getopt.h>
 #include <unistd.h>
-#define maxficheiro 259 //numero max de carateres de ficheiros no windows
 
 int FA1 (int** maze, int l, int c, int lin, int col);
 int FA2 (int** maze, int l, int c, int lin, int col);
@@ -11,11 +10,27 @@ int FA3 (int** maze, int l, int c, int lin, int col);
 int FA4 (int** maze, int l, int c, int lin, int col);
 int out (int l, int c, int lin, int col);
 
+void separar(char* str)
+{
+    int i;
+    char* ptroca = NULL;
+    for(i=0; str[i] != '\0' ; i++)   // Executa enquanto não chegar ao final da string
+    {
+        if(str[i] == '.')
+        {
+            ptroca = &str[i];
+            break;
+        }
+    }
+    *ptroca = ' ';
+}
+
+
 int main(int argc, char *argv[]) {
 opterr = 0;
 int opt, lin = 0, col = 0, parede, l=0, c=0, tamanho = 0;
-tamanho = strlen(argv[2]);
-char* fileread =(char*) calloc(1,tamanho*sizeof(char)), *filewrite = (char*) calloc(1,tamanho*sizeof(char));
+tamanho = strlen(argv[2])+1;
+char* fileread =(char*) calloc(1,tamanho*sizeof(char)), *filewrite = (char*) calloc(1,(tamanho+1)*sizeof(char));
 if (fileread == NULL || filewrite == NULL)
 {
     exit(-1);
@@ -38,7 +53,8 @@ if((fmaze = fopen(fileread, "r")) == NULL)
 {
     exit(-1);
 }
-sscanf(fileread, " %[^'.']", filewrite);
+separar(fileread);
+sscanf(fileread, " %s", filewrite);
 strcat(filewrite,".sol2");  //apenas para teste, garantir que MUDAMOS PARA SOL1!!!!!!
 if ((fsol = fopen(filewrite, "w")) == NULL)      // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
         {
@@ -64,7 +80,7 @@ for(int i=0, l1, c1, custo; i < parede; i++)
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-int d = FA3(maze, l-1, c-1, lin-1, col-1);
+int d = FA4(maze, l-1, c-1, lin-1, col-1);
 fprintf(fsol,"%d\n\n", d);
 
 while (1){  
@@ -94,7 +110,7 @@ for(int i=0, l1, c1, custo; i < parede; i++)
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
-d = FA3(maze, l-1, c-1, lin-1, col-1);
+d = FA4(maze, l-1, c-1, lin-1, col-1);
 fprintf(fsol,"%d\n\n", d);
 }
 }
