@@ -113,36 +113,18 @@ int FA1 (int** maze, int l, int c, int lin, int col) {
     return A1;
 }
 
-/*int FA2 (int** maze, int l, int c, int lin, int col){
-    int A2=0;
-    if (maze[l+1][c] == 0 || maze[l][c+1]==0 || maze[l-1][c]==0 || maze[l][c-1]==0){
-    A2++;
-    return A2;}
-}*/
-
-int FA2 (int** maze, int l, int c, int lin, int col) { // ver ambiguidade do enunciado se é -2 ou 0 se tiver uma fora e uma dentro
+int FA2 (int** maze, int l, int c, int lin, int col) {
     int A2=0;
     if ((out(l, c, lin, col)==-2)) return -2;
-    if (out(l+1, c, lin, col)!=-2 && maze[l+1][c]==0){ A2++;
-        return A2;}
-    else if (out(l, c+1, lin, col)!=-2 && maze[l][c+1]==0){ A2++;
-        return A2;}
-    else if (out(l-1, c, lin, col)!=-2 && maze[l-1][c]==0){ A2++;
-        return A2;}
-    else if (out(l, c-1, lin, col)!=-2 && maze[l][c-1]==0){ A2++;
+    if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]==0) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]==0) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]==0) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]==0)){ A2++;
         return A2;}
     return 0;
 }
+
 int FA3 (int** maze, int l, int c, int lin, int col) {
     int A3=0;
     if ((out(l, c, lin, col)==-2)) return -2;
-    if (out(l+1, c, lin, col)!=-2 && maze[l+1][c]>=1){ A3++;
-        return A3;}
-    else if (out(l, c+1, lin, col)!=-2 && maze[l][c+1]>=1){ A3++;
-        return A3;}
-    else if (out(l-1, c, lin, col)!=-2 && maze[l-1][c]>=1){ A3++;
-        return A3;}
-    else if (out(l, c-1, lin, col)!=-2 && maze[l][c-1]>=1){ A3++;
+    if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]>=1) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]>=1) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]>=1) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]>=1)){ A3++;
         return A3;}
     return 0;
 }
