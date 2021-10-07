@@ -125,7 +125,6 @@ maze[l1-1][c1-1] = custo;
 int resposta; 
 resposta = mod(maze, l-1, c-1, lin-1, col-1, modo, l2, c2);
 fprintf(fsol,"%d\n\n", resposta);
-
 while (1){
 fscanf(fmaze, "%d %d %d %d %s", &lin, &col, &l, &c, modo);
 if((strcmp(modo,"A6"))!=0)
@@ -159,8 +158,7 @@ colaux = col;
 for(int i=0; i < lin; i++){
 for(int j=0; j < col; j++){
 maze[i][j] = 0;}}
-for(int i=0, l1, c1, custo; i < parede; i++)
-{
+for(int i=0, l1, c1, custo; i < parede; i++){
 fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
 maze[l1-1][c1-1] = custo;
 }
