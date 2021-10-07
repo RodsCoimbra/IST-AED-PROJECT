@@ -226,7 +226,8 @@ int FA5 (int** maze, int l, int c, int lin, int col) {
 
  /*int FA6 (int** maze, int l, int c, int lin, int col) {
         if (maze[l][c]==0 && maze[l2[c2]==0] && (out(l,c,lin,col)!=-2) && (out(l2,c2,lin,col)!=-2)){
-            for (maze[l][c]!=maze[l+1][c] && maze[l][c]!=maze[l][c+1]){
+            for (maze[l][c]!=maze[l+1][c] && maze[l][c]!=maze[l][c+1]) {
+                
             }
         }
         else {return 0;}
