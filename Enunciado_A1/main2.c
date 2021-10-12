@@ -11,6 +11,7 @@ int FA4 (int** maze, int l, int c, int lin, int col);
 int FA5 (int** maze, int l, int c, int lin, int col);
 /*int FA6 (int** maze, int l, int c, int lin, int col, int l2, int c2);*/
 int out (int l, int c, int lin, int col);
+void freetabela(int** maze, int lin);
 
 int mod(int** maze, int l, int c, int lin, int col,char* modo, int l2, int c2){
     int resp;
@@ -39,7 +40,7 @@ int mod(int** maze, int l, int c, int lin, int col,char* modo, int l2, int c2){
         return -5;}
     else
     {
-    exit(-1);
+    exit(0);
     }
 }
 void separar(char* str)
@@ -56,25 +57,35 @@ void separar(char* str)
     *ptroca = ' ';
 }
 
+void freetabela(int** maze,int lin){
+    for (int i=0; i < lin;i++){
+    free(maze[i]);
+    }   
+    free(maze);
+}
 
 int main(int argc, char *argv[]) {
 opterr = 0;
 int opt, lin = 0, col = 0, parede, l=0, c=0, tamanho = 0,linaux=0, colaux=0;
-tamanho = strlen(argv[2])+1;
+tamanho = strlen(argv[2]);
 char* fileread =(char*) calloc(1,tamanho*sizeof(char)), *filewrite = (char*) calloc(1,(tamanho+1)*sizeof(char));
 if (fileread == NULL || filewrite == NULL)
 {
-    exit(-1);
+    exit(0);
 }
 char modo[3];
 while((opt= getopt(argc, argv,"s:"))!= -1){
     switch (opt){
         case 's':
         sscanf(optarg," %s", fileread);
+        if(fileread[tamanho-4] != '.'|| fileread[tamanho-3] != 'i' || fileread[tamanho-2] != 'n' || fileread[tamanho-1] != '1'){
+            exit(0);
+        }
+
         break; 
     default :
     {
-        exit(-1);
+        exit(0);
     }
 }
 }
@@ -82,73 +93,96 @@ FILE *fmaze = NULL;
 FILE *fsol = NULL;
 if((fmaze = fopen(fileread, "r")) == NULL)
 {
-    exit(-1);
+    free(filewrite);
+    free(fileread);
+    exit(0);
 }
 separar(fileread);
 sscanf(fileread, " %s", filewrite);
 strcat(filewrite,".sol2");  //apenas para teste, garantir que MUDAMOS PARA SOL1!!!!!!
 if ((fsol = fopen(filewrite, "w")) == NULL)      // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
         {
-         fclose(fmaze);
-         exit(-1);
+        free(filewrite);
+        free(fileread);
+        fclose(fmaze);
+        exit(0);
         }
-
-fscanf(fmaze, "%d %d %d %d %s", &lin, &col, &l, &c, modo);
+free(filewrite);
+free(fileread);
+if(fscanf(fmaze, "%d %d %d %d %s", &lin, &col, &l, &c, modo) != 5){
+    fclose(fmaze);
+    fclose(fsol);
+    exit(0);}
 int l2 = 0, c2 = 0;
 if((strcmp(modo,"A6"))!=0)
     {
-    fscanf(fmaze,"%d", &parede);
+    if (fscanf(fmaze,"%d", &parede) != 1){
+        fclose(fmaze);
+        fclose(fsol);
+        exit(0);}
     }
 else
     {
-    fscanf(fmaze,"%d %d %d",&l2, &c2, &parede);
+    if (fscanf(fmaze,"%d %d %d",&l2, &c2, &parede) != 3){
+        fclose(fmaze);
+        fclose(fsol);
+        exit(0);}
     }
 linaux = lin;
 colaux = col;
 int** maze =(int**) malloc (lin*sizeof(int*));
 if (maze == NULL)
 {
-    exit(-1);
+    exit(0);
 }
 for (int i=0; i < lin;i++)
 {
     maze[i]=(int*) calloc (1, col *sizeof(int));
     if(maze[i] == NULL){
-        exit(-1);
+        exit(0);
     }
 } 
 for(int i=0, l1, c1, custo; i < parede; i++)
 {
-fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
+if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3){
+        fclose(fmaze);
+        fclose(fsol);
+        exit(0);}
 maze[l1-1][c1-1] = custo;
 }
 int resposta; 
 resposta = mod(maze, l-1, c-1, lin-1, col-1, modo, l2, c2);
 fprintf(fsol,"%d\n\n", resposta);
 while (1){
-fscanf(fmaze, "%d %d %d %d %s", &lin, &col, &l, &c, modo);
+if (fscanf(fmaze, "%d %d %d %d %s", &lin, &col, &l, &c, modo) != 5) {
+        fclose(fmaze);
+        fclose(fsol);
+        exit(0);}
 if((strcmp(modo,"A6"))!=0)
     {
-    fscanf(fmaze,"%d", &parede);
+    if (fscanf(fmaze,"%d", &parede) !=1){
+        fclose(fmaze);
+        fclose(fsol);
+        exit(0);};
     }
 else
     {
-    fscanf(fmaze,"%d %d %d",&l2, &c2, &parede);
+    if(fscanf(fmaze,"%d %d %d",&l2, &c2, &parede) != 3){
+        fclose(fmaze);
+        fclose(fsol);
+        exit(0);}
     } 
 if(feof(fmaze) != 0) break;
 /////////////////////////////////////////////////////////////
 
 if(lin != linaux){
-for (int i=0; i < linaux;i++){
-    free(maze[i]);
-}
-free(maze);
+freetabela(maze, linaux);
 linaux=lin;
 colaux=-1;
 maze =(int**) malloc (lin*sizeof(int*));
 if (maze == NULL)
-{
-    exit(-1);
+{ 
+    exit(0);
 }
 }
 if(col != colaux){
@@ -161,7 +195,7 @@ if(colaux != -1){
 for (int i=0; i < lin;i++){
     maze[i]=(int*) calloc (1, col *sizeof(int));
     if(maze[i] == NULL){
-        exit(-1);
+        exit(0);
     }
 } 
 colaux = col;
@@ -174,20 +208,19 @@ maze[i][j] = 0;}}
 
 //////////////////////////////////////////////////////////
 for(int i=0, l1, c1, custo; i < parede; i++){
-fscanf(fmaze, "%d %d %d", &l1, &c1, &custo);
+if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo)!= 3){
+        fclose(fmaze);
+        fclose(fsol);
+        exit(0);}
 maze[l1-1][c1-1] = custo;
 }
 resposta = mod(maze, l-1, c-1, lin-1, col-1, modo, l2, c2);
 fprintf(fsol,"%d\n\n", resposta);
 }
-free(fileread);
-free(filewrite);
-for (int i=0; i < lin;i++){
-    free(maze[i]);
-}
-free(maze);
+freetabela(maze, lin);
 fclose(fsol);
 fclose(fmaze);
+return 0;
 }
 
 
