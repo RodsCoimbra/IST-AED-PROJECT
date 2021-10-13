@@ -106,7 +106,7 @@ if((fmaze = fopen(fileread, "r")) == NULL)
 }
 separar(fileread);
 sscanf(fileread, " %s", filewrite);
-strcat(filewrite,".sol2");  //apenas para teste, garantir que MUDAMOS PARA SOL1!!!!!!
+strcat(filewrite,".sol1");  //apenas para teste, garantir que MUDAMOS PARA SOL1!!!!!!
 if ((fsol = fopen(filewrite, "w")) == NULL){ // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
         free(filewrite);
         free(fileread);
