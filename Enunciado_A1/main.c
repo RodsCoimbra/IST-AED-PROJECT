@@ -106,7 +106,7 @@ if((fmaze = fopen(fileread, "r")) == NULL)
 }
 separar(fileread);
 sscanf(fileread, " %s", filewrite);
-strcat(filewrite,".sol1");  //apenas para teste, garantir que MUDAMOS PARA SOL1!!!!!!
+strcat(filewrite,".sol2");  //apenas para teste, garantir que MUDAMOS PARA SOL1!!!!!!
 if ((fsol = fopen(filewrite, "w")) == NULL){ // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
         free(filewrite);
         free(fileread);
@@ -279,7 +279,6 @@ int FA5 (short** maze, int l, int c, int lin, int col) {
         maze[l][c] = -6;
         if(maze[l2][c2] != -6){
             if((lin >= l+1) && (maze[l+1][c] == 0) && (fim == 0)){ /*cima*/
-                ;
                 fim = FA6(maze, l+1, c, lin, col, l2, c2, fim);}
             if((col >= c+1) && (maze[l][c+1] == 0 && fim == 0)){ /*direita*/
                 fim = FA6(maze, l, c+1, lin, col, l2, c2, fim);
