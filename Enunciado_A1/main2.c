@@ -42,24 +42,7 @@ int mod(int** maze, int l, int c, int lin, int col,char* modo, int l2, int c2){
         if(maze[l][c]!=0 || maze[l2][c2]!=0){
             return 0;
         }
-        /*maze[l][c] = -8;
-        maze[l2] [c2] = -9;
-        for(int i=0; i <= lin; i++){
-            for(int j=0; j <= col; j++){
-                printf("%2d ", maze[i][j]);
-            }
-            printf("\n");
-        }
-        printf("\n\n\n");
-        maze[l][c] = 0;
-        maze[l2] [c2] = 0;*/
         resp = FA6(maze, l, c, lin, col, l2, c2);
-        /*for(int i=0; i <= lin; i++){
-            for(int j=0; j <= col; j++){
-                printf("%2d ", maze[i][j]);
-            }
-            printf("\n");
-        }*/
         return resp;}
     else
     {
@@ -293,7 +276,7 @@ int FA5 (int** maze, int l, int c, int lin, int col) {
         return 0;}
 }
 
- int FA6 (int** maze, int l, int c, int lin, int col, int l2, int c2) {
+ int FA6 (int** maze, int l, int c, int lin, int col, int l2, int c2, fim) {
         int fim = 0;
         maze[l][c] = -6;
         if(maze[l2][c2] != -6){
