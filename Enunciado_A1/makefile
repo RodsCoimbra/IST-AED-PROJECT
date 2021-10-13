@@ -1,29 +1,19 @@
 # Makefile do projeto RoaP
 
-# escolha do compilador
-CC= gcc
-# flags para a compilação
-CFLAGS= -Wall -std=c99
-# gerar variáveis com listas de ficheiros, essenciais para a utilização do "makefile"
-SRCS=$(wildcard *.c)	# contém todos os .c
-HEADERS=$(wildcard *.h)	# contém todos os .h
+PROJECT_NAME = roap #target file name
+CC = gcc #compiler
+CFLAGS = -Wall -std=c99 -g 
+OBJECTS = main2.o #objects
+all: $(PROJECT_NAME)
+$(PROJECT_NAME): $(OBJECTS)
+    $(CC) $(CFLAGS) $(OBJECTS) -o $(PROJECT_NAME)
+main2.o: main2.c
 
-# nome do executável após fazer "makefile"
-all: roap
-
-# compilar executável com optimização, dar o comando "make release"
-release: CFLAGS+= -O3
-release: clean
-release: roap
-
-
-roap: $(OBJS) Makefile
-	$(CC) $(CFLAGS) $(OBJS) -o $@
-
-# listar dependências. para simplificar, cada ficheiro .o depende do correspondente .c, de todos os ficheiros .h e da Makefile
-%.o: %.c $(HEADERS) Makefile
-	$(CC) -c $(CFLAGS) -o $@ $<
-
-# para forçar recompilação, dar o comando "make clean" e depois "make" ou o comando "make clean ; make"
-clean:
-	rm -f *.o roap
+FILES_1=$(shell ls A1/*)
+FILES_2=$(shell ls A2/*)
+FILES_3=$(shell ls A3/*)
+FILES_4=$(shell ls A4/*)
+FILES_5=$(shell ls A5/*)
+FILES_6=$(shell ls A6/*)
+Saladas=$(shell ls Saladas/*)
+FILES=${FILES_1} ${FILES_2} ${FILES_3} ${FILES_4} ${FILES_5} ${FILES_6} ${Saladas}
