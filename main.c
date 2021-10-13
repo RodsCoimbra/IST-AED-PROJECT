@@ -27,6 +27,9 @@ int main(int argc, char *argv[]) {
             }
         }
     }
+    open_files(fmaze,fsol,fileread,filewrite);
+    Labirinto (modo,fmaze,fsol);
+
 }
 
 
