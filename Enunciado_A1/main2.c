@@ -4,17 +4,18 @@
 #include <getopt.h>
 #include <unistd.h>
 
-int FA1 (int** maze, int l, int c, int lin, int col);
-int FA2 (int** maze, int l, int c, int lin, int col);
-int FA3 (int** maze, int l, int c, int lin, int col);
-int FA4 (int** maze, int l, int c, int lin, int col);
-int FA5 (int** maze, int l, int c, int lin, int col);
-int FA6 (int** maze, int l, int c, int lin, int col, int l2, int c2);
+int FA1 (short** maze, int l, int c, int lin, int col);
+int FA2 (short** maze, int l, int c, int lin, int col);
+int FA3 (short** maze, int l, int c, int lin, int col);
+int FA4 (short** maze, int l, int c, int lin, int col);
+int FA5 (short** maze, int l, int c, int lin, int col);
+int FA6 (short** maze, int l, int c, int lin, int col, int l2, int c2, short fim);
 int out (int l, int c, int lin, int col);
-void freetabela(int** maze, int lin);
+void freetabela(short** maze, int lin);
 
-int mod(int** maze, int l, int c, int lin, int col,char* modo, int l2, int c2){
+int mod(short** maze, int l, int c, int lin, int col,char* modo, int l2, int c2){
     int resp;
+    short fim = 0;
     if((strcmp(modo,"A1"))==0){
         resp = FA1(maze, l, c, lin, col);
         return resp;
@@ -42,7 +43,7 @@ int mod(int** maze, int l, int c, int lin, int col,char* modo, int l2, int c2){
         if(maze[l][c]!=0 || maze[l2][c2]!=0){
             return 0;
         }
-        resp = FA6(maze, l, c, lin, col, l2, c2);
+        resp = FA6(maze, l, c, lin, col, l2, c2, fim);
         return resp;}
     else
     {
@@ -63,7 +64,7 @@ void separar(char* str)
     *ptroca = ' ';
 }
 
-void freetabela(int** maze,int lin){
+void freetabela(short** maze,int lin){
     for (int i=0; i < lin;i++){
     free(maze[i]);
     }   
@@ -135,14 +136,14 @@ else
     }
 linaux = lin;
 colaux = col;
-int** maze =(int**) malloc (lin*sizeof(int*));
+short** maze =(short**) malloc (lin*sizeof(short*));
 if (maze == NULL)
 {
     exit(0);
 }
 for (int i=0; i < lin;i++)
 {
-    maze[i]=(int*) calloc (1, col *sizeof(int));
+    maze[i]=(short*) calloc (1, col *sizeof(short));
     if(maze[i] == NULL){
         exit(0);
     }
@@ -185,7 +186,7 @@ if(lin != linaux){
 freetabela(maze, linaux);
 linaux=lin;
 colaux=-1;
-maze =(int**) malloc (lin*sizeof(int*));
+maze =(short**) malloc (lin*sizeof(short*));
 if (maze == NULL)
 { 
     exit(0);
@@ -199,7 +200,7 @@ if(colaux != -1){
     }
 }
 for (int i=0; i < lin;i++){
-    maze[i]=(int*) calloc (1, col *sizeof(int));
+    maze[i]=(short*) calloc (1, col *sizeof(short));
     if(maze[i] == NULL){
         exit(0);
     }
@@ -230,8 +231,6 @@ return 0;
 }
 
 
-
-
 int out (int l, int c, int lin, int col) {
     if (l<0 || l>lin || c<0 || c>col) return -2;
     return 0;
@@ -244,28 +243,28 @@ int FA1 (int** maze, int l, int c, int lin, int col) {
     return A1;
 }
 
-int FA2 (int** maze, int l, int c, int lin, int col) {
+int FA2 (short** maze, int l, int c, int lin, int col) {
     if ((out(l, c, lin, col)==-2)) return -2;
     if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]==0) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]==0) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]==0) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]==0)){ 
         return 1;}
     return 0;
 }
 
-int FA3 (int** maze, int l, int c, int lin, int col) {
+int FA3 (short** maze, int l, int c, int lin, int col) {
     if ((out(l, c, lin, col)==-2)) return -2;
     if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]>=1) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]>=1) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]>=1) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]>=1)){
     return 1;}
     return 0;
 }
 
-int FA4 (int** maze, int l, int c, int lin, int col) {
+int FA4 (short** maze, int l, int c, int lin, int col) {
     if ((out(l, c, lin, col)==-2)) return -2;
     if ((out(l+1, c, lin, col)!=-2 && maze[l+1][c]==-1) || (out(l, c+1, lin, col)!=-2 && maze[l][c+1]==-1) || (out(l-1, c, lin, col)!=-2 && maze[l-1][c]==-1) || (out(l, c-1, lin, col)!=-2 && maze[l][c-1]==-1)){
     return 1;}
     return 0;
 }
 
-int FA5 (int** maze, int l, int c, int lin, int col) {
+int FA5 (short** maze, int l, int c, int lin, int col) {
     if (out(l, c, lin, col)==-2) return -2;
     else if (maze[l][c]<=0) return -1;
     else if ((out(l-1, c, lin, col) != -2) && (out(l+1, c, lin, col)!=-2) && maze[l-1][c]==0 && maze[l+1][c]==0){
@@ -276,21 +275,20 @@ int FA5 (int** maze, int l, int c, int lin, int col) {
         return 0;}
 }
 
- int FA6 (int** maze, int l, int c, int lin, int col, int l2, int c2, fim) {
-        int fim = 0;
+ int FA6 (short** maze, int l, int c, int lin, int col, int l2, int c2,short fim) {
         maze[l][c] = -6;
         if(maze[l2][c2] != -6){
             if((lin >= l+1) && (maze[l+1][c] == 0) && (fim == 0)){ /*cima*/
                 ;
-                fim = FA6(maze, l+1, c, lin, col, l2, c2);}
+                fim = FA6(maze, l+1, c, lin, col, l2, c2, fim);}
             if((col >= c+1) && (maze[l][c+1] == 0 && fim == 0)){ /*direita*/
-                fim = FA6(maze, l, c+1, lin, col, l2, c2);
+                fim = FA6(maze, l, c+1, lin, col, l2, c2, fim);
                 }
             if((l >= 1) && (maze[l-1][c] == 0 && fim == 0)){      /*baixo*/
-                fim = FA6(maze, l-1, c, lin, col, l2, c2);
+                fim = FA6(maze, l-1, c, lin, col, l2, c2,fim);
                 }
             if((c >= 1) && (maze[l][c-1] == 0 && fim == 0)){      /*esquerda*/
-                fim = FA6(maze, l, c-1, lin, col, l2, c2);
+                fim = FA6(maze, l, c-1, lin, col, l2, c2,fim);
                 }
             if(fim==0){
                 return 0;

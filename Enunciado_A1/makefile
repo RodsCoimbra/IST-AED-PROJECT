@@ -6,7 +6,6 @@ CC= gcc
 CFLAGS= -Wall -std=c99
 # gerar variáveis com listas de ficheiros, essenciais para a utilização do "makefile"
 SRCS=$(wildcard *.c)	# contém todos os .c
-OBJS = $(SRCS:.c=.o) # A variável objs é igual à variável srcs, mas substitui todos os .c por .o 
 HEADERS=$(wildcard *.h)	# contém todos os .h
 
 # nome do executável após fazer "makefile"
@@ -27,4 +26,4 @@ roap: $(OBJS) Makefile
 
 # para forçar recompilação, dar o comando "make clean" e depois "make" ou o comando "make clean ; make"
 clean:
-	rm -f *.o covid19
+	rm -f *.o roap
