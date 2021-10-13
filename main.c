@@ -1,10 +1,6 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <getopt.h>
-#include <unistd.h>
 #include "A's.h"
 #include "Funcoes_aux.h"
+#include "Ficheiros_dados.h"
 
 int main(int argc, char *argv[]) {
     opterr = 0;

@@ -6,6 +6,7 @@
 #include <getopt.h>
 #include <unistd.h>
 #include "A's.h"
+#include "Ficheiros_dados.h"
 
 int out (int l, int c, int lin, int col);
 void freetabela(short** maze, int lin);
