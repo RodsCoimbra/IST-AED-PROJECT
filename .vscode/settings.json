@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "ficheiros_dados.h": "c",
+        "string.h": "c"
+    }
+}
