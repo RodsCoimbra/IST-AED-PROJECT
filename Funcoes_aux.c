@@ -58,7 +58,7 @@ int out (int l, int c, int lin, int col) {  /*retorna o número correspondente a
     return 0;
 }
 
-void separar(char* str){    /*AAAALLLLLLLLLLLLLLLLLLFFFFFFFFFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*/
+void separar(char* str){   
     int i;
     char* ptroca = NULL;
     for(i=0; str[i] != '\0' ; i++)   /*Executa enquanto não chegar ao final da string*/
