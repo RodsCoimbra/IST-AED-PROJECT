@@ -76,16 +76,16 @@ int FA5 (int** maze, int l, int c, int lin, int col) { /*indica se a célula de 
             j = p*(col+1) + q + 1;
             if(maze[p][q] == 0 && p>0 && maze[p-1][q] == 0)
             {
-                i = id[(p-1)*(col+1) + q];
+                id[i] = id[(p-1)*(col+1) + q];
             }
             if(maze[p][q+1] == 0 && p>0 && maze[p-1][q+1] == 0)
             {
-                j = id[(p-1)*(col+1) + q + 1];
+                id[j] = id[(p-1)*(col+1) + q + 1];
             }
+            if(maze[p][q] == 0 && maze[p][q+1] == 0){
             for (; i!=id[i] ; i = id[i]);
-            for (; j!=id[j]; j= id[j]);
-
-    if(maze[p][q] == 0 && maze[p][q+1] == 0){        
+            for (; j!=id[j]; j = id[j]);
+        
     if (i == j) continue;
     if (sz[i] < sz[j]) {
      id[i] = j; 
@@ -115,8 +115,8 @@ int FA5 (int** maze, int l, int c, int lin, int col) { /*indica se a célula de 
     }
     }
     }*/
-    for(i =(l*col+1)+c; i!= id[i]; i = id[i]);
-    for(j =(l2*col+1)+c2; j!=id[j]; j = id[j]);
+    for(i =(l*(col+1))+c; i!= id[i]; i = id[i]);
+    for(j =(l2*(col+1))+c2; j!=id[j]; j = id[j]);
 
     if (i == j){
     free(id);
