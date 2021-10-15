@@ -130,28 +130,3 @@ int FA5 (int** maze, int l, int c, int lin, int col) { /*indica se a célula de 
 
 
     }
-
-        /*maze[l][c] = -6;
-        if(maze[l2][c2] != -6){
-            //utiliza a rescursividade para procurar um caminho livre da primeira célula à segunda, se encontrar quer dizer que pertence à mesma sala
-            if((lin >= l+1) && (maze[l+1][c] == 0) && (fim == 0)){  //cima
-                fim = FA6(maze, l+1, c, lin, col, l2, c2, fim);}
-            if((col >= c+1) && (maze[l][c+1] == 0 && fim == 0)){    //direita
-                fim = FA6(maze, l, c+1, lin, col, l2, c2, fim);
-                }
-            if((l >= 1) && (maze[l-1][c] == 0 && fim == 0)){        //baixo
-                fim = FA6(maze, l-1, c, lin, col, l2, c2,fim);
-                }
-            if((c >= 1) && (maze[l][c-1] == 0 && fim == 0)){        //esquerda
-                fim = FA6(maze, l, c-1, lin, col, l2, c2,fim);
-                }
-            if(fim==0){
-                return 0;   //não pertencem à mesma sala
-                }
-            else{
-                return 1;   //pertencem à mesma sala
-            }
-        }
-        else {
-            return 1;   //as células são iguais e por isso pertencem à mesma sala
-            }*/
