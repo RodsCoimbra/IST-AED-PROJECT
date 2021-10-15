@@ -92,7 +92,6 @@ int FA5 (int** maze, int l, int c, int lin, int col) { /*indica se a célula de 
     }
     for(i =(l*(col+1))+c; i!= id[i]; i = id[i]);
     for(j =(l2*(col+1))+c2; j!=id[j]; j = id[j]);
-
     if (i == j){
     free(id);
     free(sz);
@@ -102,6 +101,4 @@ int FA5 (int** maze, int l, int c, int lin, int col) { /*indica se a célula de 
     free(id);
     free(sz);
     return 0;}
-
-
     }
