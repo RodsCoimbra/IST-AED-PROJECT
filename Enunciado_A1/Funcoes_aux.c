@@ -11,7 +11,6 @@
 
 int mod(int** maze, int l, int c, int lin, int col,char* modo, int l2, int c2)  { /*escolhe com base na leitura do ficheiro qual da sfunções A chamar*/
     int resp;
-    short fim = 0;
     if((strcmp(modo,"A1"))==0){ /*Lê A1 então chama A1 e as seguintes são semelhantes*/
         resp = FA1(maze, l, c, lin, col);
         return resp;
@@ -39,7 +38,7 @@ int mod(int** maze, int l, int c, int lin, int col,char* modo, int l2, int c2)  
         if(maze[l][c]!=0 || maze[l2][c2]!=0){   /*virifica se as coordenadas indicadas são brancas*/
             return 0;
         }
-        resp = FA6(maze, l, c, lin, col, l2, c2, fim);
+        resp = FA6(maze, l, c, lin, col, l2, c2);
         return resp;}
     else
     {
