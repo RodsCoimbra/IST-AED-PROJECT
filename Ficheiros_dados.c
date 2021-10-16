@@ -9,8 +9,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/** \brief Lê o ficheiro de entrada, cria os tabuleiros e devolve as respostas no ficheiro de saida
+ * \param FILE *fmaze: ficheiro de entrada com os dados
+ * \param FILE *fsol: ficheiro de saida com a solução
+ *
+ * \return void
+ */
 void Labirinto(FILE *fmaze, FILE *fsol)
-{ // confirmar se é void
+{
     int lin = 0, col = 0, parede, l = 0, c = 0, linaux = -2, colaux = -1, l2 = 0, c2 = 0, resposta;
     short matriz_alocada = 0;
     char modo[3];
@@ -105,7 +111,7 @@ void Labirinto(FILE *fmaze, FILE *fsol)
                 }
                 maze[l1 - 1][c1 - 1] = custo;
             }
-            for (int i = 0; i < lin; i++)
+            /*for (int i = 0; i < lin; i++)
             {
                 for (int j = 0; j < col; j++)
                 {
@@ -113,7 +119,7 @@ void Labirinto(FILE *fmaze, FILE *fsol)
                 }
                 printf("\n");
             }
-            printf("\n\n\n");
+            printf("\n\n\n");*/
             resposta = mod(maze, l - 1, c - 1, lin - 1, col - 1, modo, l2 - 1, c2 - 1);
             fprintf(fsol, "%d\n\n", resposta);
         }
@@ -123,6 +129,13 @@ void Labirinto(FILE *fmaze, FILE *fsol)
     fechar(fmaze, fsol);
 }
 
+/** \brief Lê o ficheiro de entrada, cria os tabuleiros e devolve as respostas no ficheiro de saida
+ * \param FILE **fmaze: ficheiro de entrada com os dados
+ * \param FILE **fsol: ficheiro de saida com a solução
+ * \param char *fileread: string com o nome do ficheiro de entrada (.in1)
+ * \param char *filewrite: string com o nome do ficheiro de saida (.sol1)
+ * \return void
+ */
 void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite)
 {
     if ((*fmaze = fopen(fileread, "r")) == NULL)

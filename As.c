@@ -9,20 +9,41 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/** \brief identifica o tipo da célula indicada
+ * \param int **maze: array de duas dimensões que contém o labirinto
+ * \param int l: linha da peça que está a ser testada 
+ * \param int c: coluna da peça que está a ser testada
+ * \param int lin: total de linhas do labirinto
+ * \param int col: total de colunas do labirinto
+ * 
+ * \return int: número do tipo da peça das cordenadas (l,c) 
+ *
+ */
 int FA1(int **maze, int l, int c, int lin, int col)
-{                                 /*identifica o tipo da cécula de indicada*/
-    int A1 = out(l, c, lin, col); /*a função out vai retornar o numero da célula correspondente às coordenadas (l,c)*/
+{
+    int A1 = out(l, c, lin, col);
     if (A1 != -2)
     {
-        A1 = maze[l][c];
+        A1 = maze[l][c]; 
     }
     return A1;
 }
 
+/** \brief indica se algum vizinho da célula indicada é uma célula branca 
+ * \param int **maze: array de duas dimensões que contém o labirinto
+ * \param int l: linha da peça que está a ser testada 
+ * \param int c: coluna da peça que está a ser testada
+ * \param int lin: total de linhas do labirinto
+ * \param int col: total de colunas do labirinto
+ * 
+ * \return int: confirmação ou não da existência de um vizinho célula branca da celula de coordenadas (l,c) 
+ *
+ */
 int FA2(int **maze, int l, int c, int lin, int col)
-{ /*indica se algum vizinho da célula indicada é uma célula branca*/
+{
+    /*verificação se a célula não está fora do tabuleiro*/
     if ((out(l, c, lin, col) == -2))
-        return -2; /*verificação se a célula não está fora do tabuleiro*/
+        return -2; 
     /*verificação do tipo das células vizinhas e se estas cumprem a condição de ser branca*/
     if ((out(l + 1, c, lin, col) != -2 && maze[l + 1][c] == 0) || (out(l, c + 1, lin, col) != -2 && maze[l][c + 1] == 0) || (out(l - 1, c, lin, col) != -2 && maze[l - 1][c] == 0) || (out(l, c - 1, lin, col) != -2 && maze[l][c - 1] == 0))
     {
@@ -31,10 +52,20 @@ int FA2(int **maze, int l, int c, int lin, int col)
     return 0;
 }
 
+/** \brief indica se algum vizinho da célula indicada é uma célula cizenta 
+ * \param int **maze: array de duas dimensões que contém o labirinto
+ * \param int l: linha da peça que está a ser testada 
+ * \param int c: coluna da peça que está a ser testada
+ * \param int lin: total de linhas do labirinto
+ * \param int col: total de colunas do labirinto
+ * 
+ * \return int:  confirmação ou não da existência de um vizinho célula cizento da celula de coordenadas (l,c) 
+ *
+ */
 int FA3(int **maze, int l, int c, int lin, int col)
-{ /*indica se algum vizinho da célula indicada é uma célula cizenta*/
+{   /*verificação se a célula não está fora do tabuleiro*/
     if ((out(l, c, lin, col) == -2))
-        return -2; /*verificação se a célula não está fora do tabuleiro*/
+        return -2; 
     /*verificação do tipo das células vizinhas e se estas cumprem a condição de ser cizenta*/
     if ((out(l + 1, c, lin, col) != -2 && maze[l + 1][c] >= 1) || (out(l, c + 1, lin, col) != -2 && maze[l][c + 1] >= 1) || (out(l - 1, c, lin, col) != -2 && maze[l - 1][c] >= 1) || (out(l, c - 1, lin, col) != -2 && maze[l][c - 1] >= 1))
     {
@@ -43,10 +74,20 @@ int FA3(int **maze, int l, int c, int lin, int col)
     return 0;
 }
 
+/** \brief indica se algum vizinho da célula indicada é uma célula preta 
+ * \param int **maze: array de duas dimensões que contém o labirinto
+ * \param int l: linha da peça que está a ser testada 
+ * \param int c: coluna da peça que está a ser testada
+ * \param int lin: total de linhas do labirinto
+ * \param int col: total de colunas do labirinto
+ * 
+ * \return int:  confirmação ou não da existência de um vizinho célula preta da celula de coordenadas (l,c) 
+ *
+ */
 int FA4(int **maze, int l, int c, int lin, int col)
-{ /*indica se algum vizinho da célula indicada é uma célula preta*/
+{   /*verificação se a célula não está fora do tabuleiro*/
     if ((out(l, c, lin, col) == -2))
-        return -2; /*verificação se a célula não está fora do tabuleiro*/
+        return -2; 
     /*verificação do tipo das células vizinhas e se estas cumprem a condição de ser preta*/
     if ((out(l + 1, c, lin, col) != -2 && maze[l + 1][c] == -1) || (out(l, c + 1, lin, col) != -2 && maze[l][c + 1] == -1) || (out(l - 1, c, lin, col) != -2 && maze[l - 1][c] == -1) || (out(l, c - 1, lin, col) != -2 && maze[l][c - 1] == -1))
     {
@@ -55,13 +96,23 @@ int FA4(int **maze, int l, int c, int lin, int col)
     return 0;
 }
 
+/** \brief indica se a célula de dada pelas coordenadas (l,c) é quebrável
+ * \param int **maze: array de duas dimensões que contém o labirinto
+ * \param int l: linha da peça que está a ser testada 
+ * \param int c: coluna da peça que está a ser testada
+ * \param int lin: total de linhas do labirinto
+ * \param int col: total de colunas do labirinto
+ * 
+ * \return int:  afirma ou nega a possibilidade de quebrar a celula de coordenadas (l,c) 
+ *
+ */
 int FA5(int **maze, int l, int c, int lin, int col)
-{ /*indica se a célula de entrada é quebrável*/
+{
     if (out(l, c, lin, col) == -2)
         return -2;
     else if (maze[l][c] <= 0)
         return -1;
-    /*vê se as duas células vizinhas na vertical e depois na horizontal são brancas*/
+    /*analiza se as duas células vizinhas na vertical ou na horizontal são brancas*/
     else if ((out(l - 1, c, lin, col) != -2) && (out(l + 1, c, lin, col) != -2) && maze[l - 1][c] == 0 && maze[l + 1][c] == 0)
     {
         return 1;
@@ -76,6 +127,15 @@ int FA5(int **maze, int l, int c, int lin, int col)
     }
 }
 
+/** \brief indica se a célula de coordenadas (l,c) e a célula de coordenadas (l2,c2) pertencem à mesma sala
+ * \param int **maze: array de duas dimensões que contém o labirinto
+ * \param int l: linha da peça que está a ser testada 
+ * \param int c: coluna da peça que está a ser testada
+ * \param int lin: total de linhas do labirinto
+ * \param int col: total de colunas do labirinto
+ * 
+ * \return int: devolve -2 se alguma das células estiver do labirinto fora, 1 se estiverem na mesma sala e 0 se isso não acontecer 
+ */
 int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
 { /*para duas células de entrada a função indica se pertencem à mesma sala do labirinto*/
     /*Baseado no weighted quick union algorithm*/
@@ -92,16 +152,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
 
         id[i] = i;
     }
-    /*printf("\n\n");
-    for (int i = 0; i < lin + 1; i++)
-    {
-        for (int j = 0; j < col + 1; j++)
-        {
-            printf("%2d ", id[i * (col + 1) + j]);
-        }
-        printf("\n");
-    }
-    printf("\n\n");*/
+    
     for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col - 1; q++)
@@ -138,17 +189,6 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
             }
         }
     }
-    ////////////////////
-    for (int i = 0; i < lin + 1; i++)
-    {
-        for (int j = 0; j < col + 1; j++)
-        {
-            printf("%3d ", id[i * (col + 1) + j]);
-        }
-        printf("\n");
-    }
-    printf("\n\nNovo\n");
-    /////////////////////////////
     for (i = (l * (col + 1)) + c; i != id[i]; i = id[i])
         ;
     for (j = (l2 * (col + 1)) + c2; j != id[j]; j = id[j])
