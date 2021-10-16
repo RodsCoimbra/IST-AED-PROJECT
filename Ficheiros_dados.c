@@ -111,15 +111,6 @@ void Labirinto(FILE *fmaze, FILE *fsol)
                 }
                 maze[l1 - 1][c1 - 1] = custo;
             }
-            /*for (int i = 0; i < lin; i++)
-            {
-                for (int j = 0; j < col; j++)
-                {
-                    printf("%2d ", maze[i][j]);
-                }
-                printf("\n");
-            }
-            printf("\n\n\n");*/
             resposta = mod(maze, l - 1, c - 1, lin - 1, col - 1, modo, l2 - 1, c2 - 1);
             fprintf(fsol, "%d\n\n", resposta);
         }
@@ -146,7 +137,7 @@ void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite)
     }
     separar(fileread);
     sscanf(fileread, " %s", filewrite);
-    strcat(filewrite, ".sol1"); //apenas para teste, garantir que MUDAMOS PARA SOL1!!!!!!
+    strcat(filewrite, ".sol1");
     if ((*fsol = fopen(filewrite, "w")) == NULL)
     { // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
         free(filewrite);
