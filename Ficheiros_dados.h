@@ -3,7 +3,7 @@
 
 #include "stdio.h"
 
-void Labirinto (FILE* fmaze, FILE* fsol);
-void open_files(FILE** fmaze,FILE** fsol,char* fileread,char* filewrite);
+void Labirinto(FILE *fmaze, FILE *fsol);
+void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite);
 
 #endif
