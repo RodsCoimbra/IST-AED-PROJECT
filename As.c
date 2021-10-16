@@ -137,28 +137,23 @@ int FA5(int **maze, int l, int c, int lin, int col)
  * \return int: devolve -2 se alguma das células estiver do labirinto fora, 1 se estiverem na mesma sala e 0 se isso não acontecer 
  */
 int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
-{ /*para duas células de entrada a função indica se pertencem à mesma sala do labirinto*/
-    /*Baseado no weighted quick union algorithm*/
+{ /*Baseado no weighted quick union algorithm*/
     int i = 0, j = 0;
     int *id = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
     int *sz = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
+    //Inicialização das variáveis
     for (i = 0; i < ((lin + 1) * (col + 1)); i++)
     {
         sz[i] = 1;
-        if ((*(*(maze + i / (col + 1)) + i % (col + 1))) > 0 || (*(*(maze + i / (col + 1)) + i % (col + 1))) == -1)
-        {
-            id[i] = -1;
-        }
-
         id[i] = i;
     }
-
+    //Percorre a matriz toda para conectar horizontalmente as peças
     for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col - 1; q++)
-        {
+        { //Vê se as duas coordenadas são células brancas para poder conectar
             if (maze[p][q] == 0 && maze[p][q + 1] == 0)
-            {
+            { //Percorre o i e o j até chegar ao nó
                 for (i = p * (col + 1) + q; i != id[i]; i = id[i])
                     ;
                 for (j = p * (col + 1) + q + 1; j != id[j]; j = id[j])
@@ -166,7 +161,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
 
                 if (i == j)
                     continue;
-                if (sz[i] < sz[j])
+                if (sz[i] < sz[j]) /*escolhe qual é o menor para facilitar a união*/
                 {
                     id[i] = j;
                     sz[j] += sz[i];
@@ -179,6 +174,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
             }
         }
     }
+    //Percorre a matriz toda para conectar verticalmente as peças
     for (int p = 0; p <= lin - 1; p++)
     {
         for (int q = 0; q <= col; q++)
@@ -189,10 +185,9 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
                     ;
                 for (j = (p + 1) * (col + 1) + q; j != id[j]; j = id[j])
                     ;
-
                 if (i == j)
                     continue;
-                if (sz[i] < sz[j])
+                if (sz[i] < sz[j]) /*escolhe qual é o menor para facilitar a união*/
                 {
                     id[i] = j;
                     sz[j] += sz[i];
@@ -205,6 +200,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
             }
         }
     }
+    //Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
     for (i = (l * (col + 1)) + c; i != id[i]; i = id[i])
         ;
     for (j = (l2 * (col + 1)) + c2; j != id[j]; j = id[j])
@@ -213,12 +209,12 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
     {
         free(id);
         free(sz);
-        return 1;
+        return 1; /*as duas células estão na mesma sala*/
     }
     else
     {
         free(id);
         free(sz);
-        return 0;
+        return 0; /*as duas células estão em salas diferentes*/
     }
 }

@@ -70,7 +70,7 @@ int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2)
 }
 
 /** \brief liberta todo o espaço alocado para a tabela que constitui o labirinto
- * \param int **maze: double pointer para array de duas dimensões que contém o labirinto
+ * \param int **maze: Array de duas dimensões que contém o labirinto
  * \param int lin: numero de linhas máximas do tabuleiro
  * 
  * \return void
