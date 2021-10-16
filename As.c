@@ -24,7 +24,7 @@ int FA1(int **maze, int l, int c, int lin, int col)
     int A1 = out(l, c, lin, col);
     if (A1 != -2)
     {
-        A1 = maze[l][c]; 
+        A1 = maze[l][c];
     }
     return A1;
 }
@@ -43,7 +43,7 @@ int FA2(int **maze, int l, int c, int lin, int col)
 {
     /*verificação se a célula não está fora do tabuleiro*/
     if ((out(l, c, lin, col) == -2))
-        return -2; 
+        return -2;
     /*verificação do tipo das células vizinhas e se estas cumprem a condição de ser branca*/
     if ((out(l + 1, c, lin, col) != -2 && maze[l + 1][c] == 0) || (out(l, c + 1, lin, col) != -2 && maze[l][c + 1] == 0) || (out(l - 1, c, lin, col) != -2 && maze[l - 1][c] == 0) || (out(l, c - 1, lin, col) != -2 && maze[l][c - 1] == 0))
     {
@@ -63,9 +63,9 @@ int FA2(int **maze, int l, int c, int lin, int col)
  *
  */
 int FA3(int **maze, int l, int c, int lin, int col)
-{   /*verificação se a célula não está fora do tabuleiro*/
+{ /*verificação se a célula não está fora do tabuleiro*/
     if ((out(l, c, lin, col) == -2))
-        return -2; 
+        return -2;
     /*verificação do tipo das células vizinhas e se estas cumprem a condição de ser cizenta*/
     if ((out(l + 1, c, lin, col) != -2 && maze[l + 1][c] >= 1) || (out(l, c + 1, lin, col) != -2 && maze[l][c + 1] >= 1) || (out(l - 1, c, lin, col) != -2 && maze[l - 1][c] >= 1) || (out(l, c - 1, lin, col) != -2 && maze[l][c - 1] >= 1))
     {
@@ -85,9 +85,9 @@ int FA3(int **maze, int l, int c, int lin, int col)
  *
  */
 int FA4(int **maze, int l, int c, int lin, int col)
-{   /*verificação se a célula não está fora do tabuleiro*/
+{ /*verificação se a célula não está fora do tabuleiro*/
     if ((out(l, c, lin, col) == -2))
-        return -2; 
+        return -2;
     /*verificação do tipo das células vizinhas e se estas cumprem a condição de ser preta*/
     if ((out(l + 1, c, lin, col) != -2 && maze[l + 1][c] == -1) || (out(l, c + 1, lin, col) != -2 && maze[l][c + 1] == -1) || (out(l - 1, c, lin, col) != -2 && maze[l - 1][c] == -1) || (out(l, c - 1, lin, col) != -2 && maze[l][c - 1] == -1))
     {
@@ -152,26 +152,42 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
 
         id[i] = i;
     }
-    
+
     for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col - 1; q++)
         {
-            i = p * (col + 1) + q;
-            j = p * (col + 1) + q + 1;
-            if (maze[p][q] == 0 && p > 0 && maze[p - 1][q] == 0)
-            {
-                id[i] = id[(p - 1) * (col + 1) + q];
-            }
-            if (maze[p][q + 1] == 0 && p > 0 && maze[p - 1][q + 1] == 0)
-            {
-                id[j] = id[(p - 1) * (col + 1) + q + 1];
-            }
             if (maze[p][q] == 0 && maze[p][q + 1] == 0)
             {
-                for (; i != id[i]; i = id[i])
+                for (i = p * (col + 1) + q; i != id[i]; i = id[i])
                     ;
-                for (; j != id[j]; j = id[j])
+                for (j = p * (col + 1) + q + 1; j != id[j]; j = id[j])
+                    ;
+
+                if (i == j)
+                    continue;
+                if (sz[i] < sz[j])
+                {
+                    id[i] = j;
+                    sz[j] += sz[i];
+                }
+                else
+                {
+                    id[j] = i;
+                    sz[i] += sz[j];
+                }
+            }
+        }
+    }
+    for (int p = 0; p <= lin - 1; p++)
+    {
+        for (int q = 0; q <= col; q++)
+        {
+            if (maze[p][q] == 0 && maze[p + 1][q] == 0)
+            {
+                for (i = p * (col + 1) + q; i != id[i]; i = id[i])
+                    ;
+                for (j = (p + 1) * (col + 1) + q; j != id[j]; j = id[j])
                     ;
 
                 if (i == j)
