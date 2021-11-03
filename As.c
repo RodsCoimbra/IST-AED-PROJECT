@@ -11,12 +11,12 @@
 
 /** \brief identifica o tipo da célula indicada
  * \param int **maze: array de duas dimensões que contém o labirinto
- * \param int l: linha da peça que está a ser testada 
+ * \param int l: linha da peça que está a ser testada
  * \param int c: coluna da peça que está a ser testada
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
- * 
- * \return int: número do tipo da peça das cordenadas (l,c) 
+ *
+ * \return int: número do tipo da peça das cordenadas (l,c)
  *
  */
 int FA1(int **maze, int l, int c, int lin, int col)
@@ -29,14 +29,14 @@ int FA1(int **maze, int l, int c, int lin, int col)
     return A1;
 }
 
-/** \brief indica se algum vizinho da célula indicada é uma célula branca 
+/** \brief indica se algum vizinho da célula indicada é uma célula branca
  * \param int **maze: array de duas dimensões que contém o labirinto
- * \param int l: linha da peça que está a ser testada 
+ * \param int l: linha da peça que está a ser testada
  * \param int c: coluna da peça que está a ser testada
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
- * 
- * \return int: confirmação ou não da existência de um vizinho célula branca da celula de coordenadas (l,c) 
+ *
+ * \return int: confirmação ou não da existência de um vizinho célula branca da celula de coordenadas (l,c)
  *
  */
 int FA2(int **maze, int l, int c, int lin, int col)
@@ -52,14 +52,14 @@ int FA2(int **maze, int l, int c, int lin, int col)
     return 0;
 }
 
-/** \brief indica se algum vizinho da célula indicada é uma célula cizenta 
+/** \brief indica se algum vizinho da célula indicada é uma célula cizenta
  * \param int **maze: array de duas dimensões que contém o labirinto
- * \param int l: linha da peça que está a ser testada 
+ * \param int l: linha da peça que está a ser testada
  * \param int c: coluna da peça que está a ser testada
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
- * 
- * \return int:  confirmação ou não da existência de um vizinho célula cizento da celula de coordenadas (l,c) 
+ *
+ * \return int:  confirmação ou não da existência de um vizinho célula cizento da celula de coordenadas (l,c)
  *
  */
 int FA3(int **maze, int l, int c, int lin, int col)
@@ -74,14 +74,14 @@ int FA3(int **maze, int l, int c, int lin, int col)
     return 0;
 }
 
-/** \brief indica se algum vizinho da célula indicada é uma célula preta 
+/** \brief indica se algum vizinho da célula indicada é uma célula preta
  * \param int **maze: array de duas dimensões que contém o labirinto
- * \param int l: linha da peça que está a ser testada 
+ * \param int l: linha da peça que está a ser testada
  * \param int c: coluna da peça que está a ser testada
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
- * 
- * \return int:  confirmação ou não da existência de um vizinho célula preta da celula de coordenadas (l,c) 
+ *
+ * \return int:  confirmação ou não da existência de um vizinho célula preta da celula de coordenadas (l,c)
  *
  */
 int FA4(int **maze, int l, int c, int lin, int col)
@@ -98,12 +98,12 @@ int FA4(int **maze, int l, int c, int lin, int col)
 
 /** \brief indica se a célula de dada pelas coordenadas (l,c) é quebrável
  * \param int **maze: array de duas dimensões que contém o labirinto
- * \param int l: linha da peça que está a ser testada 
+ * \param int l: linha da peça que está a ser testada
  * \param int c: coluna da peça que está a ser testada
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
- * 
- * \return int:  afirma ou nega a possibilidade de quebrar a celula de coordenadas (l,c) 
+ *
+ * \return int:  afirma ou nega a possibilidade de quebrar a celula de coordenadas (l,c)
  *
  */
 int FA5(int **maze, int l, int c, int lin, int col)
@@ -129,31 +129,39 @@ int FA5(int **maze, int l, int c, int lin, int col)
 
 /** \brief indica se a célula de coordenadas (l,c) e a célula de coordenadas (l2,c2) pertencem à mesma sala
  * \param int **maze: array de duas dimensões que contém o labirinto
- * \param int l: linha da peça que está a ser testada 
+ * \param int l: linha da peça que está a ser testada
  * \param int c: coluna da peça que está a ser testada
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
- * 
- * \return int: devolve -2 se alguma das células estiver do labirinto fora, 1 se estiverem na mesma sala e 0 se isso não acontecer 
+ *
+ * \return int: devolve -2 se alguma das células estiver do labirinto fora, 1 se estiverem na mesma sala e 0 se isso não acontecer
  */
 int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
-{ /*Baseado no weighted quick union algorithm*/
-    int i = 0, j = 0;
+{ /*Baseado no compressed weighted quick union algorithm*/
+    int i = 0, j = 0, x = 0, t = 0;
     int *id = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
     int *sz = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
-    //Inicialização das variáveis
+    // Inicialização das variáveis
     for (i = 0; i < ((lin + 1) * (col + 1)); i++)
     {
         sz[i] = 1;
-        id[i] = i;
+
+        if (maze[i / (lin + 1)][i % (lin + 1)] == 0)
+        {
+            id[i] = i;
+        }
+        else
+        {
+            id[i] = -1;
+        }
     }
-    //Percorre a matriz toda para conectar horizontalmente as peças
+    // Percorre a matriz toda para conectar horizontalmente as peças
     for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col - 1; q++)
-        { //Vê se as duas coordenadas são células brancas para poder conectar
+        { // Vê se as duas coordenadas são células brancas para poder conectar
             if (maze[p][q] == 0 && maze[p][q + 1] == 0)
-            { //Percorre o i e o j até chegar ao nó
+            { // Percorre o i e o j até chegar ao nó
                 for (i = p * (col + 1) + q; i != id[i]; i = id[i])
                     ;
                 for (j = p * (col + 1) + q + 1; j != id[j]; j = id[j])
@@ -165,16 +173,28 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
                 {
                     id[i] = j;
                     sz[j] += sz[i];
+                    t = j;
                 }
                 else
                 {
                     id[j] = i;
                     sz[i] += sz[j];
+                    t = i;
+                }
+                for (i = p * (col + 1) + q; i != id[i]; i = x)
+                {
+                    x = id[i];
+                    id[i] = t;
+                }
+                for (j = p * (col + 1) + q + 1; j != id[j]; j = x)
+                {
+                    x = id[j];
+                    id[j] = t;
                 }
             }
         }
     }
-    //Percorre a matriz toda para conectar verticalmente as peças
+    // Percorre a matriz toda para conectar verticalmente as peças
     for (int p = 0; p <= lin - 1; p++)
     {
         for (int q = 0; q <= col; q++)
@@ -191,16 +211,47 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
                 {
                     id[i] = j;
                     sz[j] += sz[i];
+                    t = j;
                 }
                 else
                 {
                     id[j] = i;
                     sz[i] += sz[j];
+                    t = i;
+                }
+                for (i = p * (col + 1) + q; i != id[i]; i = x)
+                {
+                    x = id[i];
+                    id[i] = t;
+                }
+                for (j = (p + 1) * (col + 1) + q; j != id[j]; j = x)
+                {
+                    x = id[j];
+                    id[j] = t;
                 }
             }
         }
     }
-    //Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
+    for (int p = 0; p <= lin; p++)
+    {
+        for (int q = 0; q <= col; q++)
+        {
+            printf("%2d ", id[p * (col + 1) + q]);
+        }
+        printf("\n");
+    }
+    /*
+   printf("\n\n");
+
+   for (int p = 0; p <= lin; p++)
+   {
+       for (int q = 0; q <= col; q++)
+       {
+           printf("%2d ", id[p * (col + 1) + q]); // p * (col + 1) + q
+       }
+       printf("\n");
+   }*/
+    // Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
     for (i = (l * (col + 1)) + c; i != id[i]; i = id[i])
         ;
     for (j = (l2 * (col + 1)) + c2; j != id[j]; j = id[j])
