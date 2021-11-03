@@ -3,7 +3,7 @@ roap: main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_d
 	gcc	-Wall -std=c99 -O3	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h	-o	roap
 
 t:
-	#@clear
+	@clear
 	@./roap -s Enunciado_A6/enunciado601.in1
 	@echo "\n"
 	@diff -s Enunciado_A6/enunciado601.sol1 Enunciado_A6/enunciado601.sol2

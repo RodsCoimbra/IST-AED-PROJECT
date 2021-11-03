@@ -146,13 +146,13 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
     {
         sz[i] = 1;
 
-        if (maze[i / (lin + 1)][i % (lin + 1)] == 0) // tirar no final do projeto, apenas para ajudar a visualizar!!!
+        if (maze[i / (lin + 1)][i % (lin + 1)] != 0) // tirar no final do projeto, apenas para ajudar a visualizar!!!
         {
-            id[i] = i;
+            id[i] = -1;
         }
         else
         {
-            id[i] = -1;
+            id[i] = i;
         }
     }
     // Percorre a matriz toda para conectar horizontalmente as peças
@@ -236,21 +236,33 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
     {
         for (int q = 0; q <= col; q++)
         {
-            printf("%2d ", id[p * (col + 1) + q]);
+            printf("%3d ", maze[p][q]); //"%2d ", id[p * (col + 1) + q]
         }
         printf("\n");
     }
-    /*
-   printf("\n\n");
 
-   for (int p = 0; p <= lin; p++)
-   {
-       for (int q = 0; q <= col; q++)
-       {
-           printf("%2d ", id[p * (col + 1) + q]); // p * (col + 1) + q
-       }
-       printf("\n");
-   }*/
+    for (int p = 0; p <= lin; p++)
+    {
+        for (int q = 0; q <= col; q++)
+        {
+            if (maze[p][q] == 0)
+            {
+                for (i = p * (col + 1) + q; i != id[i]; i = id[i])
+                    ;
+                maze[p][q] = -i - 3;
+            }
+        }
+    }
+    printf("\n\n");
+
+    for (int p = 0; p <= lin; p++)
+    {
+        for (int q = 0; q <= col; q++)
+        {
+            printf("%3d ", maze[p][q]); // p * (col + 1) + q
+        }
+        printf("\n");
+    }
     // Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
     for (i = (l * (col + 1)) + c; i != id[i]; i = id[i])
         ;
