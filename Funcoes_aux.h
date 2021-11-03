@@ -4,7 +4,7 @@
 
 int out(int l, int c, int lin, int col);
 void freetabela(int **maze, int lin);
-int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2);
+int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2, int total_salas);
 void separar(char *str);
 void fechar(FILE *fmaze, FILE *fsol);
 #endif

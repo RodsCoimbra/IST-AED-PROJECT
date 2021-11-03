@@ -2,7 +2,7 @@
 #include "As.h"
 #include "Funcoes_aux.h"
 #include "Ficheiros_dados.h"
-/*bibliote*/
+/*bibliotecas*/
 #include <string.h>
 #include <getopt.h>
 #include <unistd.h>
@@ -18,6 +18,7 @@
 void Labirinto(FILE *fmaze, FILE *fsol)
 {
     int lin = 0, col = 0, parede, l = 0, c = 0, linaux = -2, colaux = -1, l2 = 0, c2 = 0, resposta;
+    int total_salas = 0;
     short matriz_alocada = 0;
     char modo[3];
     int **maze = NULL;
@@ -32,6 +33,7 @@ void Labirinto(FILE *fmaze, FILE *fsol)
                 fechar(fmaze, fsol);
             }
         }
+        total_salas = lin*col;
         if ((strcmp(modo, "A6")) != 0)
         {
             if (fscanf(fmaze, "%d", &parede) != 1)
@@ -46,6 +48,7 @@ void Labirinto(FILE *fmaze, FILE *fsol)
                 fechar(fmaze, fsol);
             }
         }
+        total_salas-=parede;
         if (out(l - 1, c - 1, lin - 1, col - 1) == -2 || (((strcmp(modo, "A6")) == 0) && (out(l2 - 1, c2 - 1, lin - 1, col - 1) == -2)))
         {
             for (int i = 0, l1, c1, custo; i < parede; i++)
@@ -111,7 +114,7 @@ void Labirinto(FILE *fmaze, FILE *fsol)
                 }
                 maze[l1 - 1][c1 - 1] = custo;
             }
-            resposta = mod(maze, l - 1, c - 1, lin - 1, col - 1, modo, l2 - 1, c2 - 1);
+            resposta = mod(maze, l - 1, c - 1, lin - 1, col - 1, modo, l2 - 1, c2 - 1, total_salas);
             fprintf(fsol, "%d\n\n", resposta);
         }
     }

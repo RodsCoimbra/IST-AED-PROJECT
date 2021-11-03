@@ -22,7 +22,7 @@
  * \return int: resposta ao problema 
  *
  */
-int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2)
+int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2, int total_salas)
 {
     int resp;
     if ((strcmp(modo, "A1")) == 0)
@@ -60,7 +60,7 @@ int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2)
         { /*verifica se alguma das coordenadas indicadas não é brancas*/
             return 0;
         }
-        resp = FA6(maze, l, c, lin, col, l2, c2);
+        resp = FA6(maze, l, c, lin, col, l2, c2, total_salas);
         return resp;
     }
     else

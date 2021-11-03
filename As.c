@@ -136,7 +136,7 @@ int FA5(int **maze, int l, int c, int lin, int col)
  *
  * \return int: devolve -2 se alguma das células estiver do labirinto fora, 1 se estiverem na mesma sala e 0 se isso não acontecer
  */
-int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
+int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_salas)
 { /*Baseado no compressed weighted quick union algorithm*/
     int i = 0, j = 0, x = 0, t = 0;
     int *id = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
@@ -181,6 +181,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
                     sz[i] += sz[j];
                     t = i;
                 }
+                total_salas--;
                 for (i = p * (col + 1) + q; i != id[i]; i = x)
                 {
                     x = id[i];
@@ -219,6 +220,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
                     sz[i] += sz[j];
                     t = i;
                 }
+                total_salas--;
                 for (i = p * (col + 1) + q; i != id[i]; i = x)
                 {
                     x = id[i];
@@ -263,6 +265,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
         }
         printf("\n");
     }
+    printf("\n%d\n", total_salas);
     // Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
     for (i = (l * (col + 1)) + c; i != id[i]; i = id[i])
         ;
