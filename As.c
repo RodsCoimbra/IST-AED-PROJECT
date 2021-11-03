@@ -146,7 +146,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2)
     {
         sz[i] = 1;
 
-        if (maze[i / (lin + 1)][i % (lin + 1)] == 0)
+        if (maze[i / (lin + 1)][i % (lin + 1)] == 0) // tirar no final do projeto, apenas para ajudar a visualizar!!!
         {
             id[i] = i;
         }
