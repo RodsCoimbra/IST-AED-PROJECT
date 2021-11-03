@@ -137,7 +137,7 @@ void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite)
     }
     separar(fileread);
     sscanf(fileread, " %s", filewrite);
-    strcat(filewrite, ".sol1");
+    strcat(filewrite, ".sol2");
     if ((*fsol = fopen(filewrite, "w")) == NULL)
     { // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
         free(filewrite);
