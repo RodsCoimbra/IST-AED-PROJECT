@@ -103,28 +103,26 @@ int FA4(int **maze, int l, int c, int lin, int col)
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
  *
- * \return int:  afirma ou nega a possibilidade de quebrar a celula de coordenadas (l,c)
+ * \return int: retorna 1 se for quebrável na horizontal, 2 é quebrável na vertical e 3 é quebrável em ambas.
  *
  */
 int FA5(int **maze, int l, int c, int lin, int col)
 {
+    int direcao = 0;
     if (out(l, c, lin, col) == -2)
         return -2;
-    else if (maze[l][c] <= 0)
+    else if (maze[l][c] == 0 || maze[l][c] == -1)
         return -1;
     /*analiza se as duas células vizinhas na vertical ou na horizontal são brancas*/
-    else if ((out(l - 1, c, lin, col) != -2) && (out(l + 1, c, lin, col) != -2) && maze[l - 1][c] == 0 && maze[l + 1][c] == 0)
+    if ((out(l - 1, c, lin, col) != -2) && (out(l + 1, c, lin, col) != -2) && maze[l - 1][c] == 0 && maze[l + 1][c] == 0)
     {
-        return 1;
+        direcao++; // 1 significa é quebrável na horizontal
     }
-    else if ((out(l, c + 1, lin, col) != -2) && (out(l, c - 1, lin, col) != -2) && maze[l][c - 1] == 0 && maze[l][c + 1] == 0)
+    if ((out(l, c + 1, lin, col) != -2) && (out(l, c - 1, lin, col) != -2) && maze[l][c - 1] == 0 && maze[l][c + 1] == 0)
     {
-        return 1;
+        direcao += 2; // 2 significa é quebrável na vertical
     }
-    else
-    {
-        return 0;
-    }
+    return direcao; // 3 significa é quebrável em ambas as direcoes
 }
 
 /** \brief indica se a célula de coordenadas (l,c) e a célula de coordenadas (l2,c2) pertencem à mesma sala

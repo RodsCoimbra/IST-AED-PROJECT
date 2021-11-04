@@ -48,6 +48,10 @@ int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2, 
     else if ((strcmp(modo, "A5")) == 0)
     {
         resp = FA5(maze, l, c, lin, col);
+        if(resp > 0)
+        {
+            resp = 1;
+        }
         return resp;
     }
     else if ((strcmp(modo, "A6")) == 0)

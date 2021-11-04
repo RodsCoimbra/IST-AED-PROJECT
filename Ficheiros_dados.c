@@ -33,7 +33,7 @@ void Labirinto(FILE *fmaze, FILE *fsol)
                 fechar(fmaze, fsol);
             }
         }
-        total_salas = lin*col;
+        total_salas = lin * col;
         if ((strcmp(modo, "A6")) != 0)
         {
             if (fscanf(fmaze, "%d", &parede) != 1)
@@ -48,7 +48,7 @@ void Labirinto(FILE *fmaze, FILE *fsol)
                 fechar(fmaze, fsol);
             }
         }
-        total_salas-=parede;
+        total_salas -= parede;
         if (out(l - 1, c - 1, lin - 1, col - 1) == -2 || (((strcmp(modo, "A6")) == 0) && (out(l2 - 1, c2 - 1, lin - 1, col - 1) == -2)))
         {
             for (int i = 0, l1, c1, custo; i < parede; i++)

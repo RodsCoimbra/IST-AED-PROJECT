@@ -14,34 +14,45 @@ int main(int argc, char *argv[])
     opterr = 0;
     int opt, tamanho = 0;
     FILE *fmaze = NULL, *fsol = NULL;
-    tamanho = strlen(argv[2]) + 1;                                               
-    char *fileread = (char *)calloc(1, tamanho * sizeof(char)), *filewrite = (char *)calloc(1, (tamanho + 1) * sizeof(char)); /*alocação do array que conterá o nome dos ficheiros de leitura e de escrita*/
-    if (fileread == NULL || filewrite == NULL)       /*verifica se a alocação de memória foi bem sucedida*/
+    char *fileread = NULL, *filewrite = NULL;
+    opt = getopt(argc, argv, "s:"); // recebe os argumentos de entrada ao iniciar o programa
+    switch (opt)
     {
-        exit(0);
-    }
-    while ((opt = getopt(argc, argv, "s:")) != -1)
-    { /*recebe os argumentos de entrada ao iniciar o programa*/
-        switch (opt)
+    case 's':
+        tamanho = strlen(argv[2]) + 1;
+        fileread = (char *)calloc(1, tamanho * sizeof(char)), filewrite = (char *)calloc(1, (tamanho + 1) * sizeof(char)); // alocação do array que conterá o nome dos ficheiros de leitura e de escrita
+        if (fileread == NULL || filewrite == NULL)                                                                         // verifica se a alocação de memória foi bem sucedida
         {
-        case 's':
-            sscanf(optarg, " %s", fileread);
-            //confirma que o ficheiro de leitura tem extensão in1
-            if (fileread[tamanho - 5] != '.' || fileread[tamanho - 4] != 'i' || fileread[tamanho - 3] != 'n' || fileread[tamanho - 2] != '1')
-            {
-                free(fileread); 
-                free(filewrite); 
-                exit(0);
-            }
-            break;
-        default:
+            exit(0);
+        }
+        sscanf(optarg, " %s", fileread);
+        // confirma que o ficheiro de leitura tem extensão in1
+        if (fileread[tamanho - 5] != '.' || fileread[tamanho - 4] != 'i' || fileread[tamanho - 3] != 'n' || fileread[tamanho - 2] != '1')
         {
             free(fileread);
             free(filewrite);
             exit(0);
         }
+        break;
+    default:
+    {
+        tamanho = strlen(argv[1]) + 1;
+        fileread = (char *)calloc(1, tamanho * sizeof(char)), filewrite = (char *)calloc(1, (tamanho + 1) * sizeof(char)); // alocação do array que conterá o nome dos ficheiros de leitura e de escrita
+        if (fileread == NULL || filewrite == NULL)                                                                         // verifica se a alocação de memória foi bem sucedida
+        {
+            exit(0);
         }
+        sscanf(argv[1], " %s", fileread);
+        // confirma que o ficheiro de leitura tem extensão in
+        if (fileread[tamanho - 4] != '.' || fileread[tamanho - 3] != 'i' || fileread[tamanho - 2] != 'n')
+        {
+            free(fileread);
+            free(filewrite);
+            exit(0);
+        }
+        break;
+    }
     }
     open_files(&fmaze, &fsol, fileread, filewrite);
-    Labirinto(fmaze, fsol); 
+    Labirinto(fmaze, fsol);
 }
