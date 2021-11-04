@@ -15,7 +15,7 @@
  *
  * \return void
  */
-void Labirinto(FILE *fmaze, FILE *fsol)
+void Labirinto_fase1(FILE *fmaze, FILE *fsol)
 {
     int lin = 0, col = 0, parede, l = 0, c = 0, linaux = -2, colaux = -1, l2 = 0, c2 = 0, resposta;
     int total_salas = 0;
@@ -117,6 +117,123 @@ void Labirinto(FILE *fmaze, FILE *fsol)
             resposta = mod(maze, l - 1, c - 1, lin - 1, col - 1, modo, l2 - 1, c2 - 1, total_salas);
             fprintf(fsol, "%d\n\n", resposta);
         }
+    }
+    if (matriz_alocada == 1)
+        freetabela(maze, lin);
+    fechar(fmaze, fsol);
+}
+
+void Labirinto_fase2(FILE *fmaze, FILE *fsol)
+{
+    int lin = 0, col = 0, parede, l = 0, c = 0, linaux = -2, colaux = -1;
+    int total_salas = 0; // talvez para tirar, depois ver
+    short matriz_alocada = 0;
+    int **maze = NULL;
+    while (1)
+    {
+        if (fscanf(fmaze, "%d %d %d %d", &lin, &col, &l, &c) != 4)
+        {
+            if (feof(fmaze) != 0)
+                break;
+            else
+            {
+                fechar(fmaze, fsol);
+            }
+        }
+        total_salas = lin * col;
+        if (fscanf(fmaze, "%d", &parede) != 1)
+        {
+            fechar(fmaze, fsol);
+        }
+        if (parede == 0)
+        {
+            fprintf(fsol, "0\n\n");
+            continue;
+        }
+        total_salas -= parede;
+        if (out(l - 1, c - 1, lin - 1, col - 1) == -2 || (l == 1 && c == 1))
+        {
+            for (int i = 0, l1, c1, custo; i < parede; i++)
+            {
+                if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3)
+                {
+                    fechar(fmaze, fsol);
+                }
+            }
+            if ((l == 1 && c == 1))
+            {
+                fprintf(fsol, "0\n\n");
+            }
+            else
+            {
+                fprintf(fsol, "-2\n\n");
+            }
+
+            continue;
+        }
+        matriz_alocada = 1;
+        if (lin != linaux)
+        {
+            if (linaux != -2)
+            {
+                freetabela(maze, linaux);
+            }
+            linaux = lin;
+            colaux = -1;
+            maze = (int **)malloc(lin * sizeof(int *));
+            if (maze == NULL)
+            {
+                exit(0);
+            }
+        }
+        if (col != colaux)
+        {
+            if (colaux != -1)
+            {
+                for (int i = 0; i < lin; i++)
+                {
+                    free(maze[i]);
+                }
+            }
+            for (int i = 0; i < lin; i++)
+            {
+                maze[i] = (int *)calloc(1, col * sizeof(int));
+                if (maze[i] == NULL)
+                {
+                    exit(0);
+                }
+            }
+            colaux = col;
+        }
+        else
+        {
+            for (int i = 0; i < lin; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    maze[i][j] = 0;
+                }
+            }
+        }
+        for (int i = 0, l1, c1, custo; i < parede; i++)
+        {
+            if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3)
+            {
+                fechar(fmaze, fsol);
+            }
+            maze[l1 - 1][c1 - 1] = custo;
+        }
+        if (FA1(maze, l - 1, c - 1, lin - 1, col - 1) != 0)
+        {
+            fprintf(fsol, "-1\n\n");
+            continue;
+        }
+        FA6(maze, l - 1, c - 1, lin, col, 0, 0, total_salas);
+        ////////////////////////////Meter resposta aqui
+
+        fprintf(fsol, "%d\n\n", 1);
+
+        ////////////////////////////////////////////////
     }
     if (matriz_alocada == 1)
         freetabela(maze, lin);

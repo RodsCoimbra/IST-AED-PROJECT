@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 {
     opterr = 0;
     int opt, tamanho = 0;
+    short fase = 0; // 1 se for projeto final, 0 se for 1ª fase do projeto
     FILE *fmaze = NULL, *fsol = NULL;
     char *fileread = NULL, *filewrite = NULL;
     opt = getopt(argc, argv, "s:"); // recebe os argumentos de entrada ao iniciar o programa
@@ -36,6 +37,7 @@ int main(int argc, char *argv[])
         break;
     default:
     {
+        fase = 1;
         tamanho = strlen(argv[1]) + 1;
         fileread = (char *)calloc(1, tamanho * sizeof(char)), filewrite = (char *)calloc(1, (tamanho + 1) * sizeof(char)); // alocação do array que conterá o nome dos ficheiros de leitura e de escrita
         if (fileread == NULL || filewrite == NULL)                                                                         // verifica se a alocação de memória foi bem sucedida
@@ -54,5 +56,12 @@ int main(int argc, char *argv[])
     }
     }
     open_files(&fmaze, &fsol, fileread, filewrite);
-    Labirinto(fmaze, fsol);
+    if (fase == 1)  //Se for ficheiros do projeto final
+    {
+        Labirinto_fase2(fmaze, fsol);
+    }
+    else            //Se for ficheiros do projeto intermedio
+    {
+        Labirinto_fase1(fmaze, fsol);
+    }
 }
