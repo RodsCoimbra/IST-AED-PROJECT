@@ -11,15 +11,15 @@
 
 /** \brief escolhe com base na leitura do ficheiro qual dos modos A's usar
  * \param int **maze: array de duas dimensões que contém o labirinto
- * \param int l: linha da peça que está a ser testada 
+ * \param int l: linha da peça que está a ser testada
  * \param int c: coluna da peça que está a ser testada
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
  * \param char *modo: String que contêm o modo de jogo
  * \param int l2: linha da segunda peça do modo A6
  * \param int c2: coluna da segunda peça do modo A6
- * 
- * \return int: resposta ao problema 
+ *
+ * \return int: resposta ao problema
  *
  */
 int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2, int total_salas)
@@ -48,7 +48,7 @@ int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2, 
     else if ((strcmp(modo, "A5")) == 0)
     {
         resp = FA5(maze, l, c, lin, col);
-        if(resp > 0)
+        if (resp > 0)
         {
             resp = 1;
         }
@@ -76,7 +76,7 @@ int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2, 
 /** \brief liberta todo o espaço alocado para a tabela que constitui o labirinto
  * \param int **maze: Array de duas dimensões que contém o labirinto
  * \param int lin: numero de linhas máximas do tabuleiro
- * 
+ *
  * \return void
  *
  */
@@ -90,7 +90,7 @@ void freetabela(int **maze, int lin)
 }
 
 /** \brief verifica se a peça dada nas coordenadas (l,c) está dentro do tabuleiro
- * \param int l: linha da peça que está a ser testada 
+ * \param int l: linha da peça que está a ser testada
  * \param int c: coluna da peça que está a ser testada
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
@@ -107,8 +107,8 @@ int out(int l, int c, int lin, int col)
 
 /** \brief A função procura por "." numa string e "troca" o último "." por um " "
  * \param char *str: string em que queremos procurar os "."
- * 
- * \return void 
+ *
+ * \return void
  *
  */
 void separar(char *str)

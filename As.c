@@ -132,7 +132,7 @@ int FA5(int **maze, int l, int c, int lin, int col)
  * \param int lin: total de linhas do labirinto
  * \param int col: total de colunas do labirinto
  *
- * \return int: devolve -2 se alguma das células estiver do labirinto fora, 1 se estiverem na mesma sala e 0 se isso não acontecer
+ * \return int: devolve 1 se as células estiverem na mesma sala e 0 se isso não acontecer
  */
 int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_salas)
 { /*Baseado no compressed weighted quick union algorithm*/
@@ -236,22 +236,33 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
     {
         for (int q = 0; q <= col; q++)
         {
-            printf("%3d ", maze[p][q]); //"%2d ", id[p * (col + 1) + q]
+            printf("%2d ", maze[p][q]); //"%2d ", id[p * (col + 1) + q]
         }
         printf("\n");
     }
 
+    int k = -3;
     for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col; q++)
         {
             if (maze[p][q] == 0)
             {
-                for (i = p * (col + 1) + q; i != id[i]; i = id[i])
+                for (i = p * (col + 1) + q; id[i] >= 0 && i != id[i]; i = id[i])
                     ;
-                maze[p][q] = -i - 3;
+                if (id[i] >= 0)
+                {
+                    id[i] = k;
+                    k--;
+                }
+                maze[p][q] = id[i];
             }
         }
+    }
+    if ((-k - 3) != total_salas) /////////TIRAR NO FINAL, apenas para teste
+    {
+        printf("\n\n\nDeu problema no numero de salas");
+        exit(0);
     }
     printf("\n\n");
 
@@ -259,16 +270,14 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
     {
         for (int q = 0; q <= col; q++)
         {
-            printf("%3d ", maze[p][q]); // p * (col + 1) + q
+            printf("%2d ", maze[p][q]); // p * (col + 1) + q
         }
         printf("\n");
     }
     printf("\n%d\n", total_salas);
     // Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
-    for (i = (l * (col + 1)) + c; i != id[i]; i = id[i])
-        ;
-    for (j = (l2 * (col + 1)) + c2; j != id[j]; j = id[j])
-        ;
+    i = maze[l][c];
+    j = maze [l2][c2];
     if (i == j)
     {
         free(id);

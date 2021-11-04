@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     {
         fase = 1;
         tamanho = strlen(argv[1]) + 1;
-        fileread = (char *)calloc(1, tamanho * sizeof(char)), filewrite = (char *)calloc(1, (tamanho + 1) * sizeof(char)); // alocação do array que conterá o nome dos ficheiros de leitura e de escrita
+        fileread = (char *)calloc(1, tamanho * sizeof(char)), filewrite = (char *)calloc(1, (tamanho + 2) * sizeof(char)); // alocação do array que conterá o nome dos ficheiros de leitura e de escrita
         if (fileread == NULL || filewrite == NULL)                                                                         // verifica se a alocação de memória foi bem sucedida
         {
             exit(0);
@@ -55,12 +55,12 @@ int main(int argc, char *argv[])
         break;
     }
     }
-    open_files(&fmaze, &fsol, fileread, filewrite);
-    if (fase == 1)  //Se for ficheiros do projeto final
+    open_files(&fmaze, &fsol, fileread, filewrite, fase);
+    if (fase == 1) // Se for ficheiros do projeto final
     {
         Labirinto_fase2(fmaze, fsol);
     }
-    else            //Se for ficheiros do projeto intermedio
+    else // Se for ficheiros do projeto intermedio
     {
         Labirinto_fase1(fmaze, fsol);
     }

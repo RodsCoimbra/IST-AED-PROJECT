@@ -2,7 +2,6 @@
 roap: main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h
 	gcc	-Wall -std=c99 -O3	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h	-o	roap
 
-rm: r r2 r3 r4 r5
 FILES = $(shell ls Enunciado_A6/*.in1)
 Resp1 = $(FILES:.in1=.)
 
@@ -29,18 +28,12 @@ tv:
 	@for F in ${FILES}; do valgrind --leak-check=full ./roap -s $${F}; done;
 	@echo "\n\n\n"
 	@for F in ${Resp1}; do diff -s $${F}sol1 $${F}sol2; done;
+
+
 r: 
-	rm Enunciado_A6/*.sol2
-
-r4:
-	rm Bilhar_Pequeno/*.sol2
-
-r3: 
-	rm Chess_Party/*.sol2
-
-r2:
-	rm Enunciado/*.sol2
-
-r5: 
-	rm Small/*.sol2
-
+	@#rm Bilhar_Pequeno/*.sol2
+	@#rm Chess_Party/*.sol2
+	@#rm Enunciado/*.sol2
+	@rm Enunciado_A6/*.sol2
+	@#rm Small/*.sol2
+	@echo "Removido com sucesso"

@@ -4,6 +4,6 @@
 #include "stdio.h"
 void Labirinto_fase1(FILE *fmaze, FILE *fsol);
 void Labirinto_fase2(FILE *fmaze, FILE *fsol);
-void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite);
+void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite, int fase);
 
 #endif

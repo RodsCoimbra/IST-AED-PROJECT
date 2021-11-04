@@ -2,6 +2,7 @@
 #include "As.h"
 #include "Funcoes_aux.h"
 #include "Ficheiros_dados.h"
+#include "Grafo.h"
 /*bibliotecas*/
 #include <string.h>
 #include <getopt.h>
@@ -228,10 +229,20 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             fprintf(fsol, "-1\n\n");
             continue;
         }
-        FA6(maze, l - 1, c - 1, lin, col, 0, 0, total_salas);
+        if (FA6(maze, l - 1, c - 1, lin - 1, col - 1, 0, 0, total_salas))
+        {
+            fprintf(fsol, "0\n\n");
+            continue;
+        }
         ////////////////////////////Meter resposta aqui
-
-        fprintf(fsol, "%d\n\n", 1);
+        G *g = NULL;
+        if (g == NULL)
+        {
+            freetabela(maze, lin);
+            fechar(fmaze, fsol);
+            exit(0);
+        }
+        fprintf(fsol, "%d\n\n", 5000);
 
         ////////////////////////////////////////////////
     }
@@ -247,7 +258,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
  * \param char *filewrite: string com o nome do ficheiro de saida (.sol1)
  * \return void
  */
-void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite)
+void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite, int fase)
 {
     if ((*fmaze = fopen(fileread, "r")) == NULL)
     {
@@ -257,7 +268,14 @@ void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite)
     }
     separar(fileread);
     sscanf(fileread, " %s", filewrite);
-    strcat(filewrite, ".sol2");
+    if (fase == 1)
+    {
+        strcat(filewrite, ".sol2"); // MUDAR PARA .sol e mudar o tamanho do vetor no main.c
+    }
+    else
+    {
+        strcat(filewrite, ".sol2"); // MUDAR PARA .sol1
+    }
     if ((*fsol = fopen(filewrite, "w")) == NULL)
     { // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
         free(filewrite);
