@@ -11,12 +11,14 @@ typedef struct lista_de_adjacencia
 typedef struct grafo
 {
     ladj **list;
-    int V; /*vertices*/
+    int V; /*Vertices*/
     int E; /*Arestas*/
 } G;
 
 G *Grafoini(int V);
 
-ladj *adjacente(int custo, int no, ladj *g);
+ladj *adjacente(int custo, int no, ladj *list);
+
+void Grafofree(G* g);
 
 #endif

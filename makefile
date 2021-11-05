@@ -1,6 +1,7 @@
 # Makefile do programa roap  
 rop: main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h
 	@rm roap
+	@clear
 	gcc	-Wall -std=c99 -g	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h	-o	roap
 
 FILES = $(shell ls Enunciado_A6/*.in1)
@@ -26,9 +27,10 @@ tr:
 	rm Enunciado_A6/*.sol2
 
 tv:
-	@for F in ${FILES}; do valgrind --leak-check=full ./roap -s $${F}; done;
+	@#for F in ${FILES}; do valgrind --leak-check=full ./roap -s $${F}; done;
+	valgrind --leak-check=full ./roap Enunciado/enunciado104.in
 	@echo "\n\n\n"
-	@for F in ${Resp1}; do diff -s $${F}sol1 $${F}sol2; done;
+	@#for F in ${Resp1}; do diff -s $${F}sol1 $${F}sol2; done;
 
 
 r: 

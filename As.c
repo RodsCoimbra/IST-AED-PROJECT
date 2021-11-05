@@ -109,16 +109,16 @@ int FA4(int **maze, int l, int c, int lin, int col)
 int FA5(int **maze, int l, int c, int lin, int col)
 {
     int direcao = 0;
-    if (maze[l][c] <= 0)
+    if (maze[l][c] == 0 || maze[l][c] == -1)
         return -1;
     else if (out(l, c, lin, col) == -2)
         return -2;
     /*analiza se as duas células vizinhas na vertical ou na horizontal são brancas*/
-    if ((out(l - 1, c, lin, col) != -2) && (out(l + 1, c, lin, col) != -2) && maze[l - 1][c] == 0 && maze[l + 1][c] == 0)
+    if ((out(l - 1, c, lin, col) != -2) && (out(l + 1, c, lin, col) != -2) && maze[l - 1][c] < -2 && maze[l + 1][c] < -2)
     {
         direcao++; // 1 significa é quebrável na horizontal
     }
-    if ((out(l, c + 1, lin, col) != -2) && (out(l, c - 1, lin, col) != -2) && maze[l][c - 1] == 0 && maze[l][c + 1] == 0)
+    if ((out(l, c + 1, lin, col) != -2) && (out(l, c - 1, lin, col) != -2) && maze[l][c - 1] < -2 && maze[l][c + 1] < -2)
     {
         direcao += 2; // 2 significa é quebrável na vertical
     }
@@ -277,7 +277,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
     printf("\n%d\n", total_salas);
     // Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
     i = maze[l][c];
-    j = maze [l2][c2];
+    j = maze[l2][c2];
     if (i == j)
     {
         free(id);

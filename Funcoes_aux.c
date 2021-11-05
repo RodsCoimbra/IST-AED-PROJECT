@@ -139,37 +139,51 @@ void fechar(FILE *fmaze, FILE *fsol)
     fclose(fsol);
 }
 
-int **aresta_barata(int **maze, int lin, int col, int vertices)
+void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
 {
-    int **custo_paredes, k = 0, a = 0, b = 0;
-    custo_paredes = (int **)malloc(vertices * sizeof(int *));
-    for (int i = 0; i < vertices; i++)
-    {
-        custo_paredes[i] = (int *)malloc(sizeof(int) * (vertices - i));
-    }
+    int k = 0, a = 0, b = 0;
+    ladj *aux;
     for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col; q++)
         {
-            if ((k = FA5(maze, p, q, lin, col)) > 0)
+            if ((k = FA5(maze, p, q, lin, col)) > 0) /*ver returns do FA5*/
             {
-                if (k == 1 || k == 3)
+                if (k == 1 || k == 3) /*é quebrável na horizontal*/
                 {
 
                     a = -(maze[p - 1][q]) - 3;
                     b = -(maze[p + 1][q]) - 3;
                     if (a == b)
+                    {
                         continue;
-                    if (a > b && (custo_paredes[a][b] == 0 || custo_paredes[a][b] > maze[p][q]))
-                    {
-                        custo_paredes[a][b] = maze[p][q];
                     }
-                    else if (custo_paredes[b][a] == 0 || custo_paredes[b][a] > maze[p][q])
+                    aux = adjacente(maze[p][q], b, g->list[a]);
+                    if (aux == (NULL + 1))
                     {
-                        custo_paredes[a][b] = maze[p][q];
+                        continue;
                     }
+                    g->list[a] = aux;
+                    g->list[b] = adjacente(maze[p][q], a, g->list[b]);
+                }
+                if (k == 2 || k == 3) /*é quebrável na vertival*/
+                {
+                    a = -(maze[p][q - 1]) - 3;
+                    b = -(maze[p][q + 1]) - 3;
+                    if (a == b)
+                    {
+                        continue;
+                    }
+                    aux = adjacente(maze[p][q], b, g->list[a]);
+                    if (aux == (NULL + 1))
+                    {
+                        continue;
+                    }
+                    g->list[a] = aux;
+                    g->list[b] = adjacente(maze[p][q], a, g->list[b]);
                 }
             }
         }
     }
 }
+// custo_paredes[a][b] == 0 || custo_paredes[a][b] > maze[p][q]

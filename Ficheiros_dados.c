@@ -22,7 +22,7 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
     int total_salas = 0;
     short matriz_alocada = 0;
     char modo[3];
-    int **maze = NULL;//labirinto e matriz das arestas mais baratas
+    int **maze = NULL; // labirinto e matriz das arestas mais baratas
     while (1)
     {
         if (fscanf(fmaze, "%d %d %d %d %s", &lin, &col, &l, &c, modo) != 5)
@@ -131,7 +131,6 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
     short matriz_alocada = 0;
     int **maze = NULL;
     G *g;
-    ladj *aux;
     while (1)
     {
         if (fscanf(fmaze, "%d %d %d %d", &lin, &col, &l, &c) != 4)
@@ -244,7 +243,25 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             fechar(fmaze, fsol);
             exit(0);
         }
-        fprintf(fsol, "%d\n\n", 5000);
+        aresta_barata(maze, lin - 1, col - 1, g->V, g);
+        /*////////////////////////////////////////// So para visualizar
+        ladj *aux;
+        printf("\n\n");
+        for (int i = 0; i < (g->V); i++)
+        {
+            if (g->list[i] != NULL)
+            {
+                printf("%2d->   ", -(i + 3));
+                for (aux = g->list[i]; aux != NULL; aux = aux->next)
+                {
+                    printf("%d:%d  ", -(aux->no + 3), aux->custo);
+                }
+                printf("\n");
+            }
+        }
+        */
+        Grafofree(g);
+        fprintf(fsol, "%d Está errado bongo\n\n", 5000);
 
         ////////////////////////////////////////////////
     }

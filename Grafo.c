@@ -51,34 +51,66 @@ G *Grafoini(int vertices)
  * @param g
  * @return ladj* Se retornar NULL quer dizer erro, não esquecer no código principal
  */
-ladj *adjacente(int custo, int no, ladj *g)
+ladj *adjacente(int custo, int no, ladj *list)
 {
-    ladj *novo = g, *aux, *aux2, aux3;
-    aux = &aux3;
-    aux->next = g;
-    novo = (ladj *)malloc(sizeof(ladj));
-    if (novo == NULL)
+    ladj *novo, *aux2, aux; /*se der erro é porque é preciso aux3*/
+    aux.next = list;
+    if (list != NULL)
     {
-        return NULL;
-    }
-    if (g != NULL)
-    {
-        for (aux2 = aux; aux2->next != NULL && aux2->next->custo <= custo; aux2 = aux2->next)
+        for (aux2 = &aux; aux2->next != NULL && aux2->next->no < no; aux2 = aux2->next)
             ;
-
-        novo->next = aux2->next;
-        aux2->next = novo;
-        novo->no = no;
-        novo->custo = custo;
-        return aux->next;
+        if (aux2->next == NULL || aux2->next->no != no)
+        {
+            novo = (ladj *)malloc(sizeof(ladj));
+            // printf("\n%p", novo);
+            if (novo == NULL)
+            {
+                return NULL;
+            }
+            novo->next = aux2->next;
+            aux2->next = novo;
+            novo->no = no;
+            novo->custo = custo;
+        }
+        else
+        {
+            if (aux2->next->custo > custo)
+            {
+                aux2->next->custo = custo;
+            }
+            else
+            {
+                return NULL + 1;
+            }
+        }
+        return aux.next;
     }
     else
     {
+        novo = (ladj *)malloc(sizeof(ladj));
+        if (novo == NULL)
+        {
+            return NULL;
+        }
         novo->no = no;
         novo->next = NULL;
         novo->custo = custo;
         return novo;
     }
+}
+
+void Grafofree(G *g)
+{
+    for (int i = 0; i < (g->V); i++)
+    {
+        for (ladj *aux = g->list[i], *aux2; aux != NULL; aux = aux2)
+        {
+            aux2 = aux->next;
+            free(aux);
+        }
+    }
+    free(g->list);
+    free(g);
 }
 
 /* Código para testar adjacente
