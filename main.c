@@ -2,6 +2,7 @@
 #include "As.h"
 #include "Funcoes_aux.h"
 #include "Ficheiros_dados.h"
+#include "Grafo.h"
 /*bibliotecas do C*/
 #include <string.h>
 #include <getopt.h>

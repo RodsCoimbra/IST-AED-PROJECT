@@ -17,4 +17,6 @@ typedef struct grafo
 
 G *Grafoini(int V);
 
+ladj *adjacente(int custo, int no, ladj *g);
+
 #endif
