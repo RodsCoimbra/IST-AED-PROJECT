@@ -2,6 +2,7 @@
 #include "As.h"
 #include "Funcoes_aux.h"
 #include "Ficheiros_dados.h"
+#include "Grafo.h"
 /*bibliotecas do C*/
 #include <string.h>
 #include <getopt.h>
@@ -136,4 +137,39 @@ void fechar(FILE *fmaze, FILE *fsol)
 {
     fclose(fmaze);
     fclose(fsol);
+}
+
+int **aresta_barata(int **maze, int lin, int col, int vertices)
+{
+    int **custo_paredes, k = 0, a = 0, b = 0;
+    custo_paredes = (int **)malloc(vertices * sizeof(int *));
+    for (int i = 0; i < vertices; i++)
+    {
+        custo_paredes[i] = (int *)malloc(sizeof(int) * (vertices - i));
+    }
+    for (int p = 0; p <= lin; p++)
+    {
+        for (int q = 0; q <= col; q++)
+        {
+            if ((k = FA5(maze, p, q, lin, col)) > 0)
+            {
+                if (k == 1 || k == 3)
+                {
+
+                    a = -(maze[p - 1][q]) - 3;
+                    b = -(maze[p + 1][q]) - 3;
+                    if (a == b)
+                        continue;
+                    if (a > b && (custo_paredes[a][b] == 0 || custo_paredes[a][b] > maze[p][q]))
+                    {
+                        custo_paredes[a][b] = maze[p][q];
+                    }
+                    else if (custo_paredes[b][a] == 0 || custo_paredes[b][a] > maze[p][q])
+                    {
+                        custo_paredes[a][b] = maze[p][q];
+                    }
+                }
+            }
+        }
+    }
 }

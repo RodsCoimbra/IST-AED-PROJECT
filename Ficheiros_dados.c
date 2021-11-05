@@ -22,7 +22,7 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
     int total_salas = 0;
     short matriz_alocada = 0;
     char modo[3];
-    int **maze = NULL;
+    int **maze = NULL;//labirinto e matriz das arestas mais baratas
     while (1)
     {
         if (fscanf(fmaze, "%d %d %d %d %s", &lin, &col, &l, &c, modo) != 5)
@@ -130,6 +130,8 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
     int total_salas = 0; // talvez para tirar, depois ver
     short matriz_alocada = 0;
     int **maze = NULL;
+    G *g;
+    ladj *aux;
     while (1)
     {
         if (fscanf(fmaze, "%d %d %d %d", &lin, &col, &l, &c) != 4)
@@ -235,7 +237,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             continue;
         }
         ////////////////////////////Meter resposta aqui
-        G *g = NULL;
+        g = Grafoini(total_salas);
         if (g == NULL)
         {
             freetabela(maze, lin);
