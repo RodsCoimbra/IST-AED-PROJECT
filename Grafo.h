@@ -12,13 +12,12 @@ typedef struct grafo
 {
     ladj **list;
     int V; /*Vertices*/
-    int E; /*Arestas*/
 } G;
 
 G *Grafoini(int V);
 
 ladj *adjacente(int custo, int no, ladj *list);
 
-void Grafofree(G* g);
+void Grafofree(G *g);
 
 #endif

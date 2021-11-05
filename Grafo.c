@@ -39,7 +39,6 @@ G *Grafoini(int vertices)
         return NULL;
     }
     g->V = vertices;
-    g->E = 0;
     g->list = (ladj **)calloc(1, sizeof(ladj *) * vertices);
     return g;
 }

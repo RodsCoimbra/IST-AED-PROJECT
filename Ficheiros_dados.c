@@ -244,7 +244,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             exit(0);
         }
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
-        /*////////////////////////////////////////// So para visualizar
+        ////////////////////////////////////////// So para visualizar
         ladj *aux;
         printf("\n\n");
         for (int i = 0; i < (g->V); i++)
@@ -259,7 +259,6 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 printf("\n");
             }
         }
-        */
         Grafofree(g);
         fprintf(fsol, "%d Está errado bongo\n\n", 5000);
 
