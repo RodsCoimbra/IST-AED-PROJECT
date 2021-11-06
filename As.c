@@ -144,14 +144,14 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
     {
         sz[i] = 1;
 
-        if (maze[i / (lin + 1)][i % (lin + 1)] != 0) // tirar no final do projeto, apenas para ajudar a visualizar!!!
+        /*if (maze[i / (lin + 1)][i % (lin + 1)] != 0) // tirar no final do projeto, apenas para ajudar a visualizar!!!
         {
             id[i] = -1;
         }
         else
-        {
-            id[i] = i;
-        }
+        {*/
+        id[i] = i;
+        //}
     }
     // Percorre a matriz toda para conectar horizontalmente as peças
     for (int p = 0; p <= lin; p++)

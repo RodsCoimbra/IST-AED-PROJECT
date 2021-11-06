@@ -4,7 +4,7 @@ rop: main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_da
 	@clear
 	gcc	-Wall -std=c99 -g	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h	-o	roap
 
-FILES = $(shell ls Enunciado/*.in)
+FILES = $(shell ls Bilhar_Pequeno/*.in)
 Resp1 = $(FILES:.in1=.)
 
 t:
@@ -14,6 +14,12 @@ t:
 	@diff -s Enunciado_A6/enunciado601.sol1 Enunciado_A6/enunciado601.sol2
 	@echo "\n"
 	@rm Enunciado_A6/*.sol2
+
+tempo:
+	@for F in ${FILES}; do /usr/bin/time -v ./roap $${F}; done;
+	@echo "\n"
+	@#clear
+	@#for F in ${Resp1}; do diff -s $${F}sol1 $${F}sol2; done;
 
 all:
 	@for F in ${FILES}; do  ./roap $${F}; done;
@@ -35,8 +41,8 @@ tv:
 
 r: 
 	@#rm Bilhar_Pequeno/*.sol2
-	@#rm Chess_Party/*.sol2
-	@rm Enunciado/*.sol2
+	@rm Chess_Party/*.sol2
+	@#rm Enunciado/*.sol2
 	@#rm Enunciado_A6/*.sol2
 	@#rm Small/*.sol2
 	@echo "Removido com sucesso"

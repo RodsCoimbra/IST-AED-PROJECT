@@ -52,7 +52,7 @@ G *Grafoini(int vertices)
  */
 ladj *adjacente(int custo, int no, ladj *list)
 {
-    ladj *novo, *aux2, aux; /*se der erro é porque é preciso aux3*/
+    ladj *novo, *aux2, aux;
     aux.next = list;
     if (list != NULL)
     {

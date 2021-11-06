@@ -244,22 +244,23 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             exit(0);
         }
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
-        ////////////////////////////////////////// So para visualizar
-        ladj *aux;
         int sala_tesouro = -(maze[l - 1][c - 1] + 3);
-        //printf("\n\n");
+        ////////////////////////////////////////// So para visualizar
+        /*ladj *aux;
+        printf("\n\n");
         for (int i = 0; i < (g->V); i++)
         {
             if (g->list[i] != NULL)
             {
-                //printf("%2d->   ", i);
+                printf("%2d->   ", i);
                 for (aux = g->list[i]; aux != NULL; aux = aux->next)
                 {
-                    // printf("%d:%d  ", aux->no, aux->custo);
+                    printf("%d:%d  ", aux->no, aux->custo);
                 }
-                //printf("\n");
+                printf("\n");
             }
-        }
+        }*/
+        ///////////////////////////////////////////////
         if (g->list[sala_tesouro] == NULL)
         {
             fprintf(fsol, "-1\n\n");
