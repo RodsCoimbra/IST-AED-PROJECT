@@ -179,7 +179,6 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_s
                     sz[i] += sz[j];
                     t = i;
                 }
-                *(total_salas) = *(total_salas)-1;
                 for (i = p * (col + 1) + q; i != id[i]; i = x)
                 {
                     x = id[i];
@@ -232,17 +231,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_s
             }
         }
     }
-    /*
-    for (int p = 0; p <= lin; p++)
-    {
-        for (int q = 0; q <= col; q++)
-        {
-            printf("%2d ", maze[p][q]); //"%2d ", id[p * (col + 1) + q]
-        }
-        printf("\n");
-    }*/
-
-    int k = -3;
+    *(total_salas) = -3;
     for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col; q++)
@@ -253,30 +242,14 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_s
                     ;
                 if (id[i] >= 0)
                 {
-                    id[i] = k;
-                    k--;
+                    id[i] = *(total_salas);
+                    *(total_salas) -= 1;
                 }
                 maze[p][q] = id[i];
             }
         }
     }
-    if ((-k - 3) != *(total_salas)) /////////TIRAR NO FINAL, apenas para teste
-    {
-        printf("\n\n\nDeu problema no numero de salas");
-        exit(0);
-    }
-    // printf("\n\n");
-    /*
-        for (int p = 0; p <= lin; p++)
-        {
-            for (int q = 0; q <= col; q++)
-            {
-                printf("%2d ", maze[p][q]); // p * (col + 1) + q
-            }
-            printf("\n");
-        }
-    */
-    // printf("\n%d\n", total_salas);
+    *(total_salas) = (-*(total_salas)-3);
     //  Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
     i = maze[l][c];
     j = maze[l2][c2];

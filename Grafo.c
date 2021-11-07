@@ -111,7 +111,7 @@ void Grafofree(G *g)
 }
 
 // Baseado no algoritmo do Dijkstra dos acetatos
-void encontra_caminho(G *g, int sala_do_tesouro)
+void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
 {
     Filaini(g->V);
     int vertice;
@@ -149,6 +149,8 @@ void encontra_caminho(G *g, int sala_do_tesouro)
     ladj *aux;
     int k = 0;
     print *pr = NULL;
+    fprintf(fsol, "%d\n", pesos[sala_do_tesouro]);
+    free(pesos);
     for (int i = sala_do_tesouro; i != 0; i = origem[i])
     {
         for (aux = g->list[i]; (aux != NULL && aux->no != origem[i]); aux = aux->next)
@@ -156,11 +158,13 @@ void encontra_caminho(G *g, int sala_do_tesouro)
         k++;
         pr = printinsert(aux->linha, aux->coluna, aux->custo, pr);
     }
-    printf("%d\n%d\n", pesos[sala_do_tesouro], k);
+    fprintf(fsol, "%d\n", k);
     for (print *aux = pr; aux != NULL; aux = aux->next)
     {
-        printf("%d %d %d\n", aux->linha, aux->coluna, aux->custo);
+        fprintf(fsol, "%d %d %d\n", aux->linha, aux->coluna, aux->custo);
     }
+    printfree(pr);
+    free(origem);
 }
 
 print *printinsert(int linha, int coluna, int custo, print *head)
@@ -185,30 +189,3 @@ void printfree(print *head)
         free(aux);
     }
 }
-
-/* Código para testar adjacente
-    G *g;
-    ladj *aux;
-    g = Grafoini(4);
-    if (g == NULL)
-    {
-        exit(0);
-    }
-    g->list[0] = adjacente(3, 1, g->list[0]);
-    g->list[1] = adjacente(3, 0, g->list[1]);
-    g->list[0] = adjacente(1, 2, g->list[0]);
-    g->list[2] = adjacente(1, 0, g->list[2]);
-    g->list[0] = adjacente(2, 3, g->list[0]);
-    g->list[3] = adjacente(2, 0, g->list[3]);
-    g->list[2] = adjacente(1, 3, g->list[2]);
-    g->list[3] = adjacente(1, 2, g->list[3]);
-    for (int i = 0; i < (g->V); i++)
-    {
-        for (aux = g->list[i]; aux != NULL; aux = aux->next)
-        {
-            printf("%d:%d ", aux->no, aux->custo);
-        }
-        printf("-1\n");
-    }
-
-    exit(0);*/

@@ -128,9 +128,10 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
 void Labirinto_fase2(FILE *fmaze, FILE *fsol)
 {
     int lin = 0, col = 0, parede, l = 0, c = 0, linaux = -2, colaux = -1;
-    int total_salas = 0; // talvez para tirar, depois ver
+    int total_salas = 0;
     short matriz_alocada = 0;
     int **maze = NULL;
+    int sala_tesouro = 0;
     G *g;
     while (1)
     {
@@ -143,7 +144,6 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 fechar(fmaze, fsol);
             }
         }
-        total_salas = lin * col;
         if (fscanf(fmaze, "%d", &parede) != 1)
         {
             fechar(fmaze, fsol);
@@ -153,7 +153,6 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             fprintf(fsol, "0\n\n");
             continue;
         }
-        total_salas -= parede;
         if (out(l - 1, c - 1, lin - 1, col - 1) == -2 || (l == 1 && c == 1))
         {
             for (int i = 0, l1, c1, custo; i < parede; i++)
@@ -245,52 +244,17 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             exit(0);
         }
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
-        int sala_tesouro = -(maze[l - 1][c - 1] + 3);
+        sala_tesouro = -(maze[l - 1][c - 1] + 3);
         matriz_alocada = 0;
         freetabela(maze, lin);
-        ////////////////////////////////////////// So para visualizar
-        /*Filaini(9);
-        Filainsert(5, 4);
-        Filainsert(6, 2);
-        Filainsert(8, 9);
-        Filainsert(7, 8);
-        Filainsert(1, 3);
-        Filainsert(2, 2);
-        Filainsert(3, 5);
-        Filainsert(4, 4);
-        Filainsert(7, 2);
-
-        for (int i = 0; i < 9; i++)
-        {
-            printf("%d\n", Proximo_na_fila());
-            //  Proximo_na_fila();
-            //      printf("  %d", Free);
-        }
-        printf("\n\n");
-        exit(0);*/
-        /*ladj *aux;
-        for (int i = 0; i < (g->V); i++)
-        {
-            if (g->list[i] != NULL)
-            {
-                printf("%2d->   ", i);
-                for (aux = g->list[i]; aux != NULL; aux = aux->next)
-                {
-                    printf("%d:%d  ", aux->no, aux->custo);
-                }
-                printf("\n");
-            }
-        }*/
-        ///////////////////////////////////////////////
         if (g->list[sala_tesouro] == NULL)
         {
             fprintf(fsol, "-1\n\n");
             continue;
         }
-        encontra_caminho(g, sala_tesouro);
+        encontra_caminho(g, sala_tesouro, fsol);
         Grafofree(g);
         freefila();
-        fprintf(fsol, "%d Está errado bongo\n\n", 5000);
 
         ////////////////////////////////////////////////
     }
