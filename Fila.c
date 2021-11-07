@@ -91,7 +91,7 @@ int Proximo_na_fila()
     fila[0] = fila[Free];
     fila[Free] = aux;
     FixDown();
-    return fila[Free][1];
+    return fila[Free][0];
 }
 
 void freefila()

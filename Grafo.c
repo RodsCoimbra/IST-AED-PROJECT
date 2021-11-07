@@ -3,6 +3,7 @@
 #include "Funcoes_aux.h"
 #include "Ficheiros_dados.h"
 #include "Grafo.h"
+#include "Fila.h"
 /*bibliotecas*/
 #include <string.h>
 #include <getopt.h>
@@ -109,9 +110,41 @@ void Grafofree(G *g)
     free(g);
 }
 
+// Baseado no algoritmo do Dijkstra dos acetatos
 void encontra_caminho(G *g, int sala_do_tesouro)
 {
-    int v;
+    Filaini(g->V);
+    int vertice;
+    int *origem = (int *)malloc(g->V * sizeof(int)), *pesos = (int *)malloc(g->V * sizeof(int));
+    if (origem == NULL || pesos == NULL)
+    {
+        exit(0);
+    }
+    for (int i = 0; i < g->V; i++)
+    {
+        origem[i] = max;
+        pesos[i] = max;
+    }
+
+    Filainsert(g->list[0]->no, g->list[0]->custo);
+    pesos[0] = 0;
+    while (Free != 0)
+    {
+        vertice = Proximo_na_fila();
+        if (vertice == sala_do_tesouro)
+        {
+            continue;
+        }
+        for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)
+        { // Para depois testar no if(pesos[sala_do_tesouro] == -1 || pesos[sala_do_tesouro] <)
+            if ((pesos[aux->no] > (pesos[vertice] + aux->custo) || pesos[aux->no] == -1))
+            {
+                Filainsert(aux->no, aux->custo);
+                pesos[aux->no] = pesos[vertice] + aux->custo;
+                origem[aux->no] = vertice;
+            }
+        }
+    }
 }
 
 /* Código para testar adjacente
