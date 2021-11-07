@@ -137,8 +137,8 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
             continue;
         }
         for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)
-        { // Para depois testar no if(pesos[sala_do_tesouro] == -1 || pesos[sala_do_tesouro] <)
-            if ((pesos[aux->no] > (pesos[vertice] + aux->custo) || pesos[aux->no] == -1))
+        {
+            if (pesos[aux->no] == -1 || ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && (pesos[sala_do_tesouro] == -1 || ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro]))))
             {
                 Filainsert(aux->no, aux->custo);
                 pesos[aux->no] = pesos[vertice] + aux->custo;
@@ -150,6 +150,12 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     int k = 0;
     print *pr = NULL;
     fprintf(fsol, "%d\n", pesos[sala_do_tesouro]);
+    if (pesos[sala_do_tesouro] == -1)
+    {
+        free(pesos);
+        free(origem);
+        return;
+    }
     free(pesos);
     for (int i = sala_do_tesouro; i != 0; i = origem[i])
     {

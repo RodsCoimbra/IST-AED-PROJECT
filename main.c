@@ -39,6 +39,10 @@ int main(int argc, char *argv[])
         break;
     default:
     {
+        if (argc != 2)
+        {
+            exit(0);
+        }
         fase = 1;
         tamanho = strlen(argv[1]) + 1;
         fileread = (char *)calloc(1, tamanho * sizeof(char)), filewrite = (char *)calloc(1, (tamanho + 2) * sizeof(char)); // alocação do array que conterá o nome dos ficheiros de leitura e de escrita

@@ -265,7 +265,6 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         encontra_caminho(g, sala_tesouro, fsol);
         Grafofree(g);
         freefila();
-
         ////////////////////////////////////////////////
     }
     if (matriz_alocada == 1)
@@ -296,7 +295,7 @@ void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite, int 
     }
     else
     {
-        strcat(filewrite, ".sol2"); // MUDAR PARA .sol1
+        strcat(filewrite, ".sol1"); // MUDAR PARA .sol1
     }
     if ((*fsol = fopen(filewrite, "w")) == NULL)
     { // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
