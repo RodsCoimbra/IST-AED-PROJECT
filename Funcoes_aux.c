@@ -195,4 +195,3 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
         }
     }
 }
-// custo_paredes[a][b] == 0 || custo_paredes[a][b] > maze[p][q]
