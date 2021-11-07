@@ -247,6 +247,8 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         sala_tesouro = -(maze[l - 1][c - 1] + 3);
         matriz_alocada = 0;
         freetabela(maze, lin);
+        linaux = -2;
+        colaux = -1;
         if (g->list[sala_tesouro] == NULL)
         {
             fprintf(fsol, "-1\n\n");

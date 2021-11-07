@@ -15,32 +15,32 @@ Resp1 = $(FILES:.in1=.)
 
 t:
 	@clear
-	@./roap Enunciado/enunciado104.in
+	@valgrind --leak-check=full -s ./roap Enunciado/enunciado116.in
 	@echo "\n"
-	@diff -s Enunciado/enunciado104.sol Enunciado/enunciado104.sol2
-	@rm Enunciado/*.sol2
+	@#diff -s Enunciado/enunciado116.sol Enunciado/enunciado116.sol2
+	@#rm Enunciado/*.sol2
 
 time:
 	@for F in ${FILES}; do /usr/bin/time -v ./roap $${F}; done;
 	@echo "\n"
 	@#clear
-	@#for F in ${Resp1}; do diff -s $${F}sol1 $${F}sol2; done;
+	@#for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 
 all:
 	@for F in ${FILES}; do  ./roap $${F}; done;
-	@#clear
-	@for F in ${Resp1}; do diff -s $${F}sol1 $${F}sol2; done;
+	@clear
+	@for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 	
 tr:
 	@for F in ${FILES}; do  ./roap $${F}; done;
 	@clear
-	@for F in ${Resp1}; do diff -s $${F}sol1 $${F}sol2; done;
+	@for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 	rm Enunciado_A6/*.sol2
 
 tv:
 	@for F in ${FILES}; do valgrind --leak-check=full ./roap $${F}; done;
 	@echo "\n\n\n"
-	@#for F in ${Resp1}; do diff -s $${F}sol1 $${F}sol2; done;
+	@#for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 
 r: 
 	@#rm Bilhar_Pequeno/*.sol2 
