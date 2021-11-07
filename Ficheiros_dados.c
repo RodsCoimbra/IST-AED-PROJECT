@@ -246,21 +246,29 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         }
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
         int sala_tesouro = -(maze[l - 1][c - 1] + 3);
-
+        matriz_alocada = 0;
+        freetabela(maze, lin);
         ////////////////////////////////////////// So para visualizar
-        /*Filaini(5);
-        Filainsert(*(g->list[3]));
-        Filainsert(*(g->list[3]->next));
-        Filainsert(*(g->list[4]));
+        /*Filaini(9);
+        Filainsert(5, 4);
+        Filainsert(6, 2);
+        Filainsert(8, 9);
+        Filainsert(7, 8);
+        Filainsert(1, 3);
+        Filainsert(2, 2);
+        Filainsert(3, 5);
+        Filainsert(4, 4);
+        Filainsert(7, 2);
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 9; i++)
         {
-            // printf("%d\n", Free);
-            printf("\n%d %d\n", fila[i].custo, fila[i].no);
+            printf("%d\n", Proximo_na_fila());
+            //  Proximo_na_fila();
+            //      printf("  %d", Free);
         }
         printf("\n\n");
-        // exit(0);*/
-        ladj *aux;
+        exit(0);*/
+        /*ladj *aux;
         for (int i = 0; i < (g->V); i++)
         {
             if (g->list[i] != NULL)
@@ -272,7 +280,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 }
                 printf("\n");
             }
-        }
+        }*/
         ///////////////////////////////////////////////
         if (g->list[sala_tesouro] == NULL)
         {
@@ -280,6 +288,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             continue;
         }
         Grafofree(g);
+        freefila();
         fprintf(fsol, "%d Está errado bongo\n\n", 5000);
 
         ////////////////////////////////////////////////

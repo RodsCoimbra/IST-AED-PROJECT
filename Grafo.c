@@ -25,6 +25,10 @@ G *Grafoini(int vertices)
     }
     g->V = vertices;
     g->list = (ladj **)calloc(1, sizeof(ladj *) * vertices);
+    if (g->list == NULL)
+    {
+        return NULL;
+    }
     return g;
 }
 /**
@@ -103,6 +107,11 @@ void Grafofree(G *g)
     }
     free(g->list);
     free(g);
+}
+
+void encontra_caminho(G *g, int sala_do_tesouro)
+{
+    int v;
 }
 
 /* Código para testar adjacente

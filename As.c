@@ -138,7 +138,15 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
 { /*Baseado no compressed weighted quick union algorithm*/
     int i = 0, j = 0, x = 0, t = 0;
     int *id = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
+    if (*id == NULL)
+    {
+        exit(0);
+    }
     int *sz = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
+    if (*sz == NULL)
+    {
+        exit(0);
+    }
     // Inicialização das variáveis
     for (i = 0; i < ((lin + 1) * (col + 1)); i++)
     {
@@ -265,7 +273,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
         printf("\n\n\nDeu problema no numero de salas");
         exit(0);
     }
-    //printf("\n\n");
+    // printf("\n\n");
 
     /*
     for (int p = 0; p <= lin; p++)
@@ -277,8 +285,8 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
         printf("\n");
     }
     */
-    //printf("\n%d\n", total_salas);
-    // Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
+    // printf("\n%d\n", total_salas);
+    //  Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
     i = maze[l][c];
     j = maze[l2][c2];
     if (i == j)
