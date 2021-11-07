@@ -126,8 +126,9 @@ void encontra_caminho(G *g, int sala_do_tesouro)
         pesos[i] = max;
     }
 
-    Filainsert(g->list[0]->no, g->list[0]->custo);
+    Filainsert(0, 0);
     pesos[0] = 0;
+    origem[0] = 0;
     while (Free != 0)
     {
         vertice = Proximo_na_fila();
@@ -144,6 +145,44 @@ void encontra_caminho(G *g, int sala_do_tesouro)
                 origem[aux->no] = vertice;
             }
         }
+    }
+    ladj *aux;
+    int k = 0;
+    print *pr = NULL;
+    for (int i = sala_do_tesouro; i != 0; i = origem[i])
+    {
+        for (aux = g->list[i]; (aux != NULL && aux->no != origem[i]); aux = aux->next)
+            ;
+        k++;
+        pr = printinsert(aux->linha, aux->coluna, aux->custo, pr);
+    }
+    printf("%d\n%d\n", pesos[sala_do_tesouro], k);
+    for (print *aux = pr; aux != NULL; aux = aux->next)
+    {
+        printf("%d %d %d\n", aux->linha, aux->coluna, aux->custo);
+    }
+}
+
+print *printinsert(int linha, int coluna, int custo, print *head)
+{
+    print *novo = (print *)malloc(sizeof(print));
+    if (novo == NULL)
+    {
+        exit(0);
+    }
+    novo->next = head;
+    novo->linha = linha;
+    novo->custo = custo;
+    novo->coluna = coluna;
+    return novo;
+}
+
+void printfree(print *head)
+{
+    for (print *aux = head, *aux2; aux != NULL; aux = aux2)
+    {
+        aux2 = aux->next;
+        free(aux);
     }
 }
 

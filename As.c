@@ -134,16 +134,16 @@ int FA5(int **maze, int l, int c, int lin, int col)
  *
  * \return int: devolve 1 se as células estiverem na mesma sala e 0 se isso não acontecer
  */
-int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_salas)
+int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_salas)
 { /*Baseado no compressed weighted quick union algorithm*/
     int i = 0, j = 0, x = 0, t = 0;
     int *id = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
-    if (*id == NULL)
+    if (id == NULL)
     {
         exit(0);
     }
     int *sz = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
-    if (*sz == NULL)
+    if (sz == NULL)
     {
         exit(0);
     }
@@ -151,15 +151,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
     for (i = 0; i < ((lin + 1) * (col + 1)); i++)
     {
         sz[i] = 1;
-
-        /*if (maze[i / (lin + 1)][i % (lin + 1)] != 0) // tirar no final do projeto, apenas para ajudar a visualizar!!!
-        {
-            id[i] = -1;
-        }
-        else
-        {*/
         id[i] = i;
-        //}
     }
     // Percorre a matriz toda para conectar horizontalmente as peças
     for (int p = 0; p <= lin; p++)
@@ -187,7 +179,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
                     sz[i] += sz[j];
                     t = i;
                 }
-                total_salas--;
+                *(total_salas) = *(total_salas)-1;
                 for (i = p * (col + 1) + q; i != id[i]; i = x)
                 {
                     x = id[i];
@@ -226,7 +218,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
                     sz[i] += sz[j];
                     t = i;
                 }
-                total_salas--;
+                *(total_salas) = *(total_salas)-1;
                 for (i = p * (col + 1) + q; i != id[i]; i = x)
                 {
                     x = id[i];
@@ -268,22 +260,21 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int total_sa
             }
         }
     }
-    if ((-k - 3) != total_salas) /////////TIRAR NO FINAL, apenas para teste
+    if ((-k - 3) != *(total_salas)) /////////TIRAR NO FINAL, apenas para teste
     {
         printf("\n\n\nDeu problema no numero de salas");
         exit(0);
     }
     // printf("\n\n");
-
     /*
-    for (int p = 0; p <= lin; p++)
-    {
-        for (int q = 0; q <= col; q++)
+        for (int p = 0; p <= lin; p++)
         {
-            printf("%2d ", maze[p][q]); // p * (col + 1) + q
+            for (int q = 0; q <= col; q++)
+            {
+                printf("%2d ", maze[p][q]); // p * (col + 1) + q
+            }
+            printf("\n");
         }
-        printf("\n");
-    }
     */
     // printf("\n%d\n", total_salas);
     //  Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala

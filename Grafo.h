@@ -16,12 +16,22 @@ typedef struct grafo
     int V; /*Vertices*/
 } G;
 
+typedef struct print
+{
+    struct print *next;
+    int custo;
+    short linha;
+    short coluna;
+} print;
+
 G *Grafoini(int V);
 
 ladj *adjacente(int custo, int no, ladj *list, int l, int c);
 
 void Grafofree(G *g);
 
-void encontra_caminho(G *g, int sala_do_tesouro)
+void encontra_caminho(G *g, int sala_do_tesouro);
+void printfree(print *head);
+print *printinsert(int linha, int custo, int coluna, print *head);
 
 #endif

@@ -231,7 +231,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             fprintf(fsol, "-1\n\n");
             continue;
         }
-        if (FA6(maze, l - 1, c - 1, lin - 1, col - 1, 0, 0, total_salas))
+        if (FA6(maze, l - 1, c - 1, lin - 1, col - 1, 0, 0, &total_salas))
         {
             fprintf(fsol, "0\n\n");
             continue;
@@ -287,6 +287,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             fprintf(fsol, "-1\n\n");
             continue;
         }
+        encontra_caminho(g, sala_tesouro);
         Grafofree(g);
         freefila();
         fprintf(fsol, "%d Está errado bongo\n\n", 5000);
