@@ -163,7 +163,6 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     {
         fprintf(fsol, "%d %d %d\n", aux->linha, aux->coluna, aux->custo);
     }
-    fprintf(fsol, "\n");
     printfree(pr);
     free(origem);
 }

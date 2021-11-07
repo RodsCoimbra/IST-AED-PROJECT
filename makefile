@@ -9,8 +9,8 @@ B=Chess_Party
 C=Enunciado
 D=Enunciado_A6
 E=Small
-FILES = $(shell ls ${C}/*.in)
-Resp1 = $(FILES:.in1=.)
+FILES = $(shell ls ${E}/*.in)			#
+Resp1 = $(FILES:.in=.)
 
 
 t:
@@ -28,7 +28,7 @@ time:
 
 all:
 	@for F in ${FILES}; do  ./roap $${F}; done;
-	@clear
+	@#clear
 	@for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 	
 tr:
@@ -38,14 +38,13 @@ tr:
 	rm Enunciado_A6/*.sol2
 
 tv:
-	@for F in ${FILES}; do valgrind --leak-check=full ./roap $${F}; done;
-	@echo "\n\n\n"
-	@#for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
+	@for F in ${FILES}; do valgrind --leak-check=full ./roap $${F} && echo "\n\n\n"; done;
+	@for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 
 r: 
-	@#rm Bilhar_Pequeno/*.sol2 
-	@#rm Chess_Party/*.sol2
+	@rm Bilhar_Pequeno/*.sol2 
+	@rm Chess_Party/*.sol2
 	@rm Enunciado/*.sol2
-	@#rm Enunciado_A6/*.sol2
-	@#rm Small/*.sol2
+	@rm Enunciado_A6/*.sol2
+	@rm Small/*.sol2
 	@#echo "Removido com sucesso"

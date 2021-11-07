@@ -129,7 +129,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
 {
     int lin = 0, col = 0, parede, l = 0, c = 0, linaux = -2, colaux = -1;
     int total_salas = 0;
-    short matriz_alocada = 0;
+    short matriz_alocada = 0, flag = 0;
     int **maze = NULL;
     int sala_tesouro = 0;
     G *g;
@@ -144,13 +144,21 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 fechar(fmaze, fsol);
             }
         }
+        if (flag)
+        {
+            fprintf(fsol, "\n\n");
+        }
+        else
+        {
+            flag = 1;
+        }
         if (fscanf(fmaze, "%d", &parede) != 1)
         {
             fechar(fmaze, fsol);
         }
         if (parede == 0)
         {
-            fprintf(fsol, "0\n\n");
+            fprintf(fsol, "0\n");
             continue;
         }
         if (out(l - 1, c - 1, lin - 1, col - 1) == -2 || (l == 1 && c == 1))
@@ -164,11 +172,11 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             }
             if ((l == 1 && c == 1))
             {
-                fprintf(fsol, "0\n\n");
+                fprintf(fsol, "0\n");
             }
             else
             {
-                fprintf(fsol, "-1\n\n");
+                fprintf(fsol, "-1\n");
             }
 
             continue;
@@ -227,12 +235,12 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         }
         if (FA1(maze, l - 1, c - 1, lin - 1, col - 1) != 0)
         {
-            fprintf(fsol, "-1\n\n");
+            fprintf(fsol, "-1\n");
             continue;
         }
         if (FA6(maze, l - 1, c - 1, lin - 1, col - 1, 0, 0, &total_salas))
         {
-            fprintf(fsol, "0\n\n");
+            fprintf(fsol, "0\n");
             continue;
         }
         ////////////////////////////Meter resposta aqui
@@ -251,7 +259,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         colaux = -1;
         if (g->list[sala_tesouro] == NULL)
         {
-            fprintf(fsol, "-1\n\n");
+            fprintf(fsol, "-1\n");
             continue;
         }
         encontra_caminho(g, sala_tesouro, fsol);
