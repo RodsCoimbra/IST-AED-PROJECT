@@ -3,6 +3,7 @@
 #include "Funcoes_aux.h"
 #include "Ficheiros_dados.h"
 #include "Grafo.h"
+#include "Fila.h"
 /*bibliotecas do C*/
 #include <string.h>
 #include <getopt.h>

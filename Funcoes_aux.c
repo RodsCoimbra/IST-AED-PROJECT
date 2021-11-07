@@ -139,6 +139,15 @@ void fechar(FILE *fmaze, FILE *fsol)
     fclose(fsol);
 }
 
+/**
+ * @brief
+ *
+ * @param maze
+ * @param lin
+ * @param col
+ * @param vertices
+ * @param g
+ */
 void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
 {
     int k = 0, a = 0, b = 0;
@@ -158,13 +167,13 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
                     {
                         continue;
                     }
-                    aux = adjacente(maze[p][q], b, g->list[a]);
+                    aux = adjacente(maze[p][q], b, g->list[a], p + 1, q + 1);
                     if (aux == (NULL + 1))
                     {
                         continue;
                     }
                     g->list[a] = aux;
-                    g->list[b] = adjacente(maze[p][q], a, g->list[b]);
+                    g->list[b] = adjacente(maze[p][q], a, g->list[b], p + 1, q + 1);
                 }
                 if (k == 2 || k == 3) /*é quebrável na vertival*/
                 {
@@ -174,13 +183,13 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
                     {
                         continue;
                     }
-                    aux = adjacente(maze[p][q], b, g->list[a]);
+                    aux = adjacente(maze[p][q], b, g->list[a], p + 1, q + 1);
                     if (aux == (NULL + 1))
                     {
                         continue;
                     }
                     g->list[a] = aux;
-                    g->list[b] = adjacente(maze[p][q], a, g->list[b]);
+                    g->list[b] = adjacente(maze[p][q], a, g->list[b], p + 1, q + 1);
                 }
             }
         }

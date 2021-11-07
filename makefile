@@ -1,10 +1,10 @@
 # Makefile do programa roap  
-rop: main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h
-	@rm roap
+rop: main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h Fila.c Fila.h
+	@#rm roap
 	@clear
-	gcc	-Wall -std=c99 -g	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h	-o	roap
+	gcc	-Wall -std=c99 -g	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h Fila.c Fila.h	-o	roap
 
-FILES = $(shell ls Bilhar_Pequeno/*.in)
+FILES = $(shell ls Chess_Party/chess098.in)
 Resp1 = $(FILES:.in1=.)
 
 t:
@@ -41,8 +41,8 @@ tv:
 
 r: 
 	@#rm Bilhar_Pequeno/*.sol2
-	@rm Chess_Party/*.sol2
-	@#rm Enunciado/*.sol2
+	@#rm Chess_Party/*.sol2
+	@rm Enunciado/*.sol2
 	@#rm Enunciado_A6/*.sol2
 	@#rm Small/*.sol2
 	@echo "Removido com sucesso"

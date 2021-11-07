@@ -3,6 +3,7 @@
 #include "Funcoes_aux.h"
 #include "Ficheiros_dados.h"
 #include "Grafo.h"
+#include "Fila.h"
 /*bibliotecas*/
 #include <string.h>
 #include <getopt.h>
@@ -245,9 +246,21 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         }
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
         int sala_tesouro = -(maze[l - 1][c - 1] + 3);
+
         ////////////////////////////////////////// So para visualizar
-        /*ladj *aux;
+        /*Filaini(5);
+        Filainsert(*(g->list[3]));
+        Filainsert(*(g->list[3]->next));
+        Filainsert(*(g->list[4]));
+
+        for (int i = 0; i < 4; i++)
+        {
+            // printf("%d\n", Free);
+            printf("\n%d %d\n", fila[i].custo, fila[i].no);
+        }
         printf("\n\n");
+        // exit(0);*/
+        ladj *aux;
         for (int i = 0; i < (g->V); i++)
         {
             if (g->list[i] != NULL)
@@ -259,7 +272,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 }
                 printf("\n");
             }
-        }*/
+        }
         ///////////////////////////////////////////////
         if (g->list[sala_tesouro] == NULL)
         {

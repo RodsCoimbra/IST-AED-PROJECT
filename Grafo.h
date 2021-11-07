@@ -6,6 +6,8 @@ typedef struct lista_de_adjacencia
     struct lista_de_adjacencia *next;
     int no;
     int custo;
+    int linha;
+    int coluna;
 } ladj;
 
 typedef struct grafo
@@ -16,7 +18,7 @@ typedef struct grafo
 
 G *Grafoini(int V);
 
-ladj *adjacente(int custo, int no, ladj *list);
+ladj *adjacente(int custo, int no, ladj *list, int l, int c);
 
 void Grafofree(G *g);
 

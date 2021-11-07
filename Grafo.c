@@ -9,21 +9,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-/*
-typedef struct lista_de_adjacencia
-{
-    struct lista_de_adjacencia *next;
-    int no;
-    int custo;
-} ladj;
-
-typedef struct grafo
-{
-    ladj **list;
-    int V;
-    int E;
-} G;
-*/
 
 /**
  * @brief
@@ -47,10 +32,12 @@ G *Grafoini(int vertices)
  *
  * @param custo
  * @param no
- * @param g
+ * @param list
+ * @param l
+ * @param c
  * @return ladj* Se retornar NULL quer dizer erro, não esquecer no código principal
  */
-ladj *adjacente(int custo, int no, ladj *list)
+ladj *adjacente(int custo, int no, ladj *list, int l, int c)
 {
     ladj *novo, *aux2, aux;
     aux.next = list;
@@ -70,12 +57,16 @@ ladj *adjacente(int custo, int no, ladj *list)
             aux2->next = novo;
             novo->no = no;
             novo->custo = custo;
+            novo->linha = l;
+            novo->coluna = c;
         }
         else
         {
             if (aux2->next->custo > custo)
             {
                 aux2->next->custo = custo;
+                aux2->next->linha = l;
+                aux2->next->coluna = c;
             }
             else
             {
@@ -94,6 +85,8 @@ ladj *adjacente(int custo, int no, ladj *list)
         novo->no = no;
         novo->next = NULL;
         novo->custo = custo;
+        novo->linha = l;
+        novo->coluna = c;
         return novo;
     }
 }
