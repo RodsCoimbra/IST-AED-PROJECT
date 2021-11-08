@@ -122,7 +122,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     }
     for (int i = 0; i < g->V; i++)
     {
-        origem[i] = max;
+        origem[i] = -1;
         pesos[i] = max;
     }
 
@@ -138,7 +138,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         }
         for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)
         {
-            if ((pesos[aux->no] == -1 || (pesos[aux->no] > (pesos[vertice] + aux->custo))) && (pesos[sala_do_tesouro] == -1 || ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro])))
+            if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro]))
             {
                 Filainsert(aux->no, aux->custo);
                 pesos[aux->no] = pesos[vertice] + aux->custo;
@@ -148,10 +148,10 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     }
     freefila(); // Mudei para aqui, se der erros de valgrind meter de novo no ficheiro_dados
     ladj *aux;
-    int k = 0; //total de paredes partidas na solução final
+    int k = 0; // total de paredes partidas na solução final
     print *pr = NULL;
     fprintf(fsol, "%d\n", pesos[sala_do_tesouro]);
-    if (pesos[sala_do_tesouro] == -1)
+    if (pesos[sala_do_tesouro] == max)
     {
         free(pesos);
         free(origem);

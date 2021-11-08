@@ -1,6 +1,6 @@
 #ifndef Grafo_h
 #define Grafo_h
-#define max -1
+#define max 2147483647
 #include <stdio.h>
 
 typedef struct lista_de_adjacencia

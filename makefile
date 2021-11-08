@@ -15,9 +15,9 @@ Resp1 = $(FILES:.in=.)
 
 t:
 	@clear
-	@/usr/bin/time -v ./roap Chess_Party/chess08.in
+	@/usr/bin/time -v ./roap Chess_Party/chess09.in
 	@echo "\n"
-	@diff -s Chess_Party/chess08.sol Chess_Party/chess08.sol2
+	@diff -s Chess_Party/chess09.sol Chess_Party/chess09.sol2
 	@rm Chess_Party/*.sol2
 
 time:
@@ -43,8 +43,8 @@ tv:
 
 r: 
 	@rm Bilhar_Pequeno/*.sol2 
-	@rm Chess_Party/*.sol2
-	@rm Enunciado/*.sol2
+	@#rm Chess_Party/*.sol2
+	@#rm Enunciado/*.sol2
 	@#rm Enunciado_A6/*.sol2
-	@#rm Small/*.sol2
+	@rm Small/*.sol2
 	@#echo "Removido com sucesso"
