@@ -112,7 +112,7 @@ void Grafofree(G *g)
 
 // Baseado no algoritmo do Dijkstra dos acetatos
 void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
-{
+{ // origem =t; v=vertices; pesos=?; or
     Filaini(g->V);
     int vertice;
     int *origem = (int *)malloc(g->V * sizeof(int)), *pesos = (int *)malloc(g->V * sizeof(int));
@@ -138,7 +138,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         }
         for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)
         {
-            if (pesos[aux->no] == -1 || ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && (pesos[sala_do_tesouro] == -1 || ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro]))))
+            if ((pesos[aux->no] == -1 || (pesos[aux->no] > (pesos[vertice] + aux->custo))) && (pesos[sala_do_tesouro] == -1 || ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro])))
             {
                 Filainsert(aux->no, aux->custo);
                 pesos[aux->no] = pesos[vertice] + aux->custo;
