@@ -112,7 +112,7 @@ void Grafofree(G *g)
 
 // Baseado no algoritmo do Dijkstra dos acetatos
 void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
-{ // origem =t; v=vertices; pesos=?; or
+{ // origem = st; v=vertices; pesos=wt;
     Filaini(g->V);
     int vertice;
     int *origem = (int *)malloc(g->V * sizeof(int)), *pesos = (int *)malloc(g->V * sizeof(int));
@@ -146,6 +146,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
             }
         }
     }
+    freefila(); // Mudei para aqui, se der erros de valgrind meter de novo no ficheiro_dados
     ladj *aux;
     int k = 0;
     print *pr = NULL;

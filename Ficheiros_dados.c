@@ -264,7 +264,6 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         }
         encontra_caminho(g, sala_tesouro, fsol);
         Grafofree(g);
-        freefila();
         ////////////////////////////////////////////////
     }
     if (matriz_alocada == 1)

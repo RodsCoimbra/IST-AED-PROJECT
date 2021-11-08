@@ -15,10 +15,10 @@ Resp1 = $(FILES:.in=.)
 
 t:
 	@clear
-	@valgrind --leak-check=full -s ./roap Enunciado/enunciado116.in
+	@/usr/bin/time -v ./roap Chess_Party/chess09.in
 	@echo "\n"
-	@#diff -s Enunciado/enunciado116.sol Enunciado/enunciado116.sol2
-	@#rm Enunciado/*.sol2
+	@diff -s Chess_Party/chess09.sol Chess_Party/chess09.sol2
+	@rm Chess_Party/*.sol2
 
 time:
 	@#for F in ${FILES}; do /usr/bin/time -v ./roap $${F}; done;
