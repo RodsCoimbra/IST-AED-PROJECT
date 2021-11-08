@@ -42,7 +42,7 @@ G *Grafoini(int vertices)
  * @param c
  * @return ladj* Se retornar NULL quer dizer erro, não esquecer no código principal
  */
-ladj *adjacente(int custo, int no, ladj *list, int l, int c)
+ladj *adjacente(int custo, int no, ladj *list, short l, short c)
 {
     ladj *novo, *aux2, aux;
     aux.next = list;
@@ -141,8 +141,8 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
             if ((pesos[aux->no] == -1 || (pesos[aux->no] > (pesos[vertice] + aux->custo))) && (pesos[sala_do_tesouro] == -1 || ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro])))
             {
                 Filainsert(aux->no, aux->custo);
-                pesos[aux->no] = pesos[vertice] + aux->custo; // wt[w]=wt[v]+t->wt          apagar
-                origem[aux->no] = vertice;  // st[w]=v                                      apagar
+                pesos[aux->no] = pesos[vertice] + aux->custo;
+                origem[aux->no] = vertice;
             }
         }
     }
@@ -173,7 +173,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     free(origem);
 }
 
-print *printinsert(int linha, int coluna, int custo, print *head)
+print *printinsert(short linha, short coluna, int custo, print *head)
 {
     print *novo = (print *)malloc(sizeof(print));
     if (novo == NULL)

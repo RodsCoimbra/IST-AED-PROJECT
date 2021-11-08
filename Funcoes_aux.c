@@ -152,9 +152,9 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
 {
     int k = 0, a = 0, b = 0;
     ladj *aux;
-    for (int p = 0; p <= lin; p++)
+    for (short p = 0; p <= lin; p++)
     {
-        for (int q = 0; q <= col; q++)
+        for (short q = 0; q <= col; q++)
         {
             if ((k = FA5(maze, p, q, lin, col)) > 0) /*ver returns do FA5*/
             {

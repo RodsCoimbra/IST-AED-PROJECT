@@ -8,8 +8,8 @@ typedef struct lista_de_adjacencia
     struct lista_de_adjacencia *next;
     int no;
     int custo;
-    int linha;
-    int coluna;
+    short linha;
+    short coluna;
 } ladj;
 
 typedef struct grafo
@@ -28,12 +28,12 @@ typedef struct print
 
 G *Grafoini(int V);
 
-ladj *adjacente(int custo, int no, ladj *list, int l, int c);
+ladj *adjacente(int custo, int no, ladj *list, short l, short c);
 
 void Grafofree(G *g);
 
 void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol);
 void printfree(print *head);
-print *printinsert(int linha, int custo, int coluna, print *head);
+print *printinsert(short linha, short coluna, int custo, print *head);
 
 #endif

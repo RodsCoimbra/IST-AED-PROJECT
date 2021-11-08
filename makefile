@@ -9,7 +9,7 @@ B=Chess_Party
 C=Enunciado
 D=Enunciado_A6
 E=Small
-FILES = $(shell ls ${A}/*.in)			#
+FILES = $(shell ls ${B}/*.in)			#
 Resp1 = $(FILES:.in=.)
 
 
@@ -27,7 +27,7 @@ time:
 	@#for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 
 all:
-	@#for F in ${FILES}; do  ./roap $${F} && echo "$${F}"; done;
+	@for F in ${FILES}; do  ./roap $${F} && echo "$${F}"; done;
 	@#clear
 	@for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 	
@@ -42,9 +42,9 @@ tv:
 	@#for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 
 r: 
-	@#rm Bilhar_Pequeno/*.sol2 
+	@rm Bilhar_Pequeno/*.sol2 
 	@rm Chess_Party/*.sol2
-	@#rm Enunciado/*.sol2
+	@rm Enunciado/*.sol2
 	@#rm Enunciado_A6/*.sol2
-	@rm Small/*.sol2
+	@#rm Small/*.sol2
 	@#echo "Removido com sucesso"
