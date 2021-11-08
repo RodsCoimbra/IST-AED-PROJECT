@@ -33,7 +33,7 @@ G *Grafoini(int vertices)
     return g;
 }
 /**
- * @brief
+ * @brief interliga os vários nós adjacentes    ??
  *
  * @param custo
  * @param no
@@ -53,7 +53,7 @@ ladj *adjacente(int custo, int no, ladj *list, int l, int c)
         if (aux2->next == NULL || aux2->next->no != no)
         {
             novo = (ladj *)malloc(sizeof(ladj));
-            // printf("\n%p", novo);
+            // printf("\n%p", novo);?
             if (novo == NULL)
             {
                 return NULL;
