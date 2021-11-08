@@ -27,7 +27,7 @@ time:
 	@#for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 
 all:
-	@for F in ${FILES}; do  ./roap $${F} && echo "$${F}"; done;
+	@#for F in ${FILES}; do  ./roap $${F} && echo "$${F}"; done;
 	@#clear
 	@for F in ${Resp1}; do diff -s $${F}sol $${F}sol2; done;
 	
