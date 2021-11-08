@@ -141,8 +141,8 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
             if ((pesos[aux->no] == -1 || (pesos[aux->no] > (pesos[vertice] + aux->custo))) && (pesos[sala_do_tesouro] == -1 || ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro])))
             {
                 Filainsert(aux->no, aux->custo);
-                pesos[aux->no] = pesos[vertice] + aux->custo;
-                origem[aux->no] = vertice;
+                pesos[aux->no] = pesos[vertice] + aux->custo; // wt[w]=wt[v]+t->wt          apagar
+                origem[aux->no] = vertice;  // st[w]=v                                      apagar
             }
         }
     }
