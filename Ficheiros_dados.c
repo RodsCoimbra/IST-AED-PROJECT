@@ -243,7 +243,6 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             fprintf(fsol, "0\n");
             continue;
         }
-        ////////////////////////////Meter resposta aqui
         g = Grafoini(total_salas);
         if (g == NULL)
         {
@@ -260,11 +259,11 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         if (g->list[sala_tesouro] == NULL)
         {
             fprintf(fsol, "-1\n");
+            Grafofree(g);
             continue;
         }
         encontra_caminho(g, sala_tesouro, fsol);
         Grafofree(g);
-        ////////////////////////////////////////////////
     }
     if (matriz_alocada == 1)
         freetabela(maze, lin);
