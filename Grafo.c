@@ -53,7 +53,6 @@ ladj *adjacente(int custo, int no, ladj *list, short l, short c)
         if (aux2->next == NULL || aux2->next->no != no)
         {
             novo = (ladj *)malloc(sizeof(ladj));
-            // printf("\n%p", novo);?
             if (novo == NULL)
             {
                 return NULL;
@@ -114,8 +113,8 @@ void Grafofree(G *g)
 void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
 {
     Filaini(g->V);
-    int vertice;
-    int *origem = (int *)malloc(g->V * sizeof(int)), *pesos = (int *)malloc(g->V * sizeof(int));
+    int vertice = 0;
+    int *origem = (int *)malloc(g->V * sizeof(int)), *pesos = (int *)malloc(g->V * sizeof(int)), *teste = (int *)malloc(g->V * sizeof(int));
     if (origem == NULL || pesos == NULL)
     {
         exit(0);
@@ -124,9 +123,10 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     {
         origem[i] = -1;
         pesos[i] = max;
+        teste[i] = 0;
     }
 
-    Filainsert(0, 0);
+    Filainsert(0, 0, 0);
     pesos[0] = 0;
     origem[0] = 0;
     while (Free != 0)
@@ -138,11 +138,12 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         }
         for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)
         {
-            if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro]))
+            if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) <= pesos[sala_do_tesouro]))
             {
-                Filainsert(aux->no, aux->custo);
+                Filainsert(aux->no, aux->custo, teste[aux->no]);
                 pesos[aux->no] = pesos[vertice] + aux->custo;
                 origem[aux->no] = vertice;
+                teste[aux->no] = aux->custo;
             }
         }
     }

@@ -20,29 +20,73 @@ void Filaini(int vertices)
     }
     for (int i = 0; i < vertices; i++)
     {
-        fila[i] = (int *)calloc(1, 2 * sizeof(int));
+        fila[i] = (int *)malloc(2 * sizeof(int));
         if (fila[i] == NULL)
         {
             exit(0);
         }
         tamanho = vertices;
         Free = 0;
+        fila[i][0] = -1;
+        fila[i][1] = 0;
     }
 }
-void Filainsert(int no, int custo)
+int expoente(int a, int b)
 {
-    if ((Free + 1) <= tamanho)
+    int aux = 1;
+    for (int i = 0; i < b; i++)
     {
-        fila[Free][0] = no;
-        fila[Free][1] = custo;
-        Fixup();
-        Free++;
+        aux *= a;
     }
+    return aux;
 }
-
-void Fixup()
+void Filainsert(int no, int custo, int comparacao_custo)
 {
-    for (int *aux, livre = Free; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
+    static int la = 0;
+    int i = 0, j, k, flag = 1;
+    for (j = 0; i < Free && fila[i][0] != no && flag == 1; j++)
+    {
+        printf("Entrei..  %d", ++la);
+        for (i = expoente(2, i - 1), flag = 0, k = expoente(2, i); i < k && i < Free && fila[i][0] != no; i++)
+        {
+            if (fila[i][1] <= comparacao_custo)
+            {
+                flag = 1;
+            }
+        }
+    }
+    if (fila[i][0] == no)
+    {
+        // printf("k %d %d  ", ++k, fila[i][0]);
+        fila[i][1] = custo;
+        Fixup(i);
+    }
+    else
+    {
+        if ((Free + 1) <= tamanho)
+        {
+            // printf("j %d %d  ", ++k, fila[i][0]);
+            fila[Free][0] = no;
+            fila[Free][1] = custo;
+            Fixup(Free);
+            Free++;
+        }
+        else
+        {
+            printf("excedeu :))");
+            exit(0);
+        }
+    }
+    printf("\n\nsai\n\n");
+    /*for (int i = 0; i < 7; i++)
+    {
+        printf("%d:%d  ", fila[i][0], fila[i][1]);
+    }
+    printf("Free %d\n", Free);*/
+}
+void Fixup(int livre)
+{
+    for (int *aux; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
     {
         aux = fila[livre];
         fila[livre] = fila[(livre - 1) / 2];
