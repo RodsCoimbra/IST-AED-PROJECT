@@ -109,10 +109,10 @@ int FA4(int **maze, int l, int c, int lin, int col)
 int FA5(int **maze, int l, int c, int lin, int col)
 {
     int direcao = 0;
-    if (maze[l][c] == 0 || maze[l][c] == -1)
-        return -1;
-    else if (out(l, c, lin, col) == -2)
+    if (out(l, c, lin, col) == -2)
         return -2;
+    else if (maze[l][c] == 0 || maze[l][c] == -1)
+        return -1;
     /*analiza se as duas células vizinhas na vertical ou na horizontal são brancas*/
     if ((out(l - 1, c, lin, col) != -2) && (out(l + 1, c, lin, col) != -2) && maze[l - 1][c] < -2 && maze[l + 1][c] < -2)
     {

@@ -289,7 +289,7 @@ void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite, int 
     sscanf(fileread, " %s", filewrite);
     if (fase == 1)
     {
-        strcat(filewrite, ".sol2"); // MUDAR PARA .sol e mudar o tamanho do vetor no main.c
+        strcat(filewrite, ".so2"); // MUDAR PARA .sol e mudar o tamanho do vetor no main.c
     }
     else
     {

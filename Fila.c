@@ -14,71 +14,87 @@
 void Filaini(int vertices)
 {
     fila = (int **)malloc(vertices * sizeof(int *));
-    if (fila == NULL)
+    posicao = (int *)malloc(vertices * sizeof(int));
+    if (fila == NULL || posicao == NULL)
     {
         exit(0);
     }
     for (int i = 0; i < vertices; i++)
     {
-        fila[i] = (int *)calloc(1, 2 * sizeof(int));
+        fila[i] = (int *)malloc(2 * sizeof(int));
         if (fila[i] == NULL)
         {
             exit(0);
         }
+        fila[i][0] = -1;
+        fila[i][1] = 0;
+        posicao[i] = -1;
         tamanho = vertices;
         Free = 0;
     }
 }
 void Filainsert(int no, int custo)
 {
-    if ((Free + 1) <= tamanho)
+    if (posicao[no] == -1)
     {
         fila[Free][0] = no;
         fila[Free][1] = custo;
-        Fixup();
+        posicao[no] = Free;
+        Fixup(Free);
         Free++;
+    }
+    else
+    {
+        fila[posicao[no]][1] = custo;
+        Fixup(posicao[no]);
     }
 }
 
-void Fixup()
+void Fixup(int Free)
 {
-    for (int *aux, livre = Free; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
+    for (int *aux, aux2, livre = Free; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
     {
         aux = fila[livre];
         fila[livre] = fila[(livre - 1) / 2];
         fila[(livre - 1) / 2] = aux;
+        aux2 = posicao[fila[livre][0]];
+        posicao[fila[livre][0]] = posicao[fila[(livre - 1) / 2][0]];
+        posicao[fila[(livre - 1) / 2][0]] = aux2;
     }
 }
 
 void FixDown()
 {
-    int N = Free - 1, child, idx = 0;
-    int *aux;
-    // printf("\nFree:%d\n", Free);
-    while ((idx * 2) < N)
+    int N = Free - 1, child, pai = 0;
+    int *aux, aux2;
+    while ((pai * 2) < N)
     {
-        // printf("idx*2->%d N->%d\n", (idx * 2), (N));
-        child = (idx * 2) + 1;
-        aux = fila[idx];
+        child = (pai * 2) + 1;
+        aux = fila[pai];
+        aux2 = posicao[fila[pai][0]];
         if (child == N || fila[child][1] < fila[child + 1][1])
         {
-            if (fila[idx][1] < fila[child][1])
+            if (fila[pai][1] < fila[child][1])
             {
                 break;
             }
-            fila[idx] = fila[child];
+            posicao[fila[pai][0]] = posicao[fila[child][0]];
+            posicao[fila[child][0]] = aux2;
+            fila[pai] = fila[child];
             fila[child] = aux;
-            idx = child;
+            pai = child;
         }
         else
         {
-            if (fila[idx][1] < fila[child + 1][1])
+            if (fila[pai][1] < fila[child + 1][1])
             {
                 break;
             }
-            fila[idx] = fila[child + 1];
+            posicao[fila[pai][0]] = posicao[fila[child + 1][0]];
+            posicao[fila[child + 1][0]] = aux2;
+            fila[pai] = fila[child + 1];
             fila[child + 1] = aux;
-            idx = child + 1;
+            pai = child + 1;
         }
     }
 }
@@ -90,6 +106,8 @@ int Proximo_na_fila()
     aux = fila[0];
     fila[0] = fila[Free];
     fila[Free] = aux;
+    posicao[fila[0][0]] = posicao[fila[Free][0]];
+    posicao[fila[Free][0]] = -1;
     FixDown();
     return fila[Free][0];
 }
@@ -101,4 +119,5 @@ void freefila()
         free(fila[i]);
     }
     free(fila);
+    free(posicao);
 }

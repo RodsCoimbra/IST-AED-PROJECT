@@ -146,9 +146,9 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
             }
         }
     }
-    freefila(); // Mudei para aqui, se der erros de valgrind meter de novo no ficheiro_dados
+    freefila();
     ladj *aux;
-    int k = 0; // total de paredes partidas na solução final
+    int k = 0;
     print *pr = NULL;
     if (pesos[sala_do_tesouro] == max)
     {
