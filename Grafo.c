@@ -140,8 +140,8 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         {
             if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro]))
             {
-                Filainsert(aux->no, aux->custo);
                 pesos[aux->no] = pesos[vertice] + aux->custo;
+                Filainsert(aux->no, pesos[aux->no]);
                 origem[aux->no] = vertice;
             }
         }
@@ -150,13 +150,14 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     ladj *aux;
     int k = 0; // total de paredes partidas na solução final
     print *pr = NULL;
-    fprintf(fsol, "%d\n", pesos[sala_do_tesouro]);
     if (pesos[sala_do_tesouro] == max)
     {
+        fprintf(fsol, "-1\n");
         free(pesos);
         free(origem);
         return;
     }
+    fprintf(fsol, "%d\n", pesos[sala_do_tesouro]);
     free(pesos);
     for (int i = sala_do_tesouro; i != 0; i = origem[i])
     {
