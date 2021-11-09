@@ -29,9 +29,7 @@ typedef struct print
 G *Grafoini(int V);
 
 ladj *adjacente(int custo, int no, ladj *list, short l, short c);
-
 void Grafofree(G *g);
-
 void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol);
 void printfree(print *head);
 print *printinsert(short linha, short coluna, int custo, print *head);

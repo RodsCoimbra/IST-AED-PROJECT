@@ -31,69 +31,40 @@ void Filaini(int vertices)
         fila[i][1] = 0;
     }
 }
-int expoente(int a, int b)
+void Filainsert(int no, int custo, int *pertence_a_fila)
 {
-    int aux = 1;
-    for (int i = 0; i < b; i++)
+    if ((Free + 1) <= tamanho)
     {
-        aux *= a;
-    }
-    return aux;
-}
-void Filainsert(int no, int custo, int comparacao_custo)
-{
-    static int la = 0;
-    int i = 0, j, k, flag = 1;
-    for (j = 0; i < Free && fila[i][0] != no && flag == 1; j++)
-    {
-        printf("Entrei..  %d", ++la);
-        for (i = expoente(2, i - 1), flag = 0, k = expoente(2, i); i < k && i < Free && fila[i][0] != no; i++)
-        {
-            if (fila[i][1] <= comparacao_custo)
-            {
-                flag = 1;
-            }
-        }
-    }
-    if (fila[i][0] == no)
-    {
-        // printf("k %d %d  ", ++k, fila[i][0]);
-        fila[i][1] = custo;
-        Fixup(i);
+        fila[Free][0] = no;
+        fila[Free][1] = custo;
+        pertence_a_fila[no] = Free;
+        Fixup(Free, pertence_a_fila);
+        Free++;
     }
     else
     {
-        if ((Free + 1) <= tamanho)
-        {
-            // printf("j %d %d  ", ++k, fila[i][0]);
-            fila[Free][0] = no;
-            fila[Free][1] = custo;
-            Fixup(Free);
-            Free++;
-        }
-        else
-        {
-            printf("excedeu :))");
-            exit(0);
-        }
+        printf("Rebentou\n");
+        exit(0);
     }
-    printf("\n\nsai\n\n");
-    /*for (int i = 0; i < 7; i++)
-    {
-        printf("%d:%d  ", fila[i][0], fila[i][1]);
-    }
-    printf("Free %d\n", Free);*/
 }
-void Fixup(int livre)
+void Fixup(int livre, int *pertence_a_fila)
 {
-    for (int *aux; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
+    for (int *aux, aux2; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
     {
+        aux2 = pertence_a_fila[fila[(livre - 1) / 2][0]];
+        pertence_a_fila[fila[(livre - 1) / 2][0]] = pertence_a_fila[fila[livre][0]];
+        pertence_a_fila[fila[livre][0]] = aux2;
         aux = fila[livre];
         fila[livre] = fila[(livre - 1) / 2];
         fila[(livre - 1) / 2] = aux;
     }
 }
 
+void MudarPrioridade(int pertence_a_fila, int custo)
+{
+    fila[pertence_a_fila - 1] = custo;
+    Fixup(pertence_a_fila[no], pertence_a_fila);
+}
 void FixDown()
 {
     int N = Free - 1, child, idx = 0;

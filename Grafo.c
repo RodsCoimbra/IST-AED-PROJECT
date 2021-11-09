@@ -114,8 +114,9 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
 {
     Filaini(g->V);
     int vertice = 0;
-    int *origem = (int *)malloc(g->V * sizeof(int)), *pesos = (int *)malloc(g->V * sizeof(int)), *teste = (int *)malloc(g->V * sizeof(int));
-    if (origem == NULL || pesos == NULL)
+    int *origem = (int *)malloc(g->V * sizeof(int)), *pesos = (int *)malloc(g->V * sizeof(int));
+    int *pertence_a_fila = (int *)malloc(g->V * sizeof(int));
+    if (origem == NULL || pesos == NULL || pertence_a_fila == NULL)
     {
         exit(0);
     }
@@ -123,15 +124,16 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     {
         origem[i] = -1;
         pesos[i] = max;
-        teste[i] = 0;
+        pertence_a_fila[i] = -1;
     }
 
-    Filainsert(0, 0, 0);
+    Filainsert(0, 0);
     pesos[0] = 0;
     origem[0] = 0;
     while (Free != 0)
     {
         vertice = Proximo_na_fila();
+        pertence_a_fila[vertice] = NULL;
         if (vertice == sala_do_tesouro)
         {
             continue;
@@ -140,13 +142,21 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         {
             if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) <= pesos[sala_do_tesouro]))
             {
-                Filainsert(aux->no, aux->custo, teste[aux->no]);
+                if (pertence_a_fila[aux->no] == -1)
+                {
+                    Filainsert(aux->no, aux->custo, pertence_a_fila);
+                    pertence_a_fila[aux->no]=Free-1;
+                }
+                else
+                {
+                    MudarPrioridade(pertence_a_fila[aux->no], aux->custo);
+                }
                 pesos[aux->no] = pesos[vertice] + aux->custo;
                 origem[aux->no] = vertice;
-                teste[aux->no] = aux->custo;
             }
         }
     }
+    free(pertence_a_fila);
     freefila(); // Mudei para aqui, se der erros de valgrind meter de novo no ficheiro_dados
     ladj *aux;
     int k = 0; // total de paredes partidas na solução final
