@@ -127,13 +127,13 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         pertence_a_fila[i] = -1;
     }
 
-    Filainsert(0, 0);
+    Filainsert(0, 0, pertence_a_fila);
     pesos[0] = 0;
     origem[0] = 0;
     while (Free != 0)
     {
-        vertice = Proximo_na_fila();
-        pertence_a_fila[vertice] = NULL;
+        vertice = Proximo_na_fila(pertence_a_fila);
+        pertence_a_fila[vertice] = -1;
         if (vertice == sala_do_tesouro)
         {
             continue;
@@ -145,11 +145,11 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
                 if (pertence_a_fila[aux->no] == -1)
                 {
                     Filainsert(aux->no, aux->custo, pertence_a_fila);
-                    pertence_a_fila[aux->no]=Free-1;
+                    pertence_a_fila[aux->no] = Free - 1;
                 }
                 else
                 {
-                    MudarPrioridade(pertence_a_fila[aux->no], aux->custo);
+                    MudarPrioridade(pertence_a_fila, aux->custo, aux->no);
                 }
                 pesos[aux->no] = pesos[vertice] + aux->custo;
                 origem[aux->no] = vertice;

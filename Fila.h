@@ -8,8 +8,8 @@ int expoente(int a, int b);
 void Filaini(int vertices);
 void Filainsert(int no, int custo, int *pertence_a_fila);
 void Fixup(int livre, int *pertence_a_fila);
-void FixDown();
-int Proximo_na_fila();
+void FixDown(int *pertence_a_fila);
+int Proximo_na_fila(int *pertence_a_fila);
 void freefila();
-void MudarPrioridade(int pertence_a_fila, int custo);
+void MudarPrioridade(int *pertence_a_fila, int custo, int no);
 #endif

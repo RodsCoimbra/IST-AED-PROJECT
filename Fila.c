@@ -60,20 +60,21 @@ void Fixup(int livre, int *pertence_a_fila)
     }
 }
 
-void MudarPrioridade(int pertence_a_fila, int custo)
+void MudarPrioridade(int *pertence_a_fila, int custo, int no)
 {
-    fila[pertence_a_fila - 1] = custo;
-    Fixup(pertence_a_fila[no], pertence_a_fila);
+    fila[pertence_a_fila[no] - 1][1] = custo;
+    Fixup(pertence_a_fila[no] - 1, pertence_a_fila);
 }
-void FixDown()
+void FixDown(int *pertence_a_fila)
 {
     int N = Free - 1, child, idx = 0;
-    int *aux;
+    int *aux, aux2;
     // printf("\nFree:%d\n", Free);
     while ((idx * 2) < N)
     {
         // printf("idx*2->%d N->%d\n", (idx * 2), (N));
         child = (idx * 2) + 1;
+        aux2 = pertence_a_fila[fila[idx][0]];
         aux = fila[idx];
         if (child == N || fila[child][1] < fila[child + 1][1])
         {
@@ -81,6 +82,8 @@ void FixDown()
             {
                 break;
             }
+            pertence_a_fila[fila[idx][0]] = pertence_a_fila[fila[child][0]];
+            pertence_a_fila[fila[child][0]] = aux2;
             fila[idx] = fila[child];
             fila[child] = aux;
             idx = child;
@@ -91,6 +94,8 @@ void FixDown()
             {
                 break;
             }
+            pertence_a_fila[fila[idx][0]] = pertence_a_fila[fila[child + 1][0]];
+            pertence_a_fila[fila[child + 1][0]] = aux2;
             fila[idx] = fila[child + 1];
             fila[child + 1] = aux;
             idx = child + 1;
@@ -98,14 +103,14 @@ void FixDown()
     }
 }
 
-int Proximo_na_fila()
+int Proximo_na_fila(int *pertence_a_fila)
 {
     int *aux;
     Free--;
     aux = fila[0];
     fila[0] = fila[Free];
     fila[Free] = aux;
-    FixDown();
+    FixDown(pertence_a_fila);
     return fila[Free][0];
 }
 

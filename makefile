@@ -2,7 +2,7 @@
 rop: main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h Fila.c Fila.h
 	@#rm roap
 	@clear
-	gcc	-Wall -std=c99 -O3	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h Fila.c Fila.h	-o	roap
+	gcc	-Wall -std=c99 -g	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h Fila.c Fila.h	-o	roap
 
 A=Bilhar_Pequeno
 B=Chess_Party
@@ -14,9 +14,9 @@ Resp1 = $(FILES:.in=.)
 
 t:
 	@#clear
-	@/usr/bin/time -v ./roap Chess_Party/chess05.in
+	@/usr/bin/time -v ./roap Chess_Party/chess09.in
 	@#echo "\n"
-	@diff -s Chess_Party/chess05.sol Chess_Party/chess05.sol2
+	@diff -s Chess_Party/chess09.sol Chess_Party/chess09.sol2
 	@#rm Chess_Party/*.sol2
 
 time:
