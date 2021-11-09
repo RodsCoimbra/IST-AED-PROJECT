@@ -53,6 +53,7 @@ ladj *adjacente(int custo, int no, ladj *list, short l, short c)
         if (aux2->next == NULL || aux2->next->no != no)
         {
             novo = (ladj *)malloc(sizeof(ladj));
+            // printf("\n%p", novo);?
             if (novo == NULL)
             {
                 return NULL;
@@ -113,10 +114,9 @@ void Grafofree(G *g)
 void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
 {
     Filaini(g->V);
-    int vertice = 0;
+    int vertice;
     int *origem = (int *)malloc(g->V * sizeof(int)), *pesos = (int *)malloc(g->V * sizeof(int));
-    int *pertence_a_fila = (int *)malloc(g->V * sizeof(int));
-    if (origem == NULL || pesos == NULL || pertence_a_fila == NULL)
+    if (origem == NULL || pesos == NULL)
     {
         exit(0);
     }
@@ -124,39 +124,28 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     {
         origem[i] = -1;
         pesos[i] = max;
-        pertence_a_fila[i] = -1;
     }
 
-    Filainsert(0, 0, pertence_a_fila);
+    Filainsert(0, 0);
     pesos[0] = 0;
     origem[0] = 0;
     while (Free != 0)
     {
-        vertice = Proximo_na_fila(pertence_a_fila);
-        pertence_a_fila[vertice] = -1;
+        vertice = Proximo_na_fila();
         if (vertice == sala_do_tesouro)
         {
             continue;
         }
         for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)
         {
-            if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) <= pesos[sala_do_tesouro]))
+            if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro]))
             {
-                if (pertence_a_fila[aux->no] == -1)
-                {
-                    Filainsert(aux->no, aux->custo, pertence_a_fila);
-                    pertence_a_fila[aux->no] = Free - 1;
-                }
-                else
-                {
-                    MudarPrioridade(pertence_a_fila, aux->custo, aux->no);
-                }
+                Filainsert(aux->no, aux->custo);
                 pesos[aux->no] = pesos[vertice] + aux->custo;
                 origem[aux->no] = vertice;
             }
         }
     }
-    free(pertence_a_fila);
     freefila(); // Mudei para aqui, se der erros de valgrind meter de novo no ficheiro_dados
     ladj *aux;
     int k = 0; // total de paredes partidas na solução final

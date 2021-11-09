@@ -262,75 +262,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             Grafofree(g);
             continue;
         }
-
-        int *pertence_a_fila = (int *)malloc(6 * sizeof(int));
-        for (int i = 0; i < 6; i++)
-        {
-            pertence_a_fila[i] = -1;
-        }
-        Filaini(6);
-        Filainsert(5, 6, pertence_a_fila);
-        for (int i = 0; i < 6; i++)
-        {
-            printf("%d ", pertence_a_fila[i]);
-        }
-        printf("\n");
-        Filainsert(3, 2, pertence_a_fila);
-        for (int i = 0; i < 6; i++)
-        {
-            printf("%d ", pertence_a_fila[i]);
-        }
-        printf("\n");
-        Filainsert(2, 9, pertence_a_fila);
-        for (int i = 0; i < 6; i++)
-        {
-            printf("%d ", pertence_a_fila[i]);
-        }
-        printf("\n");
-        Filainsert(4, 8, pertence_a_fila);
-        for (int i = 0; i < 6; i++)
-        {
-            printf("%d ", pertence_a_fila[i]);
-        }
-        printf("\n");
-        MudarPrioridade(pertence_a_fila, 3, 2);
-        for (int i = 0; i < 6; i++)
-        {
-            printf("%d ", pertence_a_fila[i]);
-        }
-        printf("\n");
-        Filainsert(1, 2, pertence_a_fila);
-        for (int i = 0; i < 6; i++)
-        {
-            printf("%d ", pertence_a_fila[i]);
-        }
-        printf("\n");
-        MudarPrioridade(pertence_a_fila, 1, 3);
-        for (int i = 0; i < 6; i++)
-        {
-            printf("%d ", pertence_a_fila[i]);
-        }
-        printf("\n");
-        MudarPrioridade(pertence_a_fila, 4, 1);
-        for (int i = 0; i < 6; i++)
-        {
-            printf("%d ", pertence_a_fila[i]);
-        }
-        printf("\n");
-        MudarPrioridade(pertence_a_fila, 2, 5);
-        for (int i = 0; i < 6; i++)
-        {
-            printf("%d ", pertence_a_fila[i]);
-        }
-        printf("\n");
-        for (int i = 0; i < 9; i++)
-        {
-            printf("%d\n", Proximo_na_fila(pertence_a_fila));
-            Proximo_na_fila(pertence_a_fila);
-        }
-        printf("\n\n");
-        exit(0);
-        // encontra_caminho(g, sala_tesouro, fsol);
+        encontra_caminho(g, sala_tesouro, fsol);
         Grafofree(g);
     }
     if (matriz_alocada == 1)
