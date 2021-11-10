@@ -142,6 +142,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             else
             {
                 fechar(fmaze, fsol);
+                exit(0);
             }
         }
         if (flag)
@@ -155,19 +156,21 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         if (fscanf(fmaze, "%d", &parede) != 1)
         {
             fechar(fmaze, fsol);
+            exit(0);
         }
-        if (parede == 0)
+        if (parede == 0 && (out(l - 1, c - 1, lin - 1, col - 1) != -2))
         {
             fprintf(fsol, "0\n");
             continue;
         }
-        if (out(l - 1, c - 1, lin - 1, col - 1) == -2 || (l == 1 && c == 1))
+        if ((out(l - 1, c - 1, lin - 1, col - 1) == -2) || (l == 1 && c == 1))
         {
             for (int i = 0, l1, c1, custo; i < parede; i++)
             {
                 if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3)
                 {
                     fechar(fmaze, fsol);
+                    exit(0);
                 }
             }
             if ((l == 1 && c == 1))
@@ -230,6 +233,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3)
             {
                 fechar(fmaze, fsol);
+                exit(0);
             }
             maze[l1 - 1][c1 - 1] = custo;
         }
@@ -250,10 +254,9 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             fechar(fmaze, fsol);
             exit(0);
         }
-        aresta_barata(maze, lin - 1, col - 1, g->V, g);
         sala_tesouro = -(maze[l - 1][c - 1] + 3);
+        aresta_barata(maze, lin - 1, col - 1, g->V, g);
         matriz_alocada = 0;
-        freetabela(maze, lin);
         linaux = -2;
         colaux = -1;
         if (g->list[sala_tesouro] == NULL)

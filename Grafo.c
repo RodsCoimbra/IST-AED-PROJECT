@@ -53,7 +53,6 @@ ladj *adjacente(int custo, int no, ladj *list, short l, short c)
         if (aux2->next == NULL || aux2->next->no != no)
         {
             novo = (ladj *)malloc(sizeof(ladj));
-            // printf("\n%p", novo);?
             if (novo == NULL)
             {
                 return NULL;

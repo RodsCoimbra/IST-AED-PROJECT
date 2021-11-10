@@ -152,7 +152,8 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
 {
     int k = 0, a = 0, b = 0;
     ladj *aux;
-    for (short p = 0; p <= lin; p++)
+    short p;
+    for (p = 0; p <= lin; p++)
     {
         for (short q = 0; q <= col; q++)
         {
@@ -193,5 +194,12 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
                 }
             }
         }
+        if (p >= 2)
+        {
+            free(maze[p - 2]);
+        }
     }
+    free(maze[p - 2]);
+    free(maze[p - 1]);
+    free(maze);
 }

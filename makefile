@@ -6,16 +6,17 @@ A=Bilhar_Pequeno
 B=Chess_Party
 C=Enunciado
 D=Small
-FILES = $(shell ls ${D}/*.in)		
+FILES = $(shell ls ${B}/*.in)		
 Resp1 = $(FILES:.in=.)
 
 
 t:
-	@clear
-	@/usr/bin/time -v ./roap Chess_Party/chess098.in
+	@#clear
+	@#/usr/bin/time -v ./roap Chess_Party/chess05.in
+	@#./roap Enunciado/ola.in
 	@echo "\n"
-	@diff -s Chess_Party/chess098.sol Chess_Party/chess098.so2
-	@rm Chess_Party/*.so2
+	@#diff -s Enunciado/ola.sol Enunciado/ola.so2
+	@#rm Chess_Party/*.so2
 
 time:
 	@#for F in ${FILES}; do /usr/bin/time -v ./roap $${F}; done;
@@ -44,3 +45,8 @@ r:
 	@rm Enunciado/*.so2
 	@rm Small/*.so2
 	@echo "Removido com sucesso"
+
+
+# [] ver fila de prioridades
+# [] como pinta o tabuleiro
+# [] aresta_barata
