@@ -11,11 +11,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/** \brief Lê o ficheiro de entrada, cria os tabuleiros e devolve as respostas no ficheiro de saida
- * \param FILE *fmaze: ficheiro de entrada com os dados
- * \param FILE *fsol: ficheiro de saida com a solução
+/**
+ * @brief Lê o ficheiro de entrada, cria os tabuleiros e devolve as respostas no ficheiro de saida para a 1ª fase do projeto
  *
- * \return void
+ * @param fmaze: ficheiro de entrada com os dados
+ * @param fsol: ficheiro de saida com a solução
+ *
+ * @return void
  */
 void Labirinto_fase1(FILE *fmaze, FILE *fsol)
 {
@@ -23,7 +25,7 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
     int total_salas = 0;
     short matriz_alocada = 0;
     char modo[3];
-    int **maze = NULL; // labirinto e matriz das arestas mais baratas
+    int **maze = NULL;
     while (1)
     {
         if (fscanf(fmaze, "%d %d %d %d %s", &lin, &col, &l, &c, modo) != 5)
@@ -35,8 +37,7 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
                 fechar(fmaze, fsol);
             }
         }
-        total_salas = lin * col;
-        if ((strcmp(modo, "A6")) != 0)
+        if ((strcmp(modo, "A6")) != 0) // caso não seja o modo A6 lê de uma forma, senão lê de outra
         {
             if (fscanf(fmaze, "%d", &parede) != 1)
             {
@@ -50,10 +51,9 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
                 fechar(fmaze, fsol);
             }
         }
-        total_salas -= parede;
-        if (out(l - 1, c - 1, lin - 1, col - 1) == -2 || (((strcmp(modo, "A6")) == 0) && (out(l2 - 1, c2 - 1, lin - 1, col - 1) == -2)))
+        if (out(l - 1, c - 1, lin - 1, col - 1) == -2 || (((strcmp(modo, "A6")) == 0) && (out(l2 - 1, c2 - 1, lin - 1, col - 1) == -2))) // Se algumas das coordenadas está fora do tabuleiro
         {
-            for (int i = 0, l1, c1, custo; i < parede; i++)
+            for (int i = 0, l1, c1, custo; i < parede; i++) // Passar as paredes, mas sem armazenar nada
             {
                 if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3)
                 {
@@ -64,24 +64,24 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
         }
         else
         {
-            matriz_alocada = 1;
-            if (lin != linaux)
+            matriz_alocada = 1; // Flag que diz se a matriz foi alocada
+            if (lin != linaux)  // Caso a matriz já tenha sido alocada com a mesma quantidade de linhas evita de dar free e outro malloc
             {
-                if (linaux != -2)
+                if (linaux != -2) // Caso em que as linhas são diferente e não é a primeira matriz a ser alocada
                 {
                     freetabela(maze, linaux);
                 }
                 linaux = lin;
-                colaux = -1;
+                colaux = -1; // Como foi dado free da tabela toda então a matriz tem de ser de novo alocada e portanto mete-se esta flag a -1 para dizer isso
                 maze = (int **)malloc(lin * sizeof(int *));
                 if (maze == NULL)
                 {
                     exit(0);
                 }
             }
-            if (col != colaux)
+            if (col != colaux) // Caso a matriz já tenha sido alocada com a mesma quantidade de colunas evita de dar free e outro malloc
             {
-                if (colaux != -1)
+                if (colaux != -1) // Caso em que é diferente as colunas e não é a primeira matriz a ser alocada ou a matriz já foi free por causa das linhas diferentes
                 {
                     for (int i = 0; i < lin; i++)
                     {
@@ -98,7 +98,7 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
                 }
                 colaux = col;
             }
-            else
+            else // caso a matriz seja de tamanho exatamente igual ele simplesmente passa a matriz toda a 0
             {
                 for (int i = 0; i < lin; i++)
                 {
@@ -108,7 +108,7 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
                     }
                 }
             }
-            for (int i = 0, l1, c1, custo; i < parede; i++)
+            for (int i = 0, l1, c1, custo; i < parede; i++) // ler as paredes
             {
                 if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3)
                 {
@@ -120,11 +120,18 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
             fprintf(fsol, "%d\n\n", resposta);
         }
     }
-    if (matriz_alocada == 1)
+    if (matriz_alocada == 1) // se tiver uma matriz alocada, então libertá-la
         freetabela(maze, lin);
     fechar(fmaze, fsol);
 }
-
+/**
+ * @brief Lê o ficheiro de entrada, cria os tabuleiros e devolve as respostas no ficheiro de saida para a fase final do projeto
+ *
+ * @param fmaze: ficheiro de entrada com os dados
+ * @param fsol: ficheiro de saida com a solução
+ *
+ * @return void
+ */
 void Labirinto_fase2(FILE *fmaze, FILE *fsol)
 {
     int lin = 0, col = 0, parede, l = 0, c = 0, linaux = -2, colaux = -1;
@@ -145,27 +152,27 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 exit(0);
             }
         }
-        if (flag)
+        if (flag) // Apenas para as respostas darem com os mesmos parágrafos dos testes na página da cadeira
         {
             fprintf(fsol, "\n\n");
         }
         else
         {
-            flag = 1;
+            flag = 1; // Apenas para as respostas darem com os mesmos parágrafos dos testes na página da cadeira
         }
         if (fscanf(fmaze, "%d", &parede) != 1)
         {
             fechar(fmaze, fsol);
             exit(0);
         }
-        if (parede == 0 && (out(l - 1, c - 1, lin - 1, col - 1) != -2))
+        if (parede == 0 && (out(l - 1, c - 1, lin - 1, col - 1) != -2)) // Se não houver parede e o local do tesourofor dentro do tabuleiro
         {
             fprintf(fsol, "0\n");
             continue;
         }
         if ((out(l - 1, c - 1, lin - 1, col - 1) == -2) || (l == 1 && c == 1))
         {
-            for (int i = 0, l1, c1, custo; i < parede; i++)
+            for (int i = 0, l1, c1, custo; i < parede; i++) // apenas para passar as paredes do labirinto atual(sem armazenar)
             {
                 if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3)
                 {
@@ -173,35 +180,35 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                     exit(0);
                 }
             }
-            if ((l == 1 && c == 1))
+            if ((l == 1 && c == 1)) // caso o tesouro esteja nas coordenadas da origem
             {
                 fprintf(fsol, "0\n");
             }
-            else
+            else // caso em que o tesouro está fora do tabuleiro
             {
                 fprintf(fsol, "-1\n");
             }
 
             continue;
         }
-        matriz_alocada = 1;
-        if (lin != linaux)
+        matriz_alocada = 1; // Flag que diz se a matriz foi alocada
+        if (lin != linaux)  // Caso a matriz já tenha sido alocada com a mesma quantidade de linhas evita de dar free e outro malloc
         {
-            if (linaux != -2)
+            if (linaux != -2) // Caso em que as linhas são diferente e não é a primeira matriz a ser alocada
             {
                 freetabela(maze, linaux);
             }
             linaux = lin;
-            colaux = -1;
+            colaux = -1; // Como foi dado free da tabela toda então a matriz tem de ser de novo alocada e portanto mete-se esta flag a -1 para dizer isso
             maze = (int **)malloc(lin * sizeof(int *));
             if (maze == NULL)
             {
                 exit(0);
             }
         }
-        if (col != colaux)
+        if (col != colaux) // Caso a matriz já tenha sido alocada com a mesma quantidade de colunas evita de dar free e outro malloc
         {
-            if (colaux != -1)
+            if (colaux != -1) // Caso em que é diferente as colunas e não é a primeira matriz a ser alocada ou a matriz já foi free por causa das linhas diferentes
             {
                 for (int i = 0; i < lin; i++)
                 {
@@ -218,7 +225,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             }
             colaux = col;
         }
-        else
+        else // caso a matriz seja de tamanho exatamente igual ele simplesmente passa a matriz toda a 0
         {
             for (int i = 0; i < lin; i++)
             {
@@ -228,7 +235,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 }
             }
         }
-        for (int i = 0, l1, c1, custo; i < parede; i++)
+        for (int i = 0, l1, c1, custo; i < parede; i++) // ler as paredes
         {
             if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3)
             {
@@ -237,12 +244,12 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             }
             maze[l1 - 1][c1 - 1] = custo;
         }
-        if (FA1(maze, l - 1, c - 1, lin - 1, col - 1) != 0)
+        if (FA1(maze, l - 1, c - 1, lin - 1, col - 1) != 0) // se a célula do tesouro não for branca
         {
             fprintf(fsol, "-1\n");
             continue;
         }
-        if (FA6(maze, l - 1, c - 1, lin - 1, col - 1, 0, 0, &total_salas))
+        if (FA6(maze, l - 1, c - 1, lin - 1, col - 1, 0, 0, &total_salas)) // se a célula do tesouro estiver na mesma sala
         {
             fprintf(fsol, "0\n");
             continue;
@@ -256,10 +263,10 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         }
         sala_tesouro = -(maze[l - 1][c - 1] + 3);
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
-        matriz_alocada = 0;
-        linaux = -2;
-        colaux = -1;
-        if (g->list[sala_tesouro] == NULL)
+        matriz_alocada = 0;                // retira a flag de matriz alocada visto que esta foi libertada na função aresta_barata
+        linaux = -2;                       // flag visto que a matriz foi libertada
+        colaux = -1;                       // flag visto que a matriz foi libertada
+        if (g->list[sala_tesouro] == NULL) // Se a sala do tesouro não tiver nenhuma sala que consiga chegar
         {
             fprintf(fsol, "-1\n");
             Grafofree(g);
@@ -268,16 +275,20 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         encontra_caminho(g, sala_tesouro, fsol);
         Grafofree(g);
     }
-    if (matriz_alocada == 1)
+    if (matriz_alocada == 1) // se tiver uma matriz alocada, então libertá-la
         freetabela(maze, lin);
     fechar(fmaze, fsol);
 }
 
-/** \brief Lê o ficheiro de entrada, cria os tabuleiros e devolve as respostas no ficheiro de saida
- * \param FILE **fmaze: ficheiro de entrada com os dados
- * \param FILE **fsol: ficheiro de saida com a solução
- * \param char *fileread: string com o nome do ficheiro de entrada (.in1)
- * \param char *filewrite: string com o nome do ficheiro de saida (.sol1)
+/**
+ * @brief Lê o ficheiro de entrada, cria os tabuleiros e devolve as respostas no ficheiro de saida
+ *
+ * @param fmaze: ficheiro de entrada com os dados
+ * @param fsol: ficheiro de saida com a solução
+ * @param fileread: string com o nome do ficheiro de entrada (.in1 ou .in)
+ * @param filewrite: string com o nome do ficheiro de saida (.sol1 ou .sol)
+ * @param fase: 0 se for a 1ª fase do projeto e 1 se for a fase final
+ *
  * \return void
  */
 void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite, int fase)
@@ -288,18 +299,18 @@ void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite, int 
         free(fileread);
         exit(0);
     }
-    separar(fileread);
+    separar(fileread); // separa o ficheiro da sua extensão
     sscanf(fileread, " %s", filewrite);
     if (fase == 1)
     {
-        strcat(filewrite, ".so2"); // MUDAR PARA .sol e mudar o tamanho do vetor no main.c
+        strcat(filewrite, ".so2"); // MUDAR PARA .sol
     }
     else
     {
-        strcat(filewrite, ".sol1"); // MUDAR PARA .sol1
+        strcat(filewrite, ".sol1");
     }
     if ((*fsol = fopen(filewrite, "w")) == NULL)
-    { // Se der erro ao abrir o ficheiro de saida, então o ficheiro de leitura fecha
+    {
         free(filewrite);
         free(fileread);
         fclose(*fmaze);
