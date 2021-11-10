@@ -10,6 +10,20 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#define troca_fila(a, b) \
+    {                    \
+        int *aux;        \
+        aux = a;         \
+        a = b;           \
+        b = aux;         \
+    }
+#define troca_posicoes(a, b) \
+    {                        \
+        int aux;             \
+        aux = a;             \
+        a = b;               \
+        b = aux;             \
+    }
 
 void Filaini(int vertices)
 {
@@ -52,36 +66,27 @@ void Filainsert(int no, int custo)
 
 void Fixup(int Free)
 {
-    for (int *aux, aux2, livre = Free; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
+    for (int livre = Free; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
     {
-        aux = fila[livre];
-        fila[livre] = fila[(livre - 1) / 2];
-        fila[(livre - 1) / 2] = aux;
-        aux2 = posicao[fila[livre][0]];
-        posicao[fila[livre][0]] = posicao[fila[(livre - 1) / 2][0]];
-        posicao[fila[(livre - 1) / 2][0]] = aux2;
+        troca_fila(fila[livre], fila[(livre - 1) / 2]);
+        troca_posicoes(posicao[fila[livre][0]], posicao[fila[(livre - 1) / 2][0]]);
     }
 }
 
 void FixDown()
 {
     int N = Free - 1, child, pai = 0;
-    int *aux, aux2;
     while ((pai * 2) < N)
     {
         child = (pai * 2) + 1;
-        aux = fila[pai];
-        aux2 = posicao[fila[pai][0]];
         if (child == N || fila[child][1] < fila[child + 1][1])
         {
             if (fila[pai][1] < fila[child][1])
             {
                 break;
             }
-            posicao[fila[pai][0]] = posicao[fila[child][0]];
-            posicao[fila[child][0]] = aux2;
-            fila[pai] = fila[child];
-            fila[child] = aux;
+            troca_posicoes(posicao[fila[pai][0]], posicao[fila[child][0]]);
+            troca_fila(fila[pai], fila[child]);
             pai = child;
         }
         else
@@ -90,10 +95,8 @@ void FixDown()
             {
                 break;
             }
-            posicao[fila[pai][0]] = posicao[fila[child + 1][0]];
-            posicao[fila[child + 1][0]] = aux2;
-            fila[pai] = fila[child + 1];
-            fila[child + 1] = aux;
+            troca_posicoes(posicao[fila[pai][0]], posicao[fila[child + 1][0]]);
+            troca_fila(fila[pai], fila[child + 1]);
             pai = child + 1;
         }
     }
@@ -101,11 +104,8 @@ void FixDown()
 
 int Proximo_na_fila()
 {
-    int *aux;
     Free--;
-    aux = fila[0];
-    fila[0] = fila[Free];
-    fila[Free] = aux;
+    troca_fila(fila[0], fila[Free]);
     posicao[fila[0][0]] = posicao[fila[Free][0]];
     posicao[fila[Free][0]] = -1;
     FixDown();
