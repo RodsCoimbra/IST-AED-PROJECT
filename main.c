@@ -15,13 +15,13 @@ int main(int argc, char *argv[])
 {
     opterr = 0;
     int opt, tamanho = 0;
-    short fase = 0; // 1 se for projeto final, 0 se for 1ª fase do projeto
+    short fase = 0; // 0 se for 1ª fase do projeto, 1 se for projeto final
     FILE *fmaze = NULL, *fsol = NULL;
     char *fileread = NULL, *filewrite = NULL;
     opt = getopt(argc, argv, "s:"); // recebe os argumentos de entrada ao iniciar o programa
     switch (opt)
     {
-    case 's':
+    case 's': // caso da 1ª fase
         tamanho = strlen(argv[2]) + 1;
         fileread = (char *)calloc(1, tamanho * sizeof(char)), filewrite = (char *)calloc(1, (tamanho + 1) * sizeof(char)); // alocação do array que conterá o nome dos ficheiros de leitura e de escrita
         if (fileread == NULL || filewrite == NULL)                                                                         // verifica se a alocação de memória foi bem sucedida
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
         break;
     default:
     {
-        if (argc != 2)
+        if (argc != 2) // confirma se o programa tem 2
         {
             exit(0);
         }
