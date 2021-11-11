@@ -183,7 +183,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 }
             }
             if ((l == 1 && c == 1)) // caso o tesouro esteja nas coordenadas 1,1
-             {
+            {
                 fprintf(fsol, "0\n");
             }
             else // caso em que o tesouro está fora do tabuleiro
@@ -264,7 +264,18 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             exit(0);
         }
         sala_tesouro = -(maze[l - 1][c - 1] + 3);
+        printf("\n\n%d\n", sala_tesouro);
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
+        ladj *aux;
+        for (int i = 0; i < (g->V); i++)
+        {
+            printf("%d -  ", i);
+            for (aux = g->list[i]; aux != NULL; aux = aux->next)
+            {
+                printf("%d:%d ", aux->no, aux->custo);
+            }
+            printf("-1\n");
+        }
         matriz_alocada = 0;                // retira a flag de matriz alocada visto que esta foi libertada na função aresta_barata
         linaux = -2;                       // flag visto que a matriz foi libertada
         colaux = -1;                       // flag visto que a matriz foi libertada
@@ -275,6 +286,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             continue;
         }
         encontra_caminho(g, sala_tesouro, fsol);
+        printf("\n\n");
         Grafofree(g);
     }
     if (matriz_alocada == 1) // se tiver uma matriz alocada, então libertá-la
@@ -305,7 +317,7 @@ void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite, int 
     sscanf(fileread, " %s", filewrite);
     if (fase == 1)
     {
-        strcat(filewrite, ".sol");
+        strcat(filewrite, ".so2");
     }
     else
     {

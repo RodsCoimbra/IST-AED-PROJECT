@@ -6,14 +6,14 @@ A=Bilhar_Pequeno
 B=Chess_Party
 C=Enunciado
 D=Small
-FILES = $(shell ls ${A}/*.in)		
+FILES = $(shell ls ${B}/*.in)		
 Resp1 = $(FILES:.in=.)
 
 
 t:
-	@#clear
-	@#/usr/bin/time -v ./roap Chess_Party/chess11.in
-	@valgrind --leak-check=full ./roap enu.in
+	@#clear #/usr/bin/time -v 
+	@./roap enu.in
+	@#valgrind --leak-check=full ./roap enu.in
 	@echo "\n"
 	@#diff -s Enunciado/ola.sol Enunciado/ola.so2
 	@#rm Chess_Party/*.so2
@@ -25,9 +25,10 @@ time:
 	@#for F in ${Resp1}; do diff -s $${F}sol $${F}so2; done;
 
 all:
+	@clear
 	@for F in ${FILES}; do  ./roap $${F} && echo "$${F}"; done;
 	@#clear
-	@for F in ${Resp1}; do diff -s $${F}sol $${F}so2; done;
+	@#for F in ${Resp1}; do diff -s $${F}sol $${F}so2; done;
 	
 tr:
 	@for F in ${FILES}; do  ./roap $${F}; done;

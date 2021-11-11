@@ -47,8 +47,8 @@ void Filaini(int vertices)
         {
             exit(0);
         }
-        fila[i][0] = -1;
-        fila[i][1] = 0;
+        fila[i][0] = -1; // coluna 0 é o no
+        fila[i][1] = 0;  // coluna 1 é o custo
         posicao[i] = -1;
         tamanho = vertices;
         Free = 0; /*Total de nós no grafo existentes */
@@ -75,7 +75,6 @@ void Filainsert(int no, int custo)
     }
     else
     {
-        printf("%d %d", )
         fila[posicao[no]][1] = custo;
         Fixup(posicao[no]); /* Coloca o nó que está na posição posicao[no] da lista na posição correta do acervo segunda a ordem de prioridades */
     }
