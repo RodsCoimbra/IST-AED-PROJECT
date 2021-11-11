@@ -7,16 +7,15 @@ B=Chess_Party
 C=Enunciado
 D=Small
 E = Chess
-FILES = $(shell ls ${E}/*.in)		
+FILES = $(shell ls ${A}/*.in)		
 Resp1 = $(FILES:.in=.)
 
 
 t:
-	@#clear #/usr/bin/time -v 
-	@./roap Enunciado/enunciado104.in
-	@#valgrind --leak-check=full ./roap enu.in
+	@clear 
+	@/usr/bin/time -v ./roap Chess/chess098.in
 	@#echo "\n"
-	@#diff -s Enunciado/ola.sol Enunciado/ola.so2
+	@diff -s Chess/chess098.sol Chess/chess098.so2
 	@#rm Chess_Party/*.so2
 
 time:
@@ -38,6 +37,7 @@ tr:
 	rm Enunciado_A6/*.sol2
 
 tv:
+	@clear
 	@for F in ${FILES}; do valgrind --leak-check=full ./roap $${F} && echo "\n\n\n"; done;
 	@for F in ${Resp1}; do diff -s $${F}sol $${F}so2; done;
 

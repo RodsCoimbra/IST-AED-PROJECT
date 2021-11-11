@@ -290,11 +290,6 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             continue;
         }
         encontra_caminho(g, sala_tesouro, fsol);
-
-        ///////////////////////Retirar!!!!!!!!!
-        // printf("\n\n");
-
-        ////////////////////////
         Grafofree(g);
     }
     if (matriz_alocada == 1) // se tiver uma matriz alocada, então libertá-la

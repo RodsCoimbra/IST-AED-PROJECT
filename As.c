@@ -149,158 +149,185 @@ int FA5(int **maze, int l, int c, int lin, int col)
  */
 int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_salas)
 { /*Baseado no compressed weighted quick union algorithm*/
-    int i = 0, j = 0, x = 0, t = 0;
+    int i = 0, j = 0, x = 0, t = 0, k, m, f, h;
     int *sz = (int *)malloc((lin + 1) * (col + 1) * sizeof(int));
     if (sz == NULL)
     {
         exit(0);
     }
+
     // Inicialização das variáveis
     for (int p = 0; p <= lin; p++)
     {
-        for (int q = 0; q <= col - 1; q++)
+        for (int q = 0; q <= col; q++)
         {
             sz[p * (col + 1) + q] = 1;
-            if (maze[p][q] > 0)
+            if (maze[p][q] > 0) // Se forem paredes quebráveis
             {
                 maze[p][q] = -(maze[p][q]) - 1; // faz o simétrico das paredes e retira 1 para distinguir as paredes inquebráveis
             }
-            printf("%d:%d -> %d\n", p + 1, q + 1, maze[p][q]);
-        }
-        exit(0);
-        // Percorre a matriz toda para conectar horizontalmente as peças
-        for (int p = 0; p <= lin; p++)
-        {
-            for (int q = 0; q <= col - 1; q++)
-            { // Vê se as duas coordenadas são células brancas para poder conectar
-                if (maze[p][q] >= 0 && maze[p][q + 1] >= 0)
-                { // Percorre o i e o j até chegar ao nó
-                    for (; i != maze[p][q]; i = maze[p][q], p = i / (col + 1), q = i % (col + 1))
-                        ;
-                    for (int k = p, l = q + 1; j != maze[k][l]; j = maze[k][l], k = j / (col + 1), l = j % (col + 1))
-                        ;
-                    //////////está tudo até aqui
-                    if (i == j)
-                        continue;
-                    if (sz[i] < sz[j]) /*escolhe qual é o menor para facilitar a união*/
-                    {
-                        id[i] = j;
-                        sz[j] += sz[i];
-                        t = j;
-                    }
-                    else
-                    {
-                        id[j] = i;
-                        sz[i] += sz[j];
-                        t = i;
-                    }
-                    for (i = p * (col + 1) + q; i != id[i]; i = x)
-                    {
-                        x = id[i];
-                        id[i] = t;
-                    }
-                    for (j = p * (col + 1) + q + 1; j != id[j]; j = x)
-                    {
-                        x = id[j];
-                        id[j] = t;
-                    }
-                }
-            }
-        }
-        // Percorre a matriz toda para conectar verticalmente as peças
-        for (int p = 0; p <= lin - 1; p++)
-        {
-            for (int q = 0; q <= col; q++)
+            else if (maze[p][q] == 0) // Se forem célula branca
             {
-                if (maze[p][q] >= 0 && maze[p + 1][q] >= 0)
-                {
-                    for (i = p * (col + 1) + q; i != id[i]; i = id[i])
-                        ;
-                    for (j = (p + 1) * (col + 1) + q; j != id[j]; j = id[j])
-                        ;
-                    if (i == j)
-                        continue;
-                    if (sz[i] < sz[j]) /*escolhe qual é o menor para facilitar a união*/
-                    {
-                        id[i] = j;
-                        sz[j] += sz[i];
-                        t = j;
-                    }
-                    else
-                    {
-                        id[j] = i;
-                        sz[i] += sz[j];
-                        t = i;
-                    }
-                    *(total_salas) = *(total_salas)-1;
-                    for (i = p * (col + 1) + q; i != id[i]; i = x)
-                    {
-                        x = id[i];
-                        id[i] = t;
-                    }
-                    for (j = (p + 1) * (col + 1) + q; j != id[j]; j = x)
-                    {
-                        x = id[j];
-                        id[j] = t;
-                    }
-                }
+                maze[p][q] = p * (col + 1) + q;
             }
         }
-        *(total_salas) = -3; // começa em -3 porque >0 são paredes, -1 parede inquebrável e -2 fora do maze
-        for (int p = 0; p <= lin; p++)
-        {
-            for (int q = 0; q <= col; q++)
-            {
-                if (maze[p][q] == 0) // Se for branca
+    }
+    // Percorre a matriz toda para conectar horizontalmente as peças
+    for (int p = 0; p <= lin; p++)
+    {
+        for (int q = 0; q <= col - 1; q++)
+        { // Vê se as duas coordenadas são células brancas para poder conectar
+            if (maze[p][q] >= 0 && maze[p][q + 1] >= 0)
+            { // Percorre o i e o j até chegar ao nó
+                for (i = p * (col + 1) + q, f = p, h = q; i != maze[f][h]; i = maze[f][h], f = i / (col + 1), h = i % (col + 1))
+                    ;
+                for (j = p * (col + 1) + q + 1, k = p, m = q + 1; j != maze[k][m]; j = maze[k][m], k = j / (col + 1), m = j % (col + 1))
+                    ;
+                if (i == j)
+                    continue;
+                if (sz[i] < sz[j]) /*escolhe qual é o menor para facilitar a união*/
                 {
-                    for (i = p * (col + 1) + q; id[i] >= 0 && i != id[i]; i = id[i]) // percorre a conectividade até chegar a um i==id[i] ou até o id[i] ser negativo
-                        ;
-                    if (id[i] >= 0) // Caso em que ainda nenhuma célula daquela sala está pintada na conectividade e portanto cria
-                    {
-                        id[i] = *(total_salas);
-                        *(total_salas) -= 1;
-                    }
-                    maze[p][q] = id[i];
-                }
-            }
-        }
-        *(total_salas) = (-*(total_salas)-3);
-
-        ///////////////////////////////////////////////////PRINTS
-        /* for (int p = 0; p <= lin; p++)
-        {
-            for (int q = 0; q <= col; q++)
-                if (maze[p][q] != -1 && maze[p][q] < 0)
-                {
-                    printf("\033[0;37m%4d ", -(maze[p][q]) - 3); //"%2d ", id[p * (col + 1) + q]
+                    maze[f][h] = j;
+                    sz[j] += sz[i];
+                    t = j;
                 }
                 else
                 {
-                    if (maze[p][q] == -1)
+                    maze[k][m] = i;
+                    sz[i] += sz[j];
+                    t = i;
+                }
+                for (i = p * (col + 1) + q, f = p, h = q; i != maze[f][h]; i = x, f = i / (col + 1), h = i % (col + 1))
+                {
+                    x = maze[f][h];
+                    maze[f][h] = t;
+                }
+                for (j = p * (col + 1) + q + 1, k = p, m = q + 1; j != maze[k][m]; j = x, k = j / (col + 1), m = j % (col + 1))
+                {
+                    x = maze[k][m];
+                    maze[k][m] = t;
+                }
+            }
+        }
+    }
+    // Percorre a matriz toda para conectar verticalmente as peças
+    for (int p = 0; p <= lin - 1; p++)
+    {
+        for (int q = 0; q <= col; q++)
+        {
+            if (maze[p][q] >= 0 && maze[p + 1][q] >= 0)
+            {
+                for (i = p * (col + 1) + q, f = p, h = q; i != maze[f][h]; i = maze[f][h], f = i / (col + 1), h = i % (col + 1))
+                    ;
+                for (j = (p + 1) * (col + 1) + q, k = p + 1, m = q; j != maze[k][m]; j = maze[k][m], k = j / (col + 1), m = j % (col + 1))
+                    ;
+                if (i == j)
+                    continue;
+                if (sz[i] < sz[j]) /*escolhe qual é o menor para facilitar a união*/
+                {
+                    maze[f][h] = j;
+                    sz[j] += sz[i];
+                    t = j;
+                }
+                else
+                {
+                    maze[k][m] = i;
+                    sz[i] += sz[j];
+                    t = i;
+                }
+                for (i = p * (col + 1) + q, f = p, h = q; i != maze[f][h]; i = x, f = i / (col + 1), h = i % (col + 1))
+                {
+                    x = maze[f][h];
+                    maze[f][h] = t;
+                }
+                for (j = (p + 1) * (col + 1) + q, k = p + 1, m = q; j != maze[k][m]; j = x, k = j / (col + 1), m = j % (col + 1))
+                {
+                    x = maze[k][m];
+                    maze[k][m] = t;
+                }
+            }
+        }
+    }
+
+    for (int p = 0; p <= lin; p++)
+    {
+        for (int q = 0; q <= col; q++)
+        {
+            if (maze[p][q] < 0)
+            {
+                sz[p * (col + 1) + q] = maze[p][q]; // passar as paredes para o size para as ir buscar depois
+            }
+        }
+    }
+
+    *(total_salas) = -3; // começa em -3 porque > 0 são paredes, -1 parede inquebrável e -2 fora do maze
+    for (int p = 0; p <= lin; p++)
+    {
+        for (int q = 0; q <= col; q++)
+        {
+            if (maze[p][q] >= 0) // Se for branca
+            {
+                for (i = p * (col + 1) + q, f = p, h = q; maze[f][h] >= 0 && i != maze[f][h]; i = maze[f][h], f = i / (col + 1), h = i % (col + 1))
+                    ;
+                if (maze[f][h] >= 0) // Caso em que ainda nenhuma célula daquela sala está pintada na conectividade e portanto cria
+                {
+                    maze[f][h] = *(total_salas); // Pinta as salas a começar em -3 e vai descendo
+                    *(total_salas) -= 1;
+                }
+                maze[p][q] = maze[f][h];
+            }
+            else
+            {
+                if (sz[p * (col + 1) + q] < 0) // Caso seja uma das paredes passadas anteriormente para o size
+                {
+                    if (sz[p * (col + 1) + q] == -1) // Se for parede inquebrável(-1) basta colocar -1 no maze[p][q]
                     {
-                        printf("\033[1;33m%4d\033[0;37m ", maze[p][q]);
+                        maze[p][q] = sz[p * (col + 1) + q];
                     }
                     else
                     {
-                        printf("\033[1;36m%4d\033[0;37m ", maze[p][q]);
+                        maze[p][q] = -(sz[p * (col + 1) + q]) - 1; // Se for parede quebrável faz o simétrico de
+                                                                   // volta e substrai - 1 para voltar ao valor original da parede
                     }
                 }
-            printf("\n");
-        } */
-
-        //////////////////////////////////////////////////////
-
-        //  Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
-        i = maze[l][c];
-        j = maze[l2][c2];
-        if (i == j)
-        {
-            free(sz);
-            return 1; /*as duas células estão na mesma sala*/
-        }
-        else
-        {
-            free(sz);
-            return 0; /*as duas células estão em salas diferentes*/
+            }
         }
     }
+    *(total_salas) = (-*(total_salas)-3);
+    ///////////////////////////////////////////////////PRINTS
+    /* for (int p = 0; p <= lin; p++)
+    {
+        for (int q = 0; q <= col; q++)
+            if (maze[p][q] != -1 && maze[p][q] < 0)
+            {
+                printf("\033[0;37m%4d ", -(maze[p][q]) - 3); //"%2d ", id[p * (col + 1) + q]
+            }
+            else
+            {
+                if (maze[p][q] == -1)
+                {
+                    printf("\033[1;33m%4d\033[0;37m ", maze[p][q]);
+                }
+                else
+                {
+                    printf("\033[1;36m%4d\033[0;37m ", maze[p][q]);
+                }
+            }
+        printf("\n");
+    } */
+
+    //////////////////////////////////////////////////////
+
+    //  Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
+    i = maze[l][c];
+    j = maze[l2][c2];
+    free(sz);
+    if (i == j)
+    {
+        return 1; /*as duas células estão na mesma sala*/
+    }
+    else
+    {
+        return 0; /*as duas células estão em salas diferentes*/
+    }
+}
