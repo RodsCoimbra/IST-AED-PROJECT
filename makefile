@@ -7,7 +7,7 @@ B=Chess_Party
 C=Enunciado
 D=Small
 E = Chess
-FILES = $(shell ls ${A}/*.in)		
+FILES = $(shell ls ${E}/*.in)		
 Resp1 = $(FILES:.in=.)
 
 
@@ -29,7 +29,7 @@ all:
 	@clear
 	@for F in ${FILES}; do  ./roap $${F} && echo "$${F}"; done;
 	@#clear
-	@for F in ${Resp1}; do diff -s $${F}sol $${F}so2; done;
+	@for F in ${Resp1}; do diff -s $${F}sol $${F}so2 && rm $${F}so2; done;
 	
 tr:
 	@for F in ${FILES}; do  ./roap $${F}; done;
