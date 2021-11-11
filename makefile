@@ -12,8 +12,8 @@ Resp1 = $(FILES:.in=.)
 
 t:
 	@#clear
-	@/usr/bin/time -v ./roap Chess_Party/chess11.in
-	@#./roap Enunciado/enu.in
+	@#/usr/bin/time -v ./roap Chess_Party/chess11.in
+	@./roap Enunciado/enu.in
 	@echo "\n"
 	@#diff -s Enunciado/ola.sol Enunciado/ola.so2
 	@#rm Chess_Party/*.so2

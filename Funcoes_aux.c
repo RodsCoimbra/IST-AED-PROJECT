@@ -213,7 +213,10 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
             free(maze[p - 2]);
         }
     }
-    free(maze[p - 2]);
+    if (lin != 0)
+    {
+        free(maze[p - 2]);
+    }
     free(maze[p - 1]);
     free(maze);
 }
