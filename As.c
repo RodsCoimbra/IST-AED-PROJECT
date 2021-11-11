@@ -264,8 +264,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_s
     }
     *(total_salas) = (-*(total_salas)-3);
 
-
-///////////////////////////////////////////////////PRINTS
+    ///////////////////////////////////////////////////PRINTS
     /* for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col; q++)
@@ -287,7 +286,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_s
         printf("\n");
     } */
 
-//////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////
 
     //  Percorre o i e o j até chegar ao nó e se no final forem iguais quer dizer que estão na mesma sala
     i = maze[l][c];
