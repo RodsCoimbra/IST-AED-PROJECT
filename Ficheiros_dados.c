@@ -42,6 +42,7 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
             if (fscanf(fmaze, "%d", &parede) != 1)
             {
                 fechar(fmaze, fsol);
+                exit(0);
             }
         }
         else
@@ -49,6 +50,7 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
             if (fscanf(fmaze, "%d %d %d", &l2, &c2, &parede) != 3)
             {
                 fechar(fmaze, fsol);
+                exit(0);
             }
         }
         if (out(l - 1, c - 1, lin - 1, col - 1) == -2 || (((strcmp(modo, "A6")) == 0) && (out(l2 - 1, c2 - 1, lin - 1, col - 1) == -2))) // Se algumas das coordenadas está fora do tabuleiro
@@ -180,7 +182,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                     exit(0);
                 }
             }
-            if ((l == 1 && c == 1) && (out(l - 1, c - 1, lin - 1, col - 1) != -2)) // caso o tesouro esteja nas coordenadas da origem
+            if ((l == 1 && c == 1)) // caso o tesouro esteja nas coordenadas 1,1
             {
                 fprintf(fsol, "0\n");
             }
