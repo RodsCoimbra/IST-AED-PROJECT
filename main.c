@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
         {
             exit(0);
         }
-        fase = 1;
+        fase = 1; /* Fase final */
         tamanho = strlen(argv[1]) + 1;
         fileread = (char *)calloc(1, tamanho * sizeof(char)), filewrite = (char *)calloc(1, (tamanho + 1) * sizeof(char)); // alocação do array que conterá o nome dos ficheiros de leitura e de escrita
         if (fileread == NULL || filewrite == NULL)                                                                         // verifica se a alocação de memória foi bem sucedida

@@ -180,7 +180,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                     exit(0);
                 }
             }
-            if ((l == 1 && c == 1)) // caso o tesouro esteja nas coordenadas da origem
+            if ((l == 1 && c == 1) && (out(l - 1, c - 1, lin - 1, col - 1) != -2)) // caso o tesouro esteja nas coordenadas da origem
             {
                 fprintf(fsol, "0\n");
             }

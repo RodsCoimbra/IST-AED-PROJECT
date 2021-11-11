@@ -15,7 +15,7 @@
  * @brief Inicializa o grafo com todas as suas variáveis
  *
  * @param vertices: Quantidade de salas diferentes no tabuleiro
- * @return G*: Se retornar NULL quer dizer erro, se não retorna um pointer da struct grafo
+ * @return G*: Se retornar NULL quer dizer erro, senão retorna um pointer da struct grafo
  */
 G *Grafoini(int vertices)
 {
@@ -143,12 +143,12 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         pesos[i] = max;
     }
 
-    Filainsert(0, 0);
+    Filainsert(0, 0, pesos);
     pesos[0] = 0;
     origem[0] = 0;
     while (Free != 0)
     {
-        vertice = Proximo_na_fila();
+        vertice = Proximo_na_fila(pesos);
         if (vertice == sala_do_tesouro)
         {
             continue;
@@ -159,7 +159,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
             if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro]))
             {
                 pesos[aux->no] = pesos[vertice] + aux->custo;
-                Filainsert(aux->no, pesos[aux->no]);
+                Filainsert(aux->no, pesos[aux->no], pesos);
                 origem[aux->no] = vertice; // origem é a sala que se usou para chegar aquele nó
             }
         }

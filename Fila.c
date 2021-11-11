@@ -10,13 +10,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#define troca_fila(a, b) \
-    {                    \
-        int *aux;        \
-        aux = a;         \
-        a = b;           \
-        b = aux;         \
-    }
+
 #define troca_posicoes(a, b) \
     {                        \
         int aux;             \
@@ -24,7 +18,17 @@
         a = b;               \
         b = aux;             \
     }
-
+int Vazia()
+{
+    if (Free == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 /**
  * @brief Inicia uma fila de acervos
  *
@@ -34,7 +38,7 @@
  */
 void Filaini(int vertices)
 {
-    fila = (int **)malloc(vertices * sizeof(int *));
+    fila = (int *)malloc(vertices * sizeof(int));
     posicao = (int *)malloc(vertices * sizeof(int));
     if (fila == NULL || posicao == NULL)
     {
@@ -42,17 +46,11 @@ void Filaini(int vertices)
     }
     for (int i = 0; i < vertices; i++)
     {
-        fila[i] = (int *)malloc(2 * sizeof(int));
-        if (fila[i] == NULL)
-        {
-            exit(0);
-        }
-        fila[i][0] = -1;
-        fila[i][1] = 0;
+        fila[i] = 0;
         posicao[i] = -1;
-        tamanho = vertices;
-        Free = 0; /*Total de nós no grafo existentes */
     }
+    tamanho = vertices;
+    Free = 0; /*Total de nós no grafo existentes */
 }
 
 /**
@@ -63,23 +61,31 @@ void Filaini(int vertices)
  *
  \return void
  */
-void Filainsert(int no, int custo)
+void Filainsert(int no, int custo, int *pesos)
 {
-    if (posicao[no] == -1) /* Caso ainda não esteja na fila */
+    if (((Free + 1) < tamanho))
     {
-        fila[Free][0] = no;
-        fila[Free][1] = custo;
-        posicao[no] = Free;
-        Fixup(Free); /* Coloca o nó que está na posição "Free" da lista na posição correta do acervo segunda a ordem de prioridades */
+        fila[Free] = no;
+        Fixup(Free, pesos);
         Free++;
-    }
-    else
-    {
-        fila[posicao[no]][1] = custo;
-        Fixup(posicao[no]); /* Coloca o nó que está na posição posicao[no] da lista na posição correta do acervo segunda a ordem de prioridades */
     }
 }
 
+int Comparar(int a, int b, int *pesos)
+{
+    if (pesos[a] > pesos[b])
+    {
+        return 0; /*  O Pai é maior O FILHO SOBE*/
+    }
+    else if (pesos[a] < pesos[b])
+    {
+        return 1; /* O filho é maior */
+    }
+    else
+    {
+        return 69;
+    }
+}
 /**
  * @brief Com o nó passado como argumento, a função eleva-o até este estar na posição correta do acervo segundo a ordem de prioridades
  *
@@ -87,12 +93,12 @@ void Filainsert(int no, int custo)
  *
  \return void
  */
-void Fixup(int Free)
+void Fixup(int Free, int *pesos)
 {
-    for (int livre = Free; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
+    while (Free > 0 && Comparar(fila[(Free - 1) / 2], fila[Free], pesos))
     {
-        troca_fila(fila[livre], fila[(livre - 1) / 2]);
-        troca_posicoes(posicao[fila[livre][0]], posicao[fila[(livre - 1) / 2][0]]);
+        troca_posicoes(fila[Free], fila[(Free - 1) / 2]);
+        Free = (Free - 1) / 2;
     }
 }
 
@@ -102,32 +108,24 @@ void Fixup(int Free)
  *
  \return void
  */
-void FixDown()
+void FixDown(int Free, int N, int *pesos)
 {
-    int N = Free - 1, child, pai = 0;
-    while ((pai * 2) < N)
-    {
-        child = (pai * 2) + 1;                                 /* O pai está sempre na posição (N-1)/2 em relação ao filho sendo N a posição do filho */
-        if (child == N || fila[child][1] < fila[child + 1][1]) // Se o filho for igual a N,ou seja, só existe um filho, ou o filho é menor que o filho + 1, então entra
-        {
-            if (fila[pai][1] < fila[child][1]) /* Se o pai já for menor então o acervo já está ordenado */
-            {
-                break;
-            }
-            troca_posicoes(posicao[fila[pai][0]], posicao[fila[child][0]]);
-            troca_fila(fila[pai], fila[child]);
-            pai = child;
-        }
-        else
-        {
-            if (fila[pai][1] < fila[child + 1][1])
-            {
-                break;
-            }
-            troca_posicoes(posicao[fila[pai][0]], posicao[fila[child + 1][0]]);
-            troca_fila(fila[pai], fila[child + 1]);
-            pai = child + 1;
-        }
+    int Child; /* índice de um nó descendente */
+    while (2 * Free < N - 1)
+    { /* enquanto não chegar às folhas */
+        Child = 2 * Free + 1;
+        /* Selecciona o maior descendente.
+*/
+        /* Nota: se índice Child é N-1, então só há um descendente */
+        if (Child < (N - 1) && Comparar(fila[Child], fila[Child + 1], pesos))
+            Child++;
+        if (!Comparar(fila[Free], fila[Child], pesos))
+            break; /* condição acervo */
+        /* satisfeita
+*/
+        troca_posicoes(fila[Free], fila[Child]);
+        /* continua a descer a árvore */
+        Free = Child;
     }
 }
 
@@ -136,14 +134,13 @@ void FixDown()
  *
  * @return int: elemento com maior prioridade
  */
-int Proximo_na_fila()
+int Proximo_na_fila(int *pesos) /* aka delmax/delmin */
 {
-    Free--;
-    troca_fila(fila[0], fila[Free]);
-    posicao[fila[0][0]] = posicao[fila[Free][0]];
-    posicao[fila[Free][0]] = -1;
-    FixDown(); /* ao trocar o primeiro com o ultimo elemento da fila, esta função reorganiza a fila de forma a respeitar as prioridades */
-    return fila[Free][0];
+    /* troca maior elemento com último da tabela e reordena com FixDown */
+    troca_posicoes(fila[0], fila[Free - 1]);
+    FixDown(0, Free - 1, pesos);
+    /* ultimo elemento não considerado na reordenação */
+    return fila[--Free];
 }
 
 /**
@@ -154,10 +151,7 @@ int Proximo_na_fila()
  */
 void freefila()
 {
-    for (int i = 0; i < tamanho; i++)
-    {
-        free(fila[i]);
-    }
+
     free(fila);
     free(posicao);
 }

@@ -6,7 +6,7 @@ A=Bilhar_Pequeno
 B=Chess_Party
 C=Enunciado
 D=Small
-FILES = $(shell ls ${A}/*.in)		
+FILES = $(shell ls ${B}/*.in)		
 Resp1 = $(FILES:.in=.)
 
 
