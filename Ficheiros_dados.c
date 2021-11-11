@@ -303,7 +303,7 @@ void open_files(FILE **fmaze, FILE **fsol, char *fileread, char *filewrite, int 
     sscanf(fileread, " %s", filewrite);
     if (fase == 1)
     {
-        strcat(filewrite, ".so2"); // MUDAR PARA .sol
+        strcat(filewrite, ".sol");
     }
     else
     {
