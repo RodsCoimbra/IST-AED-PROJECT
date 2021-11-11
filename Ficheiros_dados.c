@@ -183,7 +183,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 }
             }
             if ((l == 1 && c == 1)) // caso o tesouro esteja nas coordenadas 1,1
-            {
+             {
                 fprintf(fsol, "0\n");
             }
             else // caso em que o tesouro está fora do tabuleiro

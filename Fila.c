@@ -75,6 +75,7 @@ void Filainsert(int no, int custo)
     }
     else
     {
+        printf("%d %d", )
         fila[posicao[no]][1] = custo;
         Fixup(posicao[no]); /* Coloca o nó que está na posição posicao[no] da lista na posição correta do acervo segunda a ordem de prioridades */
     }
