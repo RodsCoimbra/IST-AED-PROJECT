@@ -1,6 +1,6 @@
 # Makefile do programa roap  
 roap: main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h Fila.c Fila.h 
-	gcc	-Wall -std=c99 -g	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h Fila.c Fila.h	-o	roap
+	gcc	-Wall -std=c99 -O3	main.c Funcoes_aux.c Ficheiros_dados.c As.c As.h Funcoes_aux.h Ficheiros_dados.h Grafo.c Grafo.h Fila.c Fila.h	-o	roap
 
 A=Bilhar_Pequeno
 B=Chess_Party
@@ -12,8 +12,8 @@ Resp1 = $(FILES:.in=.)
 
 t:
 	@#clear
-	@#/usr/bin/time -v ./roap Chess_Party/chess05.in
-	@./roap Enunciado/enu.in
+	@/usr/bin/time -v ./roap Chess_Party/chess11.in
+	@#./roap Enunciado/enu.in
 	@echo "\n"
 	@#diff -s Enunciado/ola.sol Enunciado/ola.so2
 	@#rm Chess_Party/*.so2
@@ -45,8 +45,3 @@ r:
 	@rm Enunciado/*.so2
 	@rm Small/*.so2
 	@echo "Removido com sucesso"
-
-
-# [] ver fila de prioridades
-# [] como pinta o tabuleiro
-# [] aresta_barata

@@ -125,14 +125,27 @@ int FA5(int **maze, int l, int c, int lin, int col)
     return direcao; // 3 significa é quebrável em ambas as direcoes
 }
 
-/** \brief indica se a célula de coordenadas (l,c) e a célula de coordenadas (l2,c2) pertencem à mesma sala
- * \param int **maze: array de duas dimensões que contém o labirinto
+/** \brief
+ * \param int **maze
  * \param int l: linha da peça que está a ser testada
  * \param int c: coluna da peça que está a ser testada
- * \param int lin: total de linhas do labirinto
- * \param int col: total de colunas do labirinto
  *
  * \return int: devolve 1 se as células estiverem na mesma sala e 0 se isso não acontecer
+ */
+
+/**
+ * @brief indica se a célula de coordenadas (l,c) e a célula de coordenadas (l2,c2) pertencem à mesma sala e "pinta" as salas
+ *
+ * @param maze: array de duas dimensões que contém o labirinto
+ * @param l: linha da célula que está a ser testada
+ * @param c: coluna da célula que está a ser testada
+ * @param lin: total de linhas do labirinto
+ * @param col: total de colunas do labirinto
+ * @param l2: linha da segunda célula a ser testada
+ * @param c2: coluna da segunda célula a ser testada
+ * @param total_salas: total de salas do labirinto
+ *
+ * @return int: retorna 1 se as células pertencerem à mesma sala, 0 caso contrário
  */
 int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_salas)
 { /*Baseado no compressed weighted quick union algorithm*/
@@ -231,16 +244,16 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_s
             }
         }
     }
-    *(total_salas) = -3;
+    *(total_salas) = -3; // começa em -3 porque >0 são paredes, -1 parede inquebrável e -2 fora do maze
     for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col; q++)
         {
-            if (maze[p][q] == 0)
+            if (maze[p][q] == 0) // Se for branca
             {
-                for (i = p * (col + 1) + q; id[i] >= 0 && i != id[i]; i = id[i])
+                for (i = p * (col + 1) + q; id[i] >= 0 && i != id[i]; i = id[i]) // percorre a conectividade até chegar a um i==id[i] ou até o id[i] ser negativo
                     ;
-                if (id[i] >= 0)
+                if (id[i] >= 0) // Caso em que ainda nenhuma célula daquela sala está pintada na conectividade e portanto cria
                 {
                     id[i] = *(total_salas);
                     *(total_salas) -= 1;

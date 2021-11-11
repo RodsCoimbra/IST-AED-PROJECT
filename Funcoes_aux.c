@@ -10,18 +10,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/** \brief escolhe com base na leitura do ficheiro qual dos modos A's usar
- * \param int **maze: array de duas dimensões que contém o labirinto
- * \param int l: linha da peça que está a ser testada
- * \param int c: coluna da peça que está a ser testada
- * \param int lin: total de linhas do labirinto
- * \param int col: total de colunas do labirinto
- * \param char *modo: String que contêm o modo de jogo
- * \param int l2: linha da segunda peça do modo A6
- * \param int c2: coluna da segunda peça do modo A6
+/**
+ * @brief escolhe com base na leitura do ficheiro qual dos modos A's usar
  *
- * \return int: resposta ao problema
+ * @param maze: array de duas dimensões que contém o labirinto
+ * @param l: linha da peça que está a ser testada
+ * @param c: coluna da peça que está a ser testada
+ * @param lin: total de linhas do labirinto
+ * @param col: total de colunas do labirinto
+ * @param modo: String que contêm o modo de jogo
+ * @param l2: linha da segunda peça do modo A6
+ * @param c2: coluna da segunda peça do modo A6
+ * @param total_salas: Número total de salas existentes
  *
+ * @return int: resposta ao problema
  */
 int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2, int total_salas)
 {
@@ -74,12 +76,13 @@ int mod(int **maze, int l, int c, int lin, int col, char *modo, int l2, int c2, 
     }
 }
 
-/** \brief liberta todo o espaço alocado para a tabela que constitui o labirinto
- * \param int **maze: Array de duas dimensões que contém o labirinto
- * \param int lin: numero de linhas máximas do tabuleiro
+/**
+ * @brief liberta todo o espaço alocado para a tabela que constitui o labirinto
  *
- * \return void
+ * @param maze: Array de duas dimensões que contém o labirinto
+ * @param lin: numero de linhas máximas do tabuleiro
  *
+ * @return void
  */
 void freetabela(int **maze, int lin)
 {
@@ -90,14 +93,24 @@ void freetabela(int **maze, int lin)
     free(maze);
 }
 
-/** \brief verifica se a peça dada nas coordenadas (l,c) está dentro do tabuleiro
- * \param int l: linha da peça que está a ser testada
- * \param int c: coluna da peça que está a ser testada
- * \param int lin: total de linhas do labirinto
- * \param int col: total de colunas do labirinto
+/** \brief
+ * \param int l
+ * \param int c
+ * \param int lin
+ * \param int col
  *
- * \return int: retorna -2 se a célula estiver fora do tabuleiro e 0 se não
+ * \return int
  *
+ */
+
+/**
+ * @brief verifica se a peça dada nas coordenadas (l,c) está dentro do tabuleiro
+ *
+ * @param l: linha da peça que está a ser testada
+ * @param c: coluna da peça que está a ser testada
+ * @param lin: total de linhas do labirinto
+ * @param col: total de colunas do labirinto
+ * @return int: retorna -2 se a célula estiver fora do tabuleiro e 0 se não
  */
 int out(int l, int c, int lin, int col)
 {
@@ -140,13 +153,13 @@ void fechar(FILE *fmaze, FILE *fsol)
 }
 
 /**
- * @brief
+ * @brief Procura a aresta mais barata que junta pares de salas
  *
- * @param maze
- * @param lin
- * @param col
- * @param vertices
- * @param g
+ * @param maze: array de duas dimensões que contém o labirinto
+ * @param lin: total de linhas do mapa
+ * @param col: total de colunas do mapa
+ * @param vertices: total de nós do grafo
+ * @param g: estrutura do grafo que contem a lista dos nós e os vertices
  */
 void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
 {
@@ -157,19 +170,19 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
     {
         for (short q = 0; q <= col; q++)
         {
-            if ((k = FA5(maze, p, q, lin, col)) > 0) /*ver returns do FA5*/
+            if ((k = FA5(maze, p, q, lin, col)) > 0) /*1- parte horizontalmente; 2- parte verticalmente; 3- parte nas duas direções*/
             {
                 if (k == 1 || k == 3) /*é quebrável na horizontal*/
                 {
 
-                    a = -(maze[p - 1][q]) - 3;
+                    a = -(maze[p - 1][q]) - 3; /* O valor do maze é negado pois ao "pintar" as salas com tags foram usados valores negativos a começar no -3 pois estes nao interferem com nenhuma outra implementação e agora é revertido */
                     b = -(maze[p + 1][q]) - 3;
-                    if (a == b)
+                    if (a == b) // Se a parede estiver a separar a mesma sala ignora-se
                     {
                         continue;
                     }
                     aux = adjacente(maze[p][q], b, g->list[a], p + 1, q + 1);
-                    if (aux == (NULL + 1))
+                    if (aux == NULL)
                     {
                         continue;
                     }
@@ -185,7 +198,7 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
                         continue;
                     }
                     aux = adjacente(maze[p][q], b, g->list[a], p + 1, q + 1);
-                    if (aux == (NULL + 1))
+                    if (aux == NULL)
                     {
                         continue;
                     }
@@ -194,7 +207,8 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
                 }
             }
         }
-        if (p >= 2)
+        if (p >= 2) /* Como só se usa a linha de cima e de baixo para a verifação,
+        então as linhas podem ser libertadas à medida que deixam de ser uteis */
         {
             free(maze[p - 2]);
         }

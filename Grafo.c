@@ -12,10 +12,10 @@
 #include <stdio.h>
 
 /**
- * @brief
+ * @brief Inicializa o grafo com todas as suas variáveis
  *
- * @param vertices
- * @return G* Se retornar NULL quer dizer erro, não esquecer no código principal
+ * @param vertices: Quantidade de salas diferentes no tabuleiro
+ * @return G*: Se retornar NULL quer dizer erro, se não retorna um pointer da struct grafo
  */
 G *Grafoini(int vertices)
 {
@@ -33,29 +33,34 @@ G *Grafoini(int vertices)
     return g;
 }
 /**
- * @brief interliga os vários nós adjacentes    ??
+ * @brief Aloca um espaço na lista de adjacencia para uma sala caso esta ainda não exista e coloca lá os dados, senão
+ * percorre a lista para colocar o novo nó adjacente aquela sala de forma a deixar a lista ordenada por nós. Caso já exista
+ * aquele nó em especifico para aquela sala ele simplesmente substitui os dados pelos novos
  *
- * @param custo
- * @param no
- * @param list
- * @param l
- * @param c
- * @return ladj* Se retornar NULL quer dizer erro, não esquecer no código principal
+ * @param custo: custo da parede que separa as duas salas
+ * @param no: nó a que se quer ligar aquela sala
+ * @param list: lista daquela sala
+ * @param l: linha da parede
+ * @param c: coluna da parede
+ * @return ladj*: Se retornar NULL quer dizer que o custo da nova parede era maior, senão retorna aux->next que é a head da lista
  */
 ladj *adjacente(int custo, int no, ladj *list, short l, short c)
 {
     ladj *novo, *aux2, aux;
-    aux.next = list;
+    aux.next = list; // Cria-se uma struct antes que apontará para a antiga(porque pode ser mudada) head da lista
     if (list != NULL)
     {
         for (aux2 = &aux; aux2->next != NULL && aux2->next->no < no; aux2 = aux2->next)
             ;
+        // percorre a lista até aux2->next ser null ou até o nó do aux2->next ser maior ou igual que o no passado na função
+
         if (aux2->next == NULL || aux2->next->no != no)
+        // caso seja NULL ou não encontrou um nó igual ao atual quer dizer que precisa de alocar espaço para esse novo nó
         {
             novo = (ladj *)malloc(sizeof(ladj));
             if (novo == NULL)
             {
-                return NULL;
+                exit(0);
             }
             novo->next = aux2->next;
             aux2->next = novo;
@@ -72,19 +77,19 @@ ladj *adjacente(int custo, int no, ladj *list, short l, short c)
                 aux2->next->linha = l;
                 aux2->next->coluna = c;
             }
-            else
+            else // caso o custo seja maior ou igual ao que já lá estava não se substitui nada e retorna NULL
             {
-                return NULL + 1;
+                return NULL;
             }
         }
-        return aux.next;
+        return aux.next; // retorna a head da lista
     }
-    else
+    else // caso a lista para aquele sala não tenha sido criada ainda então cria
     {
         novo = (ladj *)malloc(sizeof(ladj));
         if (novo == NULL)
         {
-            return NULL;
+            exit(0);
         }
         novo->no = no;
         novo->next = NULL;
@@ -95,6 +100,11 @@ ladj *adjacente(int custo, int no, ladj *list, short l, short c)
     }
 }
 
+/**
+ * @brief Dá free do grafo
+ *
+ * @param g: Grafo que se vai dar free
+ */
 void Grafofree(G *g)
 {
     for (int i = 0; i < (g->V); i++)
@@ -109,6 +119,14 @@ void Grafofree(G *g)
     free(g);
 }
 
+/**
+ * @brief Algoritmo do Dijkstra, que serve para encontrar o caminho mais barato
+ * da sala 0(sala que contém a célula 1,1) até à sala do tesouro
+ *
+ * @param g: Grafo com toda a informação das arestas mais baratos
+ * @param sala_do_tesouro: Sala onde se encontra a célula que se chegar
+ * @param fsol: ficheiro de saida com a solução
+ */
 // Baseado no algoritmo do Dijkstra dos acetatos
 void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
 {
@@ -135,13 +153,14 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         {
             continue;
         }
+        // percorre-se a lista do vértice de maior prioridade
         for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)
-        {
+        { // vê se o peso novo é menor que o guardado anteriormente(max se nunca se foi aquela sala) e que o da sala do tesouro(max se ainda não chegou lá)
             if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) < pesos[sala_do_tesouro]))
             {
                 pesos[aux->no] = pesos[vertice] + aux->custo;
                 Filainsert(aux->no, pesos[aux->no]);
-                origem[aux->no] = vertice;
+                origem[aux->no] = vertice; // origem é a sala que se usou para chegar aquele nó
             }
         }
     }
@@ -149,7 +168,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     ladj *aux;
     int k = 0;
     print *pr = NULL;
-    if (pesos[sala_do_tesouro] == max)
+    if (pesos[sala_do_tesouro] == max) // se o peso for igual a max quer dizer que nunca se chegou lá, logo a resposta será -1
     {
         fprintf(fsol, "-1\n");
         free(pesos);
@@ -158,7 +177,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     }
     fprintf(fsol, "%d\n", pesos[sala_do_tesouro]);
     free(pesos);
-    for (int i = sala_do_tesouro; i != 0; i = origem[i])
+    for (int i = sala_do_tesouro; i != 0; i = origem[i]) // percorre-se a origem do fim para o inicio e guarda-se a linha, a coluna e o custo das paredes numa lista
     {
         for (aux = g->list[i]; (aux != NULL && aux->no != origem[i]); aux = aux->next)
             ;
@@ -166,7 +185,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         pr = printinsert(aux->linha, aux->coluna, aux->custo, pr);
     }
     fprintf(fsol, "%d\n", k);
-    for (print *aux = pr; aux != NULL; aux = aux->next)
+    for (print *aux = pr; aux != NULL; aux = aux->next) // imprime a lista criada com as paredes
     {
         fprintf(fsol, "%d %d %d\n", aux->linha, aux->coluna, aux->custo);
     }
@@ -174,6 +193,15 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     free(origem);
 }
 
+/**
+ * @brief Lista com a linha, a coluna e o custo das paredes a partir
+ *
+ * @param linha: linha da parede
+ * @param coluna: coluna da parede
+ * @param custo: custo da parede
+ * @param head: inicio da lista
+ * @return print: Nova head da lista
+ */
 print *printinsert(short linha, short coluna, int custo, print *head)
 {
     print *novo = (print *)malloc(sizeof(print));
@@ -188,6 +216,11 @@ print *printinsert(short linha, short coluna, int custo, print *head)
     return novo;
 }
 
+/**
+ * @brief Liberta a lista que serviu para dar print das paredes
+ *
+ * @param head: Lista que se vai dar free
+ */
 void printfree(print *head)
 {
     for (print *aux = head, *aux2; aux != NULL; aux = aux2)
