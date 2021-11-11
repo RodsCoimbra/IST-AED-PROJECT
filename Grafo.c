@@ -151,7 +151,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         vertice = Proximo_na_fila();
         if (vertice == 0)
         {
-            continue;
+            break;
         }
         // percorre-se a lista do vértice de maior prioridade
         for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)

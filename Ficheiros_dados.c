@@ -264,8 +264,9 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             exit(0);
         }
         sala_tesouro = -(maze[l - 1][c - 1] + 3);
-        printf("\n\n%d\n", sala_tesouro);
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
+        ////////////////////////////////////////////
+        /* printf("\n\n%d\n", sala_tesouro);
         ladj *aux;
         for (int i = 0; i < (g->V); i++)
         {
@@ -275,7 +276,10 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
                 printf("%d:%d ", aux->no, aux->custo);
             }
             printf("-1\n");
-        }
+        } */
+
+        /////////////////////////////////////////////
+
         matriz_alocada = 0;                // retira a flag de matriz alocada visto que esta foi libertada na função aresta_barata
         linaux = -2;                       // flag visto que a matriz foi libertada
         colaux = -1;                       // flag visto que a matriz foi libertada
@@ -286,7 +290,11 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             continue;
         }
         encontra_caminho(g, sala_tesouro, fsol);
-        printf("\n\n");
+
+        ///////////////////////Retirar!!!!!!!!!
+        // printf("\n\n");
+
+        ////////////////////////
         Grafofree(g);
     }
     if (matriz_alocada == 1) // se tiver uma matriz alocada, então libertá-la
