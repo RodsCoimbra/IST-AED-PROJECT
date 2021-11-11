@@ -130,7 +130,9 @@ void Grafofree(G *g)
 // Baseado no algoritmo do Dijkstra dos acetatos
 void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
 {
-    Filaini(g->V);
+    int tamanho = 0, Free = 0;
+    int *posicao = (int *)malloc(g->V * sizeof(int));
+    int **fila = Filaini(g->V, posicao, &tamanho);
     int vertice;
     int *origem = (int *)malloc(g->V * sizeof(int)), *pesos = (int *)malloc(g->V * sizeof(int));
     if (origem == NULL || pesos == NULL)
@@ -143,12 +145,12 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         pesos[i] = max;
     }
 
-    Filainsert(sala_do_tesouro, 0);
+    Filainsert(sala_do_tesouro, 0, fila, posicao, &Free);
     pesos[sala_do_tesouro] = 0;
     origem[sala_do_tesouro] = sala_do_tesouro;
     while (Free != 0)
     {
-        vertice = Proximo_na_fila();
+        vertice = Proximo_na_fila(fila, posicao, &Free);
         if (vertice == 0)
         {
             break;
@@ -159,12 +161,12 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
             if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) < pesos[0]))
             {
                 pesos[aux->no] = pesos[vertice] + aux->custo;
-                Filainsert(aux->no, pesos[aux->no]);
+                Filainsert(aux->no, pesos[aux->no], fila, posicao, &Free);
                 origem[aux->no] = vertice; // origem é a sala que se usou para chegar aquele nó
             }
         }
     }
-    freefila();
+    freefila(fila, posicao, &tamanho);
     ladj *aux;
     int k = 0;
     if (pesos[0] == max) // se o peso for igual a max quer dizer que nunca se chegou lá, logo a resposta será -1

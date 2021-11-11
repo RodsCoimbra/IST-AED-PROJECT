@@ -1,15 +1,11 @@
 #ifndef Fila_h
 #define Fila_h
 #include "Grafo.h"
-int **fila;
-int *posicao;
-int tamanho;
-int Free;
 
-void Filaini(int vertices);
-void Filainsert(int no, int custo);
-void Fixup(int Free);
-void FixDown();
-int Proximo_na_fila();
-void freefila();
+int **Filaini(int vertices, int *posicao, int *tamanho);
+void Filainsert(int no, int custo, int **fila, int *posicao, int *Free);
+void Fixup(int Free, int **fila, int *posicao);
+void FixDown(int **fila, int *posicao, int Free);
+int Proximo_na_fila(int **fila, int *posicao, int *Free);
+void freefila(int **fila, int *posicao, int *tamanho);
 #endif

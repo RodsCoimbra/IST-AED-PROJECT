@@ -32,10 +32,9 @@
  *
  \return void
  */
-void Filaini(int vertices)
+int **Filaini(int vertices, int *posicao, int *tamanho)
 {
-    fila = (int **)malloc(vertices * sizeof(int *));
-    posicao = (int *)malloc(vertices * sizeof(int));
+    int **fila = (int **)malloc(vertices * sizeof(int *));
     if (fila == NULL || posicao == NULL)
     {
         exit(0);
@@ -50,9 +49,9 @@ void Filaini(int vertices)
         fila[i][0] = -1; // coluna 0 é o no
         fila[i][1] = 0;  // coluna 1 é o custo
         posicao[i] = -1;
-        tamanho = vertices;
-        Free = 0; /*Total de nós no grafo existentes */
+        *tamanho = vertices;
     }
+    return fila;
 }
 
 /**
@@ -63,20 +62,20 @@ void Filaini(int vertices)
  *
  \return void
  */
-void Filainsert(int no, int custo)
+void Filainsert(int no, int custo, int **fila, int *posicao, int *Free)
 {
     if (posicao[no] == -1) /* Caso ainda não esteja na fila */
     {
-        fila[Free][0] = no;
-        fila[Free][1] = custo;
-        posicao[no] = Free;
-        Fixup(Free); /* Coloca o nó que está na posição "Free" da lista na posição correta do acervo segunda a ordem de prioridades */
-        Free++;
+        fila[*Free][0] = no;
+        fila[*Free][1] = custo;
+        posicao[no] = *Free;
+        Fixup(*Free, fila, posicao); /* Coloca o nó que está na posição "Free" da lista na posição correta do acervo segunda a ordem de prioridades */
+        *Free += 1;
     }
     else
     {
         fila[posicao[no]][1] = custo;
-        Fixup(posicao[no]); /* Coloca o nó que está na posição posicao[no] da lista na posição correta do acervo segunda a ordem de prioridades */
+        Fixup(posicao[no], fila, posicao); /* Coloca o nó que está na posição posicao[no] da lista na posição correta do acervo segunda a ordem de prioridades */
     }
 }
 
@@ -87,7 +86,7 @@ void Filainsert(int no, int custo)
  *
  \return void
  */
-void Fixup(int Free)
+void Fixup(int Free, int **fila, int *posicao)
 {
     for (int livre = Free; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
     {
@@ -102,7 +101,7 @@ void Fixup(int Free)
  *
  \return void
  */
-void FixDown()
+void FixDown(int **fila, int *posicao, int Free)
 {
     int N = Free - 1, child, pai = 0;
     while ((pai * 2) < N)
@@ -136,14 +135,14 @@ void FixDown()
  *
  * @return int: elemento com maior prioridade
  */
-int Proximo_na_fila()
+int Proximo_na_fila(int **fila, int *posicao, int *Free)
 {
-    Free--;
-    troca_fila(fila[0], fila[Free]);
-    posicao[fila[0][0]] = posicao[fila[Free][0]];
-    posicao[fila[Free][0]] = -1;
-    FixDown(); /* ao trocar o primeiro com o ultimo elemento da fila, esta função reorganiza a fila de forma a respeitar as prioridades */
-    return fila[Free][0];
+    *Free -= 1;
+    troca_fila(fila[0], fila[*Free]);
+    posicao[fila[0][0]] = posicao[fila[*Free][0]];
+    posicao[fila[*Free][0]] = -1;
+    FixDown(fila, posicao, *Free); /* ao trocar o primeiro com o ultimo elemento da fila, esta função reorganiza a fila de forma a respeitar as prioridades */
+    return fila[*Free][0];
 }
 
 /**
@@ -152,9 +151,9 @@ int Proximo_na_fila()
  *
  \return void
  */
-void freefila()
+void freefila(int **fila, int *posicao, int *tamanho)
 {
-    for (int i = 0; i < tamanho; i++)
+    for (int i = 0; i < *tamanho; i++)
     {
         free(fila[i]);
     }

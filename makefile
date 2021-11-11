@@ -6,7 +6,8 @@ A=Bilhar_Pequeno
 B=Chess_Party
 C=Enunciado
 D=Small
-FILES = $(shell ls ${D}/*.in)		
+E = Chess
+FILES = $(shell ls ${A}/*.in)		
 Resp1 = $(FILES:.in=.)
 
 
@@ -45,4 +46,5 @@ r:
 	@rm Chess_Party/*.so2
 	@rm Enunciado/*.so2
 	@rm Small/*.so2
+	@rm Chess/*.so2
 	@echo "Removido com sucesso"

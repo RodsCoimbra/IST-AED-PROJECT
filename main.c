@@ -70,4 +70,5 @@ int main(int argc, char *argv[])
     {
         Labirinto_fase1(fmaze, fsol);
     }
+    return 0;
 }
