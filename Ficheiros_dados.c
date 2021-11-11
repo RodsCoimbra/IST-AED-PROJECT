@@ -265,21 +265,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         }
         sala_tesouro = -(maze[l - 1][c - 1] + 3);
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
-        ////////////////////////////////////////////
-        /* printf("\n\n%d\n", sala_tesouro);
-        ladj *aux;
-        for (int i = 0; i < (g->V); i++)
-        {
-            printf("%d -  ", i);
-            for (aux = g->list[i]; aux != NULL; aux = aux->next)
-            {
-                printf("%d:%d ", aux->no, aux->custo);
-            }
-            printf("-1\n");
-        } */
-
-        /////////////////////////////////////////////
-
+        
         matriz_alocada = 0;                // retira a flag de matriz alocada visto que esta foi libertada na função aresta_barata
         linaux = -2;                       // flag visto que a matriz foi libertada
         colaux = -1;                       // flag visto que a matriz foi libertada
