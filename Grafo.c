@@ -150,15 +150,25 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     origem[sala_do_tesouro] = sala_do_tesouro;
     while (Free != 0)
     {
+        /* for (int i = 0; i < g->V; i++)
+        {
+            printf("%2d |", fila[i][0]);
+        }
+        printf("\n");
+        for (int i = 0; i < g->V; i++)
+        {
+            printf("%2d |", fila[i][1]);
+        }
+        printf("\n\n"); */
         vertice = Proximo_na_fila(fila, posicao, &Free);
         if (vertice == 0)
         {
-            break;
+            continue;
         }
         // percorre-se a lista do vértice de maior prioridade
         for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)
         { // vê se o peso novo é menor que o guardado anteriormente(max se nunca se foi aquela sala) e que o da sala do tesouro(max se ainda não chegou lá)
-            if ((pesos[aux->no] > (pesos[vertice] + aux->custo)))
+            if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) < pesos[0]))
             {
                 pesos[aux->no] = pesos[vertice] + aux->custo;
                 Filainsert(aux->no, pesos[aux->no], fila, posicao, &Free);

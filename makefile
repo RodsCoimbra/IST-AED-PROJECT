@@ -13,9 +13,9 @@ Resp1 = $(FILES:.in=.)
 
 t:
 	@clear 
-	@/usr/bin/time -v ./roap Chess/chess098.in	#/usr/bin/time -v 
+	@./roap single2.in	#/usr/bin/time -v 
 	@#echo "\n"
-	@#diff -s Chess/chess098.sol Chess/chess098.so2
+	@diff -s single2.sol single2.so2
 	@#rm Chess_Party/*.so2
 
 time:
