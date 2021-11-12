@@ -161,16 +161,17 @@ void fechar(FILE *fmaze, FILE *fsol)
  * @param vertices: total de nós do grafo
  * @param g: estrutura do grafo que contem a lista dos nós e os vertices
  */
-void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
+void aresta_barata(int **maze, int lin, int col, int vertices, G *g, FILE *fsol)
 {
     int k = 0, a = 0, b = 0;
     ladj *aux = NULL;
-    int p;
+    int p, q;
     for (p = 0; p <= lin; p++)
     {
-        for (int q = 0; q <= col; q++)
+        for (q = 0; q <= col; q++)
         {
-            if ((k = FA5(maze, p, q, lin, col)) > 0) /*1- parte vertical; 2- parte horizontal; 3- parte nas duas direções*/
+            k = FA5(maze, p, q, lin, col);
+            if (k > 0) /*1- parte vertical; 2- parte horizontal; 3- parte nas duas direções*/
             {
                 if (k == 1 || k == 3) /*é quebrável na vertical*/
                 {

@@ -19,7 +19,7 @@ typedef struct grafo
 } G;
 
 G *Grafoini(int V);
-ladj *adjacente(int custo, int no, ladj *list, unsigned short l, unsigned short c);
+ladj *adjacente(int custo, int no, ladj *list, int l, int c);
 void Grafofree(G *g);
 void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol);
 

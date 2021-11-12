@@ -44,7 +44,7 @@ G *Grafoini(int vertices)
  * @param c: coluna da parede
  * @return ladj*: Se retornar NULL quer dizer que o custo da nova parede era maior, senão retorna aux->next que é a head da lista
  */
-ladj *adjacente(int custo, int no, ladj *list, unsigned short l, unsigned short c)
+ladj *adjacente(int custo, int no, ladj *list, int l, int c)
 {
     ladj *novo, *aux2, aux;
     aux.next = list; // Cria-se uma struct antes que apontará para a antiga(porque pode ser mudada) head da lista
@@ -53,8 +53,21 @@ ladj *adjacente(int custo, int no, ladj *list, unsigned short l, unsigned short 
         for (aux2 = &aux; aux2->next != NULL && aux2->next->no < no; aux2 = aux2->next)
             ;
         // percorre a lista até aux2->next ser null ou até o nó do aux2->next ser maior ou igual que o no passado na função
-
-        if (aux2->next == NULL || aux2->next->no != no)
+        if (aux2->next == NULL && aux2->no == no)
+        // caso o aux2 seja o último elemento da lista
+        {
+            if (aux2->custo >= custo)
+            {
+                aux2->custo = custo;
+                aux2->linha = l;
+                aux2->coluna = c;
+            }
+            else // caso o custo seja maior ou igual ao que já lá estava não se substitui nada e retorna NULL
+            {
+                return NULL;
+            }
+        }
+        else if (aux2->next == NULL || aux2->next->no != no)
         // caso seja NULL ou não encontrou um nó igual ao atual quer dizer que precisa de alocar espaço para esse novo nó
         {
             novo = (ladj *)malloc(sizeof(ladj));
@@ -71,7 +84,7 @@ ladj *adjacente(int custo, int no, ladj *list, unsigned short l, unsigned short 
         }
         else
         {
-            if (aux2->next->custo > custo)
+            if (aux2->next->custo >= custo)
             {
                 aux2->next->custo = custo;
                 aux2->next->linha = l;
@@ -150,16 +163,6 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     origem[sala_do_tesouro] = sala_do_tesouro;
     while (Free != 0)
     {
-        /* for (int i = 0; i < g->V; i++)
-        {
-            printf("%2d |", fila[i][0]);
-        }
-        printf("\n");
-        for (int i = 0; i < g->V; i++)
-        {
-            printf("%2d |", fila[i][1]);
-        }
-        printf("\n\n"); */
         vertice = Proximo_na_fila(fila, posicao, &Free);
         if (vertice == 0)
         {

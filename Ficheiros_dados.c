@@ -242,47 +242,48 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
             fechar(fmaze, fsol);
             exit(0);
         }
-        //////////////////////
-        for (int p = 0; p < lin; p++)
+        /////////////////////////////////RETirar
+        /* for (int p = 0; p < 20; p++)
         {
-            for (int q = 0; q < col; q++)
+            for (int q = 0; q < 40; q++)
                 if (maze[p][q] != -1 && maze[p][q] < 0)
                 {
-                    printf("\033[0;37m%4d ", -(maze[p][q]) - 3); //"%2d ", id[p * (col + 1) + q]
+                    fprintf(fsol, "%4d ", -(maze[p][q]) - 3); //"%2d ", id[p * (col + 1) + q]
                 }
                 else
                 {
                     if (maze[p][q] == -1)
                     {
-                        printf("\033[1;33m%4d\033[0;37m ", maze[p][q]);
+                        fprintf(fsol, "%4d ", maze[p][q]);
                     }
                     else
                     {
-                        printf("\033[1;36m%4d\033[0;37m ", maze[p][q]);
+                        fprintf(fsol, "%4d ", -(maze[p][q]) - 1);
                     }
                 }
-            printf("\n");
+            fprintf(fsol, "\n");
         }
-
+        fprintf(fsol, "\n\n\n"); */
         //////////////////////
         sala_tesouro = -(maze[l - 1][c - 1] + 3);
-        aresta_barata(maze, lin - 1, col - 1, g->V, g);
+        aresta_barata(maze, lin - 1, col - 1, g->V, g, fsol);
         ///////////////////////////////////
-        /* printf("\n\n");
-        ladj *aux;
-        for (int i = 0; i < (g->V); i++)
+        // printf("\n\n");
+        /* ladj *aux;
+        for (int i = 0; i < g->V; i++)
         {
             if (g->list[i] != NULL)
             {
-                printf("%2d->   ", i);
+                fprintf(fsol, "%2d->  ", i);
                 for (aux = g->list[i]; aux != NULL; aux = aux->next)
                 {
-                    printf("%d:%d  ", aux->no, aux->custo);
+                    fprintf(fsol, "%d:%d ", aux->no, aux->custo);
                 }
-                printf("\n");
+                fprintf(fsol, "-1\n");
             }
-        } */
-        ////////////////////////////////////77
+        }
+        fprintf(fsol, "\n\n\n"); */
+        ////////////////////////////////////
         matriz_alocada = 0;                // retira a flag de matriz alocada visto que esta foi libertada na função aresta_barata
         if (g->list[sala_tesouro] == NULL) // Se a sala do tesouro não tiver nenhuma sala que consiga chegar
         {

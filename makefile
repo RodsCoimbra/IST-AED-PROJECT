@@ -7,15 +7,15 @@ B=Chess_Party
 C=Enunciado
 D=Small
 E = Chess
-FILES = $(shell ls ${A}/*.in)		
+FILES = $(shell ls ${E}/*.in)		
 Resp1 = $(FILES:.in=.)
 
 
 t:
 	@clear 
-	@./roap single2.in	#/usr/bin/time -v 
+	@/usr/bin/time -v ./roap Chess/chess098.in 
 	@#echo "\n"
-	@diff -s single2.sol single2.so2
+	@#diff -s single2.sol single2.so2
 	@#rm Chess_Party/*.so2
 
 time:
