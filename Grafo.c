@@ -158,7 +158,7 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
         // percorre-se a lista do vértice de maior prioridade
         for (ladj *aux = g->list[vertice]; aux != NULL; aux = aux->next)
         { // vê se o peso novo é menor que o guardado anteriormente(max se nunca se foi aquela sala) e que o da sala do tesouro(max se ainda não chegou lá)
-            if ((pesos[aux->no] > (pesos[vertice] + aux->custo)) && ((pesos[vertice] + aux->custo) < pesos[0]))
+            if ((pesos[aux->no] > (pesos[vertice] + aux->custo)))
             {
                 pesos[aux->no] = pesos[vertice] + aux->custo;
                 Filainsert(aux->no, pesos[aux->no], fila, posicao, &Free);
@@ -178,14 +178,14 @@ void encontra_caminho(G *g, int sala_do_tesouro, FILE *fsol)
     }
     fprintf(fsol, "%d\n", pesos[0]);
     free(pesos);
-    for (int i = 0; i != sala_do_tesouro; i = origem[i]) // percorre-se a origem do fim para o inicio e guarda-se a linha, a coluna e o custo das paredes numa lista
+    for (int i = 0; i != sala_do_tesouro; i = origem[i]) // percorre-se a origem do fim para o inicio(dos usados no algoritmo, porque tecnicamente é a ordem certa) e guarda-se a linha, a coluna e o custo das paredes numa lista
     {
         k++;
     }
     fprintf(fsol, "%d\n", k);
-    for (int i = 0; i != sala_do_tesouro; i = origem[i]) // percorre-se a origem do fim para o inicio e guarda-se a linha, a coluna e o custo das paredes numa lista
+    for (int i = 0; i != sala_do_tesouro; i = origem[i]) // percorre-se a origem do fim para o inicio(dos usados no algoritmo, porque tecnicamente é a ordem certa) e guarda-se a linha, a coluna e o custo das paredes numa lista
     {
-        for (aux = g->list[i]; (aux != NULL && aux->no != origem[i]); aux = aux->next)
+        for (aux = g->list[i]; (aux != NULL && aux->no != origem[i]); aux = aux->next) // Percorre a lista até ao nó que queremos para imprimir o custo e as coordenadas da parede
             ;
         fprintf(fsol, "%d %d %d\n", aux->linha, aux->coluna, aux->custo);
     }

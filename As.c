@@ -111,7 +111,7 @@ int FA5(int **maze, int l, int c, int lin, int col)
     int direcao = 0;
     if (out(l, c, lin, col) == -2)
         return -2;
-    else if (maze[l][c] == 0 || maze[l][c] == -1)
+    else if (maze[l][c] <= 0)
         return -1;
     /*analiza se as duas células vizinhas na vertical ou na horizontal são brancas*/
     if ((out(l - 1, c, lin, col) != -2) && (out(l + 1, c, lin, col) != -2) && maze[l - 1][c] < -2 && maze[l + 1][c] < -2)
@@ -166,7 +166,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_s
             {
                 maze[p][q] = -(maze[p][q]) - 1; // faz o simétrico das paredes e retira 1 para distinguir as paredes inquebráveis
             }
-            else if (maze[p][q] == 0) // Se forem célula branca
+            else if (maze[p][q] == 0) // Se forem células brancas mete simplesmente o valor da casa
             {
                 maze[p][q] = p * (col + 1) + q;
             }
@@ -260,7 +260,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_s
         }
     }
 
-    *(total_salas) = -3; // começa em -3 porque > 0 são paredes, -1 parede inquebrável e -2 fora do maze
+    *(total_salas) = -3; // começa em -3 porque números maiores que 0 são paredes, -1 são paredes inquebráveis e -2 é fora do maze
     for (int p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col; q++)
@@ -286,8 +286,7 @@ int FA6(int **maze, int l, int c, int lin, int col, int l2, int c2, int *total_s
                     }
                     else
                     {
-                        maze[p][q] = -(sz[p * (col + 1) + q]) - 1; // Se for parede quebrável faz o simétrico de
-                                                                   // volta e substrai - 1 para voltar ao valor original da parede
+                        maze[p][q] = -(sz[p * (col + 1) + q]) - 1; // Se for parede quebrável faz o simétrico de volta e substrai - 1 para voltar ao valor original da parede
                     }
                 }
             }

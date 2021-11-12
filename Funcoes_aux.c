@@ -164,18 +164,17 @@ void fechar(FILE *fmaze, FILE *fsol)
 void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
 {
     int k = 0, a = 0, b = 0;
-    ladj *aux;
+    ladj *aux = NULL;
     int p;
     for (p = 0; p <= lin; p++)
     {
         for (int q = 0; q <= col; q++)
         {
-            if ((k = FA5(maze, p, q, lin, col)) > 0) /*1- parte horizontalmente; 2- parte verticalmente; 3- parte nas duas direções*/
+            if ((k = FA5(maze, p, q, lin, col)) > 0) /*1- parte vertical; 2- parte horizontal; 3- parte nas duas direções*/
             {
-                if (k == 1 || k == 3) /*é quebrável na horizontal*/
+                if (k == 1 || k == 3) /*é quebrável na vertical*/
                 {
-
-                    a = -(maze[p - 1][q]) - 3; /* O valor do maze é negado pois ao "pintar" as salas com tags foram usados valores negativos a começar no -3 pois estes nao interferem com nenhuma outra implementação e agora é revertido */
+                    a = -(maze[p - 1][q]) - 3; /* O valor do maze é negado pois ao "pintar" as salas com tags foram usados valores negativos a começar no -3 pois estes nao interferem com nenhuma outra implementação e agora isso é revertido */
                     b = -(maze[p + 1][q]) - 3;
                     if (a == b) // Se a parede estiver a separar a mesma sala ignora-se
                     {
@@ -189,7 +188,7 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
                     g->list[a] = aux;
                     g->list[b] = adjacente(maze[p][q], a, g->list[b], p + 1, q + 1);
                 }
-                if (k == 2 || k == 3) /*é quebrável na vertival*/
+                if (k == 2 || k == 3) /*é quebrável na horizontal*/
                 {
                     a = -(maze[p][q - 1]) - 3;
                     b = -(maze[p][q + 1]) - 3;

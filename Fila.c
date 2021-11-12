@@ -88,7 +88,8 @@ void Filainsert(int no, int custo, int **fila, int *posicao, int *Free)
  */
 void Fixup(int Free, int **fila, int *posicao)
 {
-    for (int livre = Free; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
+    int livre;
+    for (livre = Free; livre > 0 && fila[(livre - 1) / 2][1] > fila[livre][1]; livre = (livre - 1) / 2)
     {
         troca_fila(fila[livre], fila[(livre - 1) / 2]);
         troca_posicoes(posicao[fila[livre][0]], posicao[fila[(livre - 1) / 2][0]]);
@@ -113,8 +114,8 @@ void FixDown(int **fila, int *posicao, int Free)
             {
                 break;
             }
-            troca_posicoes(posicao[fila[pai][0]], posicao[fila[child][0]]);
             troca_fila(fila[pai], fila[child]);
+            troca_posicoes(posicao[fila[pai][0]], posicao[fila[child][0]]);
             pai = child;
         }
         else
@@ -123,8 +124,8 @@ void FixDown(int **fila, int *posicao, int Free)
             {
                 break;
             }
-            troca_posicoes(posicao[fila[pai][0]], posicao[fila[child + 1][0]]);
             troca_fila(fila[pai], fila[child + 1]);
+            troca_posicoes(posicao[fila[pai][0]], posicao[fila[child + 1][0]]);
             pai = child + 1;
         }
     }

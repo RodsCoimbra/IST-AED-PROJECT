@@ -136,7 +136,7 @@ void Labirinto_fase1(FILE *fmaze, FILE *fsol)
  */
 void Labirinto_fase2(FILE *fmaze, FILE *fsol)
 {
-    int lin = 0, col = 0, parede, l = 0, c = 0, linaux = -2, colaux = -1;
+    int lin = 0, col = 0, parede, l = 0, c = 0;
     int total_salas = 0;
     short matriz_alocada = 0, flag = 0;
     int **maze = NULL;
@@ -144,6 +144,12 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
     G *g;
     while (1)
     {
+        if (matriz_alocada == 1)
+        {
+            freetabela(maze, lin);
+            matriz_alocada = 0;
+        }
+
         if (fscanf(fmaze, "%d %d %d %d", &lin, &col, &l, &c) != 4)
         {
             if (feof(fmaze) != 0)
@@ -193,50 +199,23 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
 
             continue;
         }
-        matriz_alocada = 1; // Flag que diz se a matriz foi alocada
-        if (lin != linaux)  // Caso a matriz já tenha sido alocada com a mesma quantidade de linhas evita de dar free e outro malloc
+
+        maze = (int **)malloc(lin * sizeof(int *));
+        if (maze == NULL)
         {
-            if (linaux != -2) // Caso em que as linhas são diferente e não é a primeira matriz a ser alocada
-            {
-                freetabela(maze, linaux);
-            }
-            linaux = lin;
-            colaux = -1; // Como foi dado free da tabela toda então a matriz tem de ser de novo alocada e portanto mete-se esta flag a -1 para dizer isso
-            maze = (int **)malloc(lin * sizeof(int *));
-            if (maze == NULL)
+            exit(0);
+        }
+
+        for (int i = 0; i < lin; i++)
+        {
+            maze[i] = (int *)calloc(1, col * sizeof(int));
+            if (maze[i] == NULL)
             {
                 exit(0);
             }
         }
-        if (col != colaux) // Caso a matriz já tenha sido alocada com a mesma quantidade de colunas evita de dar free e outro malloc
-        {
-            if (colaux != -1) // Caso em que é diferente as colunas e não é a primeira matriz a ser alocada ou a matriz já foi free por causa das linhas diferentes
-            {
-                for (int i = 0; i < lin; i++)
-                {
-                    free(maze[i]);
-                }
-            }
-            for (int i = 0; i < lin; i++)
-            {
-                maze[i] = (int *)calloc(1, col * sizeof(int));
-                if (maze[i] == NULL)
-                {
-                    exit(0);
-                }
-            }
-            colaux = col;
-        }
-        else // caso a matriz seja de tamanho exatamente igual ele simplesmente passa a matriz toda a 0
-        {
-            for (int i = 0; i < lin; i++)
-            {
-                for (int j = 0; j < col; j++)
-                {
-                    maze[i][j] = 0;
-                }
-            }
-        }
+
+        matriz_alocada = 1;                             // Flag que diz se a matriz foi alocada
         for (int i = 0, l1, c1, custo; i < parede; i++) // ler as paredes
         {
             if (fscanf(fmaze, "%d %d %d", &l1, &c1, &custo) != 3)
@@ -265,10 +244,7 @@ void Labirinto_fase2(FILE *fmaze, FILE *fsol)
         }
         sala_tesouro = -(maze[l - 1][c - 1] + 3);
         aresta_barata(maze, lin - 1, col - 1, g->V, g);
-
         matriz_alocada = 0;                // retira a flag de matriz alocada visto que esta foi libertada na função aresta_barata
-        linaux = -2;                       // flag visto que a matriz foi libertada
-        colaux = -1;                       // flag visto que a matriz foi libertada
         if (g->list[sala_tesouro] == NULL) // Se a sala do tesouro não tiver nenhuma sala que consiga chegar
         {
             fprintf(fsol, "-1\n");
