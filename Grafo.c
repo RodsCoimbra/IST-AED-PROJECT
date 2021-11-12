@@ -42,7 +42,7 @@ G *Grafoini(int vertices)
  * @param list: lista daquela sala
  * @param l: linha da parede
  * @param c: coluna da parede
- * @return ladj*: Se retornar NULL quer dizer que o custo da nova parede era maior, senão retorna aux->next que é a head da lista
+ * @return ladj*: Se retornar NULL quer dizer que o custo da nova parede era maior ou igual, senão retorna aux->next que é a head da lista
  */
 ladj *adjacente(int custo, int no, ladj *list, int l, int c)
 {
@@ -53,21 +53,7 @@ ladj *adjacente(int custo, int no, ladj *list, int l, int c)
         for (aux2 = &aux; aux2->next != NULL && aux2->next->no < no; aux2 = aux2->next)
             ;
         // percorre a lista até aux2->next ser null ou até o nó do aux2->next ser maior ou igual que o no passado na função
-        if (aux2->next == NULL && aux2->no == no)
-        // caso o aux2 seja o último elemento da lista
-        {
-            if (aux2->custo > custo)
-            {
-                aux2->custo = custo;
-                aux2->linha = l;
-                aux2->coluna = c;
-            }
-            else // caso o custo seja maior ou igual ao que já lá estava não se substitui nada e retorna NULL
-            {
-                return NULL;
-            }
-        }
-        else if (aux2->next == NULL || aux2->next->no != no)
+        if (aux2->next == NULL || aux2->next->no != no)
         // caso seja NULL ou não encontrou um nó igual ao atual quer dizer que precisa de alocar espaço para esse novo nó
         {
             novo = (ladj *)malloc(sizeof(ladj));
