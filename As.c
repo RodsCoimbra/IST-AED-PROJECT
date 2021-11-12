@@ -125,14 +125,6 @@ int FA5(int **maze, int l, int c, int lin, int col)
     return direcao; // 3 significa é quebrável em ambas as direcoes
 }
 
-/** \brief
- * \param int **maze
- * \param int l: linha da peça que está a ser testada
- * \param int c: coluna da peça que está a ser testada
- *
- * \return int: devolve 1 se as células estiverem na mesma sala e 0 se isso não acontecer
- */
-
 /**
  * @brief indica se a célula de coordenadas (l,c) e a célula de coordenadas (l2,c2) pertencem à mesma sala e "pinta" as salas
  *

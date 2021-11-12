@@ -56,7 +56,7 @@ ladj *adjacente(int custo, int no, ladj *list, int l, int c)
         if (aux2->next == NULL && aux2->no == no)
         // caso o aux2 seja o último elemento da lista
         {
-            if (aux2->custo >= custo)
+            if (aux2->custo > custo)
             {
                 aux2->custo = custo;
                 aux2->linha = l;
@@ -84,7 +84,7 @@ ladj *adjacente(int custo, int no, ladj *list, int l, int c)
         }
         else
         {
-            if (aux2->next->custo >= custo)
+            if (aux2->next->custo > custo)
             {
                 aux2->next->custo = custo;
                 aux2->next->linha = l;
