@@ -177,15 +177,14 @@ void aresta_barata(int **maze, int lin, int col, int vertices, G *g)
                 {
                     a = -(maze[p - 1][q]) - 3; /* O valor do maze é negado pois ao "pintar" as salas com tags foram usados valores negativos a começar no -3 pois estes nao interferem com nenhuma outra implementação e agora isso é revertido */
                     b = -(maze[p + 1][q]) - 3;
-                    if (a == b) // Se a parede estiver a separar a mesma sala ignora-se
+                    if (a != b) // Se a parede estiver a separar a mesma sala ignora-se
                     {
-                        continue;
-                    }
-                    aux = adjacente(maze[p][q], b, g->list[a], p + 1, q + 1);
-                    if (aux != NULL) // Se o custo da nova parede for menor que o que já lá estava
-                    {
-                        g->list[a] = aux;
-                        g->list[b] = adjacente(maze[p][q], a, g->list[b], p + 1, q + 1);
+                        aux = adjacente(maze[p][q], b, g->list[a], p + 1, q + 1);
+                        if (aux != NULL) // Se o custo da nova parede for menor que o que já lá estava
+                        {
+                            g->list[a] = aux;
+                            g->list[b] = adjacente(maze[p][q], a, g->list[b], p + 1, q + 1);
+                        }
                     }
                 }
                 if (k == 2 || k == 3) /*é quebrável na horizontal*/

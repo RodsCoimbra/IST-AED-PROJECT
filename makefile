@@ -15,7 +15,7 @@ t:
 	@clear 
 	@./roap single2.in	#/usr/bin/time -v 
 	@#echo "\n"
-	@diff -s single2.so2 single2.so3
+	@diff -s single2.so2 single2.sol
 	@#rm Chess_Party/*.so2
 
 time:
@@ -42,9 +42,9 @@ tv:
 	@for F in ${Resp1}; do diff -s $${F}sol $${F}so2; done;
 
 r: 
-	@#rm Bilhar_Pequeno/*.so2 
-	@rm Chess_Party/*.so2
-	@rm Enunciado/*.so2
-	@rm Small/*.so2
+	@rm Bilhar_Pequeno/*.so2 
+	@#rm Chess_Party/*.so2
+	@#rm Enunciado/*.so2
+	@#rm Small/*.so2
 	@rm Chess/*.so2
 	@echo "Removido com sucesso"
